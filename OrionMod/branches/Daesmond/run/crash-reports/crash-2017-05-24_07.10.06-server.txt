@@ -1,0 +1,51 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  NEICorePlugin (Not-Enough-Items-1.11.2-Recommended.jar)
+Contact their authors BEFORE contacting forge
+
+// Hey, that tickles! Hehehe!
+
+Time: 5/24/17 7:10 AM
+Description: Exception in server tick loop
+
+Missing Mods:
+	codechickenlib : [2.6.0,)
+
+net.minecraftforge.fml.common.MissingModsException: Mod nei (Not Enough Items) requires [codechickenlib@[2.6.0,)]
+	at net.minecraftforge.fml.common.Loader.sortModList(Loader.java:271)
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:559)
+	at net.minecraftforge.fml.server.FMLServerHandler.beginServerLoading(FMLServerHandler.java:99)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onServerStart(FMLCommonHandler.java:328)
+	at net.minecraft.server.dedicated.DedicatedServer.init(DedicatedServer.java:124)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:508)
+	at java.lang.Thread.run(Thread.java:745)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.11.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_112, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 1195937008 bytes (1140 MB) / 1297612800 bytes (1237 MB) up to 15256256512 bytes (14549 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.38 Powered by Forge 13.20.0.2296 7 mods loaded, 7 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	U	minecraft{1.11.2} [Minecraft] (minecraft.jar) 
+	U	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	U	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.11.2-13.20.0.2296.jar) 
+	U	forge{13.20.0.2296} [Minecraft Forge] (forgeSrc-1.11.2-13.20.0.2296.jar) 
+	U	orionmod{1.0.5} [Orion Mod] (orionmod-1.0.5.jar) 
+	U	jei{4.3.3.266} [Just Enough Items] (jei_1.11.2-4.3.3.266.jar) 
+	U	nei{${mod_version}} [Not Enough Items] (Not-Enough-Items-1.11.2-Recommended.jar) 
+	Loaded coremods (and transformers): 
+NEICorePlugin (Not-Enough-Items-1.11.2-Recommended.jar)
+  
+	Profiler Position: N/A (disabled)
+	Is Modded: Definitely; Server brand changed to 'fml,forge'
+	Type: Dedicated Server (map_server.txt)

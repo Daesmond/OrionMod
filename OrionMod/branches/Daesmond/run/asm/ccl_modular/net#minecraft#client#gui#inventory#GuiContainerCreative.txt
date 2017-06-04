@@ -1,0 +1,3869 @@
+// class version 50.0 (50)
+// access flags 0x21
+public class net/minecraft/client/gui/inventory/GuiContainerCreative extends net/minecraft/client/renderer/InventoryEffectRenderer  {
+
+  // compiled from: GuiContainerCreative.java
+
+  @Lnet/minecraftforge/fml/relauncher/SideOnly;(value=Lnet/minecraftforge/fml/relauncher/Side;.CLIENT)
+  // access flags 0x0
+  INNERCLASS net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot net/minecraft/client/gui/inventory/GuiContainerCreative CreativeSlot
+  // access flags 0x8
+  static INNERCLASS net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative ContainerCreative
+
+  // access flags 0x1A
+  private final static Lnet/minecraft/util/ResourceLocation; CREATIVE_INVENTORY_TABS
+
+  // access flags 0x1A
+  private final static Lnet/minecraft/inventory/InventoryBasic; basicInventory
+
+  // access flags 0xA
+  private static I selectedTabIndex
+
+  // access flags 0x2
+  private F currentScroll
+
+  // access flags 0x2
+  private Z isScrolling
+
+  // access flags 0x2
+  private Z wasClicking
+
+  // access flags 0x2
+  private Lnet/minecraft/client/gui/GuiTextField; searchField
+
+  // access flags 0x2
+  // signature Ljava/util/List<Lnet/minecraft/inventory/Slot;>;
+  // declaration: java.util.List<net.minecraft.inventory.Slot>
+  private Ljava/util/List; originalSlots
+
+  // access flags 0x2
+  private Lnet/minecraft/inventory/Slot; destroyItemSlot
+
+  // access flags 0x2
+  private Z clearSearch
+
+  // access flags 0x2
+  private Lnet/minecraft/client/gui/inventory/CreativeCrafting; listener
+
+  // access flags 0xA
+  private static I tabPage
+
+  // access flags 0x2
+  private I maxPages
+
+  // access flags 0x1
+  public <init>(Lnet/minecraft/entity/player/EntityPlayer;)V
+   L0
+    LINENUMBER 65 L0
+    ALOAD 0
+    NEW net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    DUP
+    ALOAD 1
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.<init> (Lnet/minecraft/entity/player/EntityPlayer;)V
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.<init> (Lnet/minecraft/inventory/Container;)V
+   L1
+    LINENUMBER 61 L1
+    ALOAD 0
+    ICONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.maxPages : I
+   L2
+    LINENUMBER 66 L2
+    ALOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    PUTFIELD net/minecraft/entity/player/EntityPlayer.openContainer : Lnet/minecraft/inventory/Container;
+   L3
+    LINENUMBER 67 L3
+    ALOAD 0
+    ICONST_1
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.allowUserInput : Z
+   L4
+    LINENUMBER 68 L4
+    ALOAD 0
+    SIPUSH 136
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.ySize : I
+   L5
+    LINENUMBER 69 L5
+    ALOAD 0
+    SIPUSH 195
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+   L6
+    LINENUMBER 70 L6
+    RETURN
+   L7
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L7 0
+    LOCALVARIABLE player Lnet/minecraft/entity/player/EntityPlayer; L0 L7 1
+    MAXSTACK = 4
+    MAXLOCALS = 2
+
+  // access flags 0x1
+  public updateScreen()V
+   L0
+    LINENUMBER 77 L0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.isInCreativeMode ()Z
+    IFNE L1
+   L2
+    LINENUMBER 79 L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    NEW net/minecraft/client/gui/inventory/GuiInventory
+    DUP
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiInventory.<init> (Lnet/minecraft/entity/player/EntityPlayer;)V
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.displayGuiScreen (Lnet/minecraft/client/gui/GuiScreen;)V
+   L1
+    LINENUMBER 81 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    RETURN
+   L3
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L3 0
+    MAXSTACK = 4
+    MAXLOCALS = 1
+
+  // access flags 0x4
+  protected handleMouseClick(Lnet/minecraft/inventory/Slot;IILnet/minecraft/inventory/ClickType;)V
+    @Ljavax/annotation/Nullable;() // parameter 0
+   L0
+    LINENUMBER 88 L0
+    ALOAD 0
+    ICONST_1
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.clearSearch : Z
+   L1
+    LINENUMBER 89 L1
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.QUICK_MOVE : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L2
+    ICONST_1
+    GOTO L3
+   L2
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType] []
+    ICONST_0
+   L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType] [I]
+    ISTORE 5
+   L4
+    LINENUMBER 90 L4
+    ILOAD 2
+    SIPUSH -999
+    IF_ICMPNE L5
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.PICKUP : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L5
+    GETSTATIC net/minecraft/inventory/ClickType.THROW : Lnet/minecraft/inventory/ClickType;
+    GOTO L6
+   L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 4
+   L6
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/inventory/ClickType]
+    ASTORE 4
+   L7
+    LINENUMBER 92 L7
+    ALOAD 1
+    IFNONNULL L8
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPEQ L8
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.QUICK_CRAFT : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPEQ L8
+   L9
+    LINENUMBER 94 L9
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    ASTORE 6
+   L10
+    LINENUMBER 96 L10
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L11
+   L12
+    LINENUMBER 98 L12
+    ILOAD 3
+    IFNE L13
+   L14
+    LINENUMBER 100 L14
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L15
+    LINENUMBER 101 L15
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L16
+    LINENUMBER 102 L16
+    ALOAD 6
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+   L13
+    LINENUMBER 105 L13
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer] []
+    ILOAD 3
+    ICONST_1
+    IF_ICMPNE L11
+   L17
+    LINENUMBER 107 L17
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.splitStack (I)Lnet/minecraft/item/ItemStack;
+    ASTORE 7
+   L18
+    LINENUMBER 108 L18
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 7
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L19
+    LINENUMBER 109 L19
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L11
+    LINENUMBER 112 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer] []
+    GOTO L20
+   L8
+    LINENUMBER 113 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    IF_ACMPNE L21
+    ILOAD 5
+    IFEQ L21
+   L22
+    LINENUMBER 115 L22
+    ICONST_0
+    ISTORE 6
+   L23
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I I] []
+    ILOAD 6
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.getInventory ()Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/util/NonNullList.size ()I
+    IF_ICMPGE L24
+   L25
+    LINENUMBER 117 L25
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    ILOAD 6
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendSlotPacket (Lnet/minecraft/item/ItemStack;I)V
+   L26
+    LINENUMBER 115 L26
+    IINC 6 1
+    GOTO L23
+   L24
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I I] []
+    GOTO L20
+   L21
+    LINENUMBER 120 L21
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPNE L27
+   L28
+    LINENUMBER 122 L28
+    ALOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    IF_ACMPNE L29
+   L30
+    LINENUMBER 124 L30
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+    GOTO L20
+   L29
+    LINENUMBER 126 L29
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.THROW : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L31
+    ALOAD 1
+    IFNULL L31
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getHasStack ()Z
+    IFEQ L31
+   L32
+    LINENUMBER 128 L32
+    ALOAD 1
+    ILOAD 3
+    IFNE L33
+    ICONST_1
+    GOTO L34
+   L33
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/inventory/Slot]
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+   L34
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/inventory/Slot I]
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.decrStackSize (I)Lnet/minecraft/item/ItemStack;
+    ASTORE 6
+   L35
+    LINENUMBER 129 L35
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 7
+   L36
+    LINENUMBER 130 L36
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 6
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L37
+    LINENUMBER 131 L37
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L38
+    LINENUMBER 132 L38
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 7
+    ALOAD 1
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot
+    INVOKESTATIC net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot.access$000 (Lnet/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot;)Lnet/minecraft/inventory/Slot;
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendSlotPacket (Lnet/minecraft/item/ItemStack;I)V
+   L39
+    LINENUMBER 133 L39
+    GOTO L20
+   L31
+    LINENUMBER 134 L31
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.THROW : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L40
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L40
+   L41
+    LINENUMBER 136 L41
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L42
+    LINENUMBER 137 L42
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L43
+    LINENUMBER 138 L43
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+    GOTO L20
+   L40
+    LINENUMBER 142 L40
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    ALOAD 1
+    IFNONNULL L44
+    ILOAD 2
+    GOTO L45
+   L44
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/inventory/Container]
+    ALOAD 1
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot
+    INVOKESTATIC net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot.access$000 (Lnet/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot;)Lnet/minecraft/inventory/Slot;
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+   L45
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/inventory/Container I]
+    ILOAD 3
+    ALOAD 4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.slotClick (IILnet/minecraft/inventory/ClickType;Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;
+    POP
+   L46
+    LINENUMBER 143 L46
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.detectAndSendChanges ()V
+    GOTO L20
+   L27
+    LINENUMBER 146 L27
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.QUICK_CRAFT : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPEQ L47
+    ALOAD 1
+    GETFIELD net/minecraft/inventory/Slot.inventory : Lnet/minecraft/inventory/IInventory;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.basicInventory : Lnet/minecraft/inventory/InventoryBasic;
+    IF_ACMPNE L47
+   L48
+    LINENUMBER 148 L48
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    ASTORE 6
+   L49
+    LINENUMBER 149 L49
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 7
+   L50
+    LINENUMBER 150 L50
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 8
+   L51
+    LINENUMBER 152 L51
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.SWAP : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L52
+   L53
+    LINENUMBER 154 L53
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L54
+    ILOAD 3
+    IFLT L54
+    ILOAD 3
+    BIPUSH 9
+    IF_ICMPGE L54
+   L55
+    LINENUMBER 156 L55
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.copy ()Lnet/minecraft/item/ItemStack;
+    ASTORE 9
+   L56
+    LINENUMBER 157 L56
+    ALOAD 9
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+   L57
+    LINENUMBER 158 L57
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    ILOAD 3
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setInventorySlotContents (ILnet/minecraft/item/ItemStack;)V
+   L58
+    LINENUMBER 159 L58
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.detectAndSendChanges ()V
+   L54
+    LINENUMBER 162 L54
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    RETURN
+   L52
+    LINENUMBER 165 L52
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.CLONE : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L59
+   L60
+    LINENUMBER 167 L60
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFEQ L61
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getHasStack ()Z
+    IFEQ L61
+   L62
+    LINENUMBER 169 L62
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.copy ()Lnet/minecraft/item/ItemStack;
+    ASTORE 9
+   L63
+    LINENUMBER 170 L63
+    ALOAD 9
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+   L64
+    LINENUMBER 171 L64
+    ALOAD 6
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+   L61
+    LINENUMBER 174 L61
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    RETURN
+   L59
+    LINENUMBER 177 L59
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.THROW : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L65
+   L66
+    LINENUMBER 179 L66
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L67
+   L68
+    LINENUMBER 181 L68
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.copy ()Lnet/minecraft/item/ItemStack;
+    ASTORE 9
+   L69
+    LINENUMBER 182 L69
+    ALOAD 9
+    ILOAD 3
+    IFNE L70
+    ICONST_1
+    GOTO L71
+   L70
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack net/minecraft/item/ItemStack] [net/minecraft/item/ItemStack]
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+   L71
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack net/minecraft/item/ItemStack] [net/minecraft/item/ItemStack I]
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+   L72
+    LINENUMBER 183 L72
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 9
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L73
+    LINENUMBER 184 L73
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L67
+    LINENUMBER 187 L67
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    RETURN
+   L65
+    LINENUMBER 190 L65
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L74
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L74
+    ALOAD 7
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isItemEqual (Lnet/minecraft/item/ItemStack;)Z
+    IFEQ L74
+    ALOAD 7
+    ALOAD 8
+    INVOKESTATIC net/minecraft/item/ItemStack.areItemStackTagsEqual (Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z
+    IFEQ L74
+   L75
+    LINENUMBER 192 L75
+    ILOAD 3
+    IFNE L76
+   L77
+    LINENUMBER 194 L77
+    ILOAD 5
+    IFEQ L78
+   L79
+    LINENUMBER 196 L79
+    ALOAD 7
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+    GOTO L80
+   L78
+    LINENUMBER 198 L78
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getCount ()I
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+    IF_ICMPGE L80
+   L81
+    LINENUMBER 200 L81
+    ALOAD 7
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.grow (I)V
+    GOTO L80
+   L76
+    LINENUMBER 203 L76
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getCount ()I
+    ICONST_1
+    IF_ICMPNE L82
+   L83
+    LINENUMBER 205 L83
+    ALOAD 6
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+    GOTO L80
+   L82
+    LINENUMBER 209 L82
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 7
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.shrink (I)V
+    GOTO L80
+   L74
+    LINENUMBER 212 L74
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFNE L84
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.isEmpty ()Z
+    IFEQ L84
+   L85
+    LINENUMBER 214 L85
+    ALOAD 6
+    ALOAD 8
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.copy ()Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+   L86
+    LINENUMBER 215 L86
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.getItemStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 7
+   L87
+    LINENUMBER 217 L87
+    ILOAD 5
+    IFEQ L80
+   L88
+    LINENUMBER 219 L88
+    ALOAD 7
+    ALOAD 7
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+    GOTO L80
+   L84
+    LINENUMBER 224 L84
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    ALOAD 6
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    INVOKEVIRTUAL net/minecraft/entity/player/InventoryPlayer.setItemStack (Lnet/minecraft/item/ItemStack;)V
+   L80
+    LINENUMBER 226 L80
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/entity/player/InventoryPlayer net/minecraft/item/ItemStack net/minecraft/item/ItemStack] []
+    GOTO L20
+   L47
+    LINENUMBER 227 L47
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    IFNULL L20
+   L89
+    LINENUMBER 229 L89
+    ALOAD 1
+    IFNONNULL L90
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    GOTO L91
+   L90
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    ALOAD 1
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+    INVOKEVIRTUAL net/minecraft/inventory/Container.getSlot (I)Lnet/minecraft/inventory/Slot;
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+   L91
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] [net/minecraft/item/ItemStack]
+    ASTORE 6
+   L92
+    LINENUMBER 230 L92
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    ALOAD 1
+    IFNONNULL L93
+    ILOAD 2
+    GOTO L94
+   L93
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack] [net/minecraft/inventory/Container]
+    ALOAD 1
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+   L94
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack] [net/minecraft/inventory/Container I]
+    ILOAD 3
+    ALOAD 4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.slotClick (IILnet/minecraft/inventory/ClickType;Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;
+    POP
+   L95
+    LINENUMBER 232 L95
+    ILOAD 3
+    INVOKESTATIC net/minecraft/inventory/Container.getDragEvent (I)I
+    ICONST_2
+    IF_ICMPNE L96
+   L97
+    LINENUMBER 234 L97
+    ICONST_0
+    ISTORE 7
+   L98
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack I] []
+    ILOAD 7
+    BIPUSH 9
+    IF_ICMPGE L99
+   L100
+    LINENUMBER 236 L100
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    BIPUSH 45
+    ILOAD 7
+    IADD
+    INVOKEVIRTUAL net/minecraft/inventory/Container.getSlot (I)Lnet/minecraft/inventory/Slot;
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    BIPUSH 36
+    ILOAD 7
+    IADD
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendSlotPacket (Lnet/minecraft/item/ItemStack;I)V
+   L101
+    LINENUMBER 234 L101
+    IINC 7 1
+    GOTO L98
+   L99
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack I] []
+    GOTO L20
+   L96
+    LINENUMBER 239 L96
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack] []
+    ALOAD 1
+    IFNULL L20
+   L102
+    LINENUMBER 241 L102
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    ALOAD 1
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+    INVOKEVIRTUAL net/minecraft/inventory/Container.getSlot (I)Lnet/minecraft/inventory/Slot;
+    INVOKEVIRTUAL net/minecraft/inventory/Slot.getStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 7
+   L103
+    LINENUMBER 242 L103
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 7
+    ALOAD 1
+    GETFIELD net/minecraft/inventory/Slot.slotNumber : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    GETFIELD net/minecraft/inventory/Container.inventorySlots : Ljava/util/List;
+    INVOKEINTERFACE java/util/List.size ()I
+    ISUB
+    BIPUSH 9
+    IADD
+    BIPUSH 36
+    IADD
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendSlotPacket (Lnet/minecraft/item/ItemStack;I)V
+   L104
+    LINENUMBER 243 L104
+    BIPUSH 45
+    ILOAD 3
+    IADD
+    ISTORE 8
+   L105
+    LINENUMBER 245 L105
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.SWAP : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L106
+   L107
+    LINENUMBER 247 L107
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 6
+    ILOAD 8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    GETFIELD net/minecraft/inventory/Container.inventorySlots : Ljava/util/List;
+    INVOKEINTERFACE java/util/List.size ()I
+    ISUB
+    BIPUSH 9
+    IADD
+    BIPUSH 36
+    IADD
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendSlotPacket (Lnet/minecraft/item/ItemStack;I)V
+    GOTO L20
+   L106
+    LINENUMBER 249 L106
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack net/minecraft/item/ItemStack I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/inventory/ClickType.THROW : Lnet/minecraft/inventory/ClickType;
+    IF_ACMPNE L20
+    ALOAD 6
+    GETSTATIC net/minecraft/item/ItemStack.EMPTY : Lnet/minecraft/item/ItemStack;
+    IF_ACMPEQ L20
+   L108
+    LINENUMBER 251 L108
+    ALOAD 6
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.copy ()Lnet/minecraft/item/ItemStack;
+    ASTORE 9
+   L109
+    LINENUMBER 252 L109
+    ALOAD 9
+    ILOAD 3
+    IFNE L110
+    ICONST_1
+    GOTO L111
+   L110
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack net/minecraft/item/ItemStack I net/minecraft/item/ItemStack] [net/minecraft/item/ItemStack]
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getMaxStackSize ()I
+   L111
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I net/minecraft/item/ItemStack net/minecraft/item/ItemStack I net/minecraft/item/ItemStack] [net/minecraft/item/ItemStack I]
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.setCount (I)V
+   L112
+    LINENUMBER 253 L112
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 9
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.dropItem (Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/item/EntityItem;
+    POP
+   L113
+    LINENUMBER 254 L113
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    ALOAD 9
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.sendPacketDropItem (Lnet/minecraft/item/ItemStack;)V
+   L20
+    LINENUMBER 258 L20
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/inventory/Slot I I net/minecraft/inventory/ClickType I] []
+    RETURN
+   L114
+    LOCALVARIABLE itemstack6 Lnet/minecraft/item/ItemStack; L18 L11 7
+    LOCALVARIABLE inventoryplayer1 Lnet/minecraft/entity/player/InventoryPlayer; L10 L11 6
+    LOCALVARIABLE j I L23 L24 6
+    LOCALVARIABLE itemstack Lnet/minecraft/item/ItemStack; L35 L39 6
+    LOCALVARIABLE itemstack1 Lnet/minecraft/item/ItemStack; L36 L39 7
+    LOCALVARIABLE itemstack10 Lnet/minecraft/item/ItemStack; L56 L54 9
+    LOCALVARIABLE itemstack9 Lnet/minecraft/item/ItemStack; L63 L61 9
+    LOCALVARIABLE itemstack8 Lnet/minecraft/item/ItemStack; L69 L67 9
+    LOCALVARIABLE inventoryplayer Lnet/minecraft/entity/player/InventoryPlayer; L49 L80 6
+    LOCALVARIABLE itemstack5 Lnet/minecraft/item/ItemStack; L50 L80 7
+    LOCALVARIABLE itemstack7 Lnet/minecraft/item/ItemStack; L51 L80 8
+    LOCALVARIABLE k I L98 L99 7
+    LOCALVARIABLE itemstack2 Lnet/minecraft/item/ItemStack; L109 L20 9
+    LOCALVARIABLE itemstack4 Lnet/minecraft/item/ItemStack; L103 L20 7
+    LOCALVARIABLE i I L105 L20 8
+    LOCALVARIABLE itemstack3 Lnet/minecraft/item/ItemStack; L92 L20 6
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L114 0
+    LOCALVARIABLE slotIn Lnet/minecraft/inventory/Slot; L0 L114 1
+    LOCALVARIABLE slotId I L0 L114 2
+    LOCALVARIABLE mouseButton I L0 L114 3
+    LOCALVARIABLE type Lnet/minecraft/inventory/ClickType; L0 L114 4
+    LOCALVARIABLE flag Z L4 L114 5
+    MAXSTACK = 5
+    MAXLOCALS = 10
+
+  // access flags 0x4
+  protected updateActivePotionEffects()V
+   L0
+    LINENUMBER 262 L0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ISTORE 1
+   L1
+    LINENUMBER 263 L1
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.updateActivePotionEffects ()V
+   L2
+    LINENUMBER 265 L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    IFNULL L3
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ILOAD 1
+    IF_ICMPEQ L3
+   L4
+    LINENUMBER 267 L4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    BIPUSH 82
+    IADD
+    PUTFIELD net/minecraft/client/gui/GuiTextField.xPosition : I
+   L3
+    LINENUMBER 269 L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I] []
+    RETURN
+   L5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L5 0
+    LOCALVARIABLE i I L1 L5 1
+    MAXSTACK = 3
+    MAXLOCALS = 2
+
+  // access flags 0x1
+  public initGui()V
+   L0
+    LINENUMBER 277 L0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.playerController : Lnet/minecraft/client/multiplayer/PlayerControllerMP;
+    INVOKEVIRTUAL net/minecraft/client/multiplayer/PlayerControllerMP.isInCreativeMode ()Z
+    IFEQ L1
+   L2
+    LINENUMBER 279 L2
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.initGui ()V
+   L3
+    LINENUMBER 280 L3
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.buttonList : Ljava/util/List;
+    INVOKEINTERFACE java/util/List.clear ()V
+   L4
+    LINENUMBER 281 L4
+    ICONST_1
+    INVOKESTATIC org/lwjgl/input/Keyboard.enableRepeatEvents (Z)V
+   L5
+    LINENUMBER 282 L5
+    ALOAD 0
+    NEW net/minecraft/client/gui/GuiTextField
+    DUP
+    ICONST_0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    BIPUSH 82
+    IADD
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 6
+    IADD
+    BIPUSH 89
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    GETFIELD net/minecraft/client/gui/FontRenderer.FONT_HEIGHT : I
+    INVOKESPECIAL net/minecraft/client/gui/GuiTextField.<init> (ILnet/minecraft/client/gui/FontRenderer;IIII)V
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+   L6
+    LINENUMBER 283 L6
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    BIPUSH 15
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setMaxStringLength (I)V
+   L7
+    LINENUMBER 284 L7
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setEnableBackgroundDrawing (Z)V
+   L8
+    LINENUMBER 285 L8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setVisible (Z)V
+   L9
+    LINENUMBER 286 L9
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    LDC 16777215
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setTextColor (I)V
+   L10
+    LINENUMBER 287 L10
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    ISTORE 1
+   L11
+    LINENUMBER 288 L11
+    ICONST_M1
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+   L12
+    LINENUMBER 289 L12
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ILOAD 1
+    AALOAD
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.setCurrentCreativeTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L13
+    LINENUMBER 290 L13
+    ALOAD 0
+    NEW net/minecraft/client/gui/inventory/CreativeCrafting
+    DUP
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKESPECIAL net/minecraft/client/gui/inventory/CreativeCrafting.<init> (Lnet/minecraft/client/Minecraft;)V
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.listener : Lnet/minecraft/client/gui/inventory/CreativeCrafting;
+   L14
+    LINENUMBER 291 L14
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.listener : Lnet/minecraft/client/gui/inventory/CreativeCrafting;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.addListener (Lnet/minecraft/inventory/IContainerListener;)V
+   L15
+    LINENUMBER 292 L15
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ARRAYLENGTH
+    ISTORE 2
+   L16
+    LINENUMBER 293 L16
+    ILOAD 2
+    BIPUSH 12
+    IF_ICMPLE L17
+   L18
+    LINENUMBER 295 L18
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.buttonList : Ljava/util/List;
+    NEW net/minecraft/client/gui/GuiButton
+    DUP
+    BIPUSH 101
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 50
+    ISUB
+    BIPUSH 20
+    BIPUSH 20
+    LDC "<"
+    INVOKESPECIAL net/minecraft/client/gui/GuiButton.<init> (IIIIILjava/lang/String;)V
+    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z
+    POP
+   L19
+    LINENUMBER 296 L19
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.buttonList : Ljava/util/List;
+    NEW net/minecraft/client/gui/GuiButton
+    DUP
+    BIPUSH 102
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    IADD
+    BIPUSH 20
+    ISUB
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 50
+    ISUB
+    BIPUSH 20
+    BIPUSH 20
+    LDC ">"
+    INVOKESPECIAL net/minecraft/client/gui/GuiButton.<init> (IIIIILjava/lang/String;)V
+    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z
+    POP
+   L20
+    LINENUMBER 297 L20
+    ALOAD 0
+    ILOAD 2
+    BIPUSH 12
+    ISUB
+    I2D
+    LDC 10.0
+    DDIV
+    INVOKESTATIC java/lang/Math.ceil (D)D
+    D2I
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.maxPages : I
+   L17
+    LINENUMBER 299 L17
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    GOTO L21
+   L1
+    LINENUMBER 302 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    NEW net/minecraft/client/gui/inventory/GuiInventory
+    DUP
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiInventory.<init> (Lnet/minecraft/entity/player/EntityPlayer;)V
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.displayGuiScreen (Lnet/minecraft/client/gui/GuiScreen;)V
+   L21
+    LINENUMBER 304 L21
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    RETURN
+   L22
+    LOCALVARIABLE i I L11 L17 1
+    LOCALVARIABLE tabCount I L16 L17 2
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L22 0
+    MAXSTACK = 9
+    MAXLOCALS = 3
+
+  // access flags 0x1
+  public onGuiClosed()V
+   L0
+    LINENUMBER 311 L0
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.onGuiClosed ()V
+   L1
+    LINENUMBER 313 L1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    IFNULL L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventory : Lnet/minecraft/entity/player/InventoryPlayer;
+    IFNULL L2
+   L3
+    LINENUMBER 315 L3
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.listener : Lnet/minecraft/client/gui/inventory/CreativeCrafting;
+    INVOKEVIRTUAL net/minecraft/inventory/Container.removeListener (Lnet/minecraft/inventory/IContainerListener;)V
+   L2
+    LINENUMBER 318 L2
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    ICONST_0
+    INVOKESTATIC org/lwjgl/input/Keyboard.enableRepeatEvents (Z)V
+   L4
+    LINENUMBER 319 L4
+    RETURN
+   L5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L5 0
+    MAXSTACK = 2
+    MAXLOCALS = 1
+
+  // access flags 0x4
+  protected keyTyped(CI)V throws java/io/IOException 
+   L0
+    LINENUMBER 327 L0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.hasSearchBar ()Z
+    IFNE L1
+   L2
+    LINENUMBER 329 L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.gameSettings : Lnet/minecraft/client/settings/GameSettings;
+    GETFIELD net/minecraft/client/settings/GameSettings.keyBindChat : Lnet/minecraft/client/settings/KeyBinding;
+    INVOKESTATIC net/minecraft/client/settings/GameSettings.isKeyDown (Lnet/minecraft/client/settings/KeyBinding;)Z
+    IFEQ L3
+   L4
+    LINENUMBER 331 L4
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.setCurrentCreativeTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+    GOTO L5
+   L3
+    LINENUMBER 335 L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ALOAD 0
+    ILOAD 1
+    ILOAD 2
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.keyTyped (CI)V
+    GOTO L5
+   L1
+    LINENUMBER 340 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.clearSearch : Z
+    IFEQ L6
+   L7
+    LINENUMBER 342 L7
+    ALOAD 0
+    ICONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.clearSearch : Z
+   L8
+    LINENUMBER 343 L8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    LDC ""
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setText (Ljava/lang/String;)V
+   L6
+    LINENUMBER 346 L6
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ALOAD 0
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.checkHotbarKeys (I)Z
+    IFNE L5
+   L9
+    LINENUMBER 348 L9
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.textboxKeyTyped (CI)Z
+    IFEQ L10
+   L11
+    LINENUMBER 350 L11
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.updateCreativeSearch ()V
+    GOTO L5
+   L10
+    LINENUMBER 354 L10
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ALOAD 0
+    ILOAD 1
+    ILOAD 2
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.keyTyped (CI)V
+   L5
+    LINENUMBER 358 L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    RETURN
+   L12
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L12 0
+    LOCALVARIABLE typedChar C L0 L12 1
+    LOCALVARIABLE keyCode I L0 L12 2
+    MAXSTACK = 3
+    MAXLOCALS = 3
+
+  // access flags 0x2
+  private updateCreativeSearch()V
+    ALOAD 0
+    INVOKESTATIC codechicken/nei/featurehack/VanillaCreativeTabSearchHooks.updateSearchListThreaded (Lnet/minecraft/client/gui/inventory/GuiContainerCreative;)V
+    RETURN
+   L0
+    LINENUMBER 362 L0
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L1
+    LINENUMBER 363 L1
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L2
+    LINENUMBER 365 L2
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L3
+    LINENUMBER 366 L3
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L4
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L5
+    LINENUMBER 368 L5
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L6
+    LINENUMBER 369 L6
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L7
+    LINENUMBER 370 L7
+   FRAME FULL [] [java/lang/Throwable]
+    ATHROW
+   L8
+    LINENUMBER 373 L8
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L9
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L10
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L11
+    LINENUMBER 375 L11
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L12
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L13
+    LINENUMBER 377 L13
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L14
+    LINENUMBER 379 L14
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    ATHROW
+   L15
+    LINENUMBER 380 L15
+   FRAME FULL [] [java/lang/Throwable]
+    NOP
+    NOP
+    NOP
+    NOP
+    ATHROW
+   L16
+    LINENUMBER 381 L16
+   FRAME FULL [] [java/lang/Throwable]
+    ATHROW
+   L17
+    LOCALVARIABLE item Lnet/minecraft/item/Item; L11 L14 4
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L17 0
+    LOCALVARIABLE guicontainercreative$containercreative Lnet/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative; L1 L17 1
+    LOCALVARIABLE tab Lnet/minecraft/creativetab/CreativeTabs; L3 L17 2
+    MAXSTACK = 1
+    MAXLOCALS = 5
+
+  // access flags 0x2
+  private updateFilteredItems(Lnet/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative;)V
+   L0
+    LINENUMBER 386 L0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPNE L1
+   L2
+    LINENUMBER 387 L2
+    GETSTATIC net/minecraft/enchantment/Enchantment.REGISTRY : Lnet/minecraft/util/registry/RegistryNamespaced;
+    INVOKEVIRTUAL net/minecraft/util/registry/RegistryNamespaced.iterator ()Ljava/util/Iterator;
+    ASTORE 2
+   L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator] []
+    ALOAD 2
+    INVOKEINTERFACE java/util/Iterator.hasNext ()Z
+    IFEQ L1
+    ALOAD 2
+    INVOKEINTERFACE java/util/Iterator.next ()Ljava/lang/Object;
+    CHECKCAST net/minecraft/enchantment/Enchantment
+    ASTORE 3
+   L4
+    LINENUMBER 389 L4
+    ALOAD 3
+    IFNULL L5
+    ALOAD 3
+    GETFIELD net/minecraft/enchantment/Enchantment.type : Lnet/minecraft/enchantment/EnumEnchantmentType;
+    IFNULL L5
+   L6
+    LINENUMBER 391 L6
+    GETSTATIC net/minecraft/init/Items.ENCHANTED_BOOK : Lnet/minecraft/item/ItemEnchantedBook;
+    ALOAD 3
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.itemList : Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/item/ItemEnchantedBook.getAll (Lnet/minecraft/enchantment/Enchantment;Ljava/util/List;)V
+   L5
+    LINENUMBER 393 L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator net/minecraft/enchantment/Enchantment] []
+    GOTO L3
+   L1
+    LINENUMBER 394 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative] []
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.itemList : Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/util/NonNullList.iterator ()Ljava/util/Iterator;
+    ASTORE 2
+   L7
+    LINENUMBER 395 L7
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.getText ()Ljava/lang/String;
+    GETSTATIC java/util/Locale.ROOT : Ljava/util/Locale;
+    INVOKEVIRTUAL java/lang/String.toLowerCase (Ljava/util/Locale;)Ljava/lang/String;
+    ASTORE 3
+   L8
+    LINENUMBER 397 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String] []
+    ALOAD 2
+    INVOKEINTERFACE java/util/Iterator.hasNext ()Z
+    IFEQ L9
+   L10
+    LINENUMBER 399 L10
+    ALOAD 2
+    INVOKEINTERFACE java/util/Iterator.next ()Ljava/lang/Object;
+    CHECKCAST net/minecraft/item/ItemStack
+    ASTORE 4
+   L11
+    LINENUMBER 400 L11
+    ICONST_0
+    ISTORE 5
+   L12
+    LINENUMBER 402 L12
+    ALOAD 4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.gameSettings : Lnet/minecraft/client/settings/GameSettings;
+    GETFIELD net/minecraft/client/settings/GameSettings.advancedItemTooltips : Z
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getTooltip (Lnet/minecraft/entity/player/EntityPlayer;Z)Ljava/util/List;
+    INVOKEINTERFACE java/util/List.iterator ()Ljava/util/Iterator;
+    ASTORE 6
+   L13
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String net/minecraft/item/ItemStack I java/util/Iterator] []
+    ALOAD 6
+    INVOKEINTERFACE java/util/Iterator.hasNext ()Z
+    IFEQ L14
+    ALOAD 6
+    INVOKEINTERFACE java/util/Iterator.next ()Ljava/lang/Object;
+    CHECKCAST java/lang/String
+    ASTORE 7
+   L15
+    LINENUMBER 404 L15
+    ALOAD 7
+    INVOKESTATIC net/minecraft/util/text/TextFormatting.getTextWithoutFormattingCodes (Ljava/lang/String;)Ljava/lang/String;
+    GETSTATIC java/util/Locale.ROOT : Ljava/util/Locale;
+    INVOKEVIRTUAL java/lang/String.toLowerCase (Ljava/util/Locale;)Ljava/lang/String;
+    ALOAD 3
+    INVOKEVIRTUAL java/lang/String.contains (Ljava/lang/CharSequence;)Z
+    IFEQ L16
+   L17
+    LINENUMBER 406 L17
+    ICONST_1
+    ISTORE 5
+   L18
+    LINENUMBER 407 L18
+    GOTO L14
+   L16
+    LINENUMBER 409 L16
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String net/minecraft/item/ItemStack I java/util/Iterator java/lang/String] []
+    GOTO L13
+   L14
+    LINENUMBER 411 L14
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String net/minecraft/item/ItemStack I java/util/Iterator] []
+    ILOAD 5
+    IFNE L19
+   L20
+    LINENUMBER 413 L20
+    ALOAD 2
+    INVOKEINTERFACE java/util/Iterator.remove ()V
+   L19
+    LINENUMBER 415 L19
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String net/minecraft/item/ItemStack I java/util/Iterator] []
+    GOTO L8
+   L9
+    LINENUMBER 417 L9
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative java/util/Iterator java/lang/String] []
+    ALOAD 0
+    FCONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L21
+    LINENUMBER 418 L21
+    ALOAD 1
+    FCONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.scrollTo (F)V
+   L22
+    LINENUMBER 419 L22
+    RETURN
+   L23
+    LOCALVARIABLE enchantment Lnet/minecraft/enchantment/Enchantment; L4 L5 3
+    LOCALVARIABLE s Ljava/lang/String; L15 L16 7
+    LOCALVARIABLE itemstack Lnet/minecraft/item/ItemStack; L11 L19 4
+    LOCALVARIABLE flag Z L12 L19 5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L23 0
+    LOCALVARIABLE guicontainercreative$containercreative Lnet/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative; L0 L23 1
+    LOCALVARIABLE iterator Ljava/util/Iterator; L7 L23 2
+    // signature Ljava/util/Iterator<Lnet/minecraft/item/ItemStack;>;
+    // declaration: java.util.Iterator<net.minecraft.item.ItemStack>
+    LOCALVARIABLE s1 Ljava/lang/String; L8 L23 3
+    MAXSTACK = 3
+    MAXLOCALS = 8
+
+  // access flags 0x4
+  protected drawGuiContainerForegroundLayer(II)V
+   L0
+    LINENUMBER 426 L0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    ASTORE 3
+   L1
+    LINENUMBER 428 L1
+    ALOAD 3
+    IFNULL L2
+    ALOAD 3
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.drawInForegroundOfTab ()Z
+    IFEQ L2
+   L3
+    LINENUMBER 430 L3
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableBlend ()V
+   L4
+    LINENUMBER 431 L4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    ALOAD 3
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTranslatedTabLabel ()Ljava/lang/String;
+    ICONST_0
+    ANEWARRAY java/lang/Object
+    INVOKESTATIC net/minecraft/client/resources/I18n.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    BIPUSH 8
+    BIPUSH 6
+    LDC 4210752
+    INVOKEVIRTUAL net/minecraft/client/gui/FontRenderer.drawString (Ljava/lang/String;III)I
+    POP
+   L2
+    LINENUMBER 433 L2
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I net/minecraft/creativetab/CreativeTabs] []
+    RETURN
+   L5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L5 0
+    LOCALVARIABLE mouseX I L0 L5 1
+    LOCALVARIABLE mouseY I L0 L5 2
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L1 L5 3
+    MAXSTACK = 5
+    MAXLOCALS = 4
+
+  // access flags 0x4
+  protected mouseClicked(III)V throws java/io/IOException 
+   L0
+    LINENUMBER 440 L0
+    ILOAD 3
+    IFNE L1
+   L2
+    LINENUMBER 442 L2
+    ILOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ISUB
+    ISTORE 4
+   L3
+    LINENUMBER 443 L3
+    ILOAD 2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    ISUB
+    ISTORE 5
+   L4
+    LINENUMBER 445 L4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 6
+    ALOAD 6
+    ARRAYLENGTH
+    ISTORE 7
+    ICONST_0
+    ISTORE 8
+   L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 8
+    ILOAD 7
+    IF_ICMPGE L1
+    ALOAD 6
+    ILOAD 8
+    AALOAD
+    ASTORE 9
+   L6
+    LINENUMBER 447 L6
+    ALOAD 0
+    ALOAD 9
+    ILOAD 4
+    ILOAD 5
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.isMouseOverTab (Lnet/minecraft/creativetab/CreativeTabs;II)Z
+    IFEQ L7
+   L8
+    LINENUMBER 449 L8
+    RETURN
+   L7
+    LINENUMBER 445 L7
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    IINC 8 1
+    GOTO L5
+   L1
+    LINENUMBER 454 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I] []
+    ALOAD 0
+    ILOAD 1
+    ILOAD 2
+    ILOAD 3
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.mouseClicked (III)V
+   L9
+    LINENUMBER 455 L9
+    RETURN
+   L10
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L6 L7 9
+    LOCALVARIABLE i I L3 L1 4
+    LOCALVARIABLE j I L4 L1 5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L10 0
+    LOCALVARIABLE mouseX I L0 L10 1
+    LOCALVARIABLE mouseY I L0 L10 2
+    LOCALVARIABLE mouseButton I L0 L10 3
+    MAXSTACK = 4
+    MAXLOCALS = 10
+
+  // access flags 0x4
+  protected mouseReleased(III)V
+   L0
+    LINENUMBER 462 L0
+    ILOAD 3
+    IFNE L1
+   L2
+    LINENUMBER 464 L2
+    ILOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ISUB
+    ISTORE 4
+   L3
+    LINENUMBER 465 L3
+    ILOAD 2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    ISUB
+    ISTORE 5
+   L4
+    LINENUMBER 467 L4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 6
+    ALOAD 6
+    ARRAYLENGTH
+    ISTORE 7
+    ICONST_0
+    ISTORE 8
+   L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 8
+    ILOAD 7
+    IF_ICMPGE L1
+    ALOAD 6
+    ILOAD 8
+    AALOAD
+    ASTORE 9
+   L6
+    LINENUMBER 469 L6
+    ALOAD 9
+    IFNULL L7
+    ALOAD 0
+    ALOAD 9
+    ILOAD 4
+    ILOAD 5
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.isMouseOverTab (Lnet/minecraft/creativetab/CreativeTabs;II)Z
+    IFEQ L7
+   L8
+    LINENUMBER 471 L8
+    ALOAD 0
+    ALOAD 9
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.setCurrentCreativeTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L9
+    LINENUMBER 472 L9
+    RETURN
+   L7
+    LINENUMBER 467 L7
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    IINC 8 1
+    GOTO L5
+   L1
+    LINENUMBER 477 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I I] []
+    ALOAD 0
+    ILOAD 1
+    ILOAD 2
+    ILOAD 3
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.mouseReleased (III)V
+   L10
+    LINENUMBER 478 L10
+    RETURN
+   L11
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L6 L7 9
+    LOCALVARIABLE i I L3 L1 4
+    LOCALVARIABLE j I L4 L1 5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L11 0
+    LOCALVARIABLE mouseX I L0 L11 1
+    LOCALVARIABLE mouseY I L0 L11 2
+    LOCALVARIABLE state I L0 L11 3
+    MAXSTACK = 4
+    MAXLOCALS = 10
+
+  // access flags 0x2
+  private needsScrollBars()Z
+   L0
+    LINENUMBER 485 L0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    IFNONNULL L1
+    ICONST_0
+    IRETURN
+   L1
+    LINENUMBER 486 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPEQ L2
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.shouldHidePlayerInventory ()Z
+    IFEQ L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.canScroll ()Z
+    IFEQ L2
+    ICONST_1
+    GOTO L3
+   L2
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] []
+    ICONST_0
+   L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative] [I]
+    IRETURN
+   L4
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L4 0
+    MAXSTACK = 2
+    MAXLOCALS = 1
+
+  // access flags 0x2
+  private setCurrentCreativeTab(Lnet/minecraft/creativetab/CreativeTabs;)V
+   L0
+    LINENUMBER 494 L0
+    ALOAD 1
+    IFNONNULL L1
+    RETURN
+   L1
+    LINENUMBER 495 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs] []
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    ISTORE 2
+   L2
+    LINENUMBER 496 L2
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+   L3
+    LINENUMBER 497 L3
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    ASTORE 3
+   L4
+    LINENUMBER 498 L4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.dragSplittingSlots : Ljava/util/Set;
+    INVOKEINTERFACE java/util/Set.clear ()V
+   L5
+    LINENUMBER 499 L5
+    ALOAD 3
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.itemList : Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/util/NonNullList.clear ()V
+   L6
+    LINENUMBER 500 L6
+    ALOAD 1
+    ALOAD 3
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.itemList : Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.displayAllRelevantItems (Lnet/minecraft/util/NonNullList;)V
+   L7
+    LINENUMBER 502 L7
+    ALOAD 1
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPNE L8
+   L9
+    LINENUMBER 504 L9
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    GETFIELD net/minecraft/client/entity/EntityPlayerSP.inventoryContainer : Lnet/minecraft/inventory/Container;
+    ASTORE 4
+   L10
+    LINENUMBER 506 L10
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.originalSlots : Ljava/util/List;
+    IFNONNULL L11
+   L12
+    LINENUMBER 508 L12
+    ALOAD 0
+    ALOAD 3
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.inventorySlots : Ljava/util/List;
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.originalSlots : Ljava/util/List;
+   L11
+    LINENUMBER 511 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container] []
+    ALOAD 3
+    INVOKESTATIC com/google/common/collect/Lists.newArrayList ()Ljava/util/ArrayList;
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.inventorySlots : Ljava/util/List;
+   L13
+    LINENUMBER 513 L13
+    ICONST_0
+    ISTORE 5
+   L14
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I] []
+    ILOAD 5
+    ALOAD 4
+    GETFIELD net/minecraft/inventory/Container.inventorySlots : Ljava/util/List;
+    INVOKEINTERFACE java/util/List.size ()I
+    IF_ICMPGE L15
+   L16
+    LINENUMBER 515 L16
+    NEW net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot
+    DUP
+    ALOAD 0
+    ALOAD 4
+    GETFIELD net/minecraft/inventory/Container.inventorySlots : Ljava/util/List;
+    ILOAD 5
+    INVOKEINTERFACE java/util/List.get (I)Ljava/lang/Object;
+    CHECKCAST net/minecraft/inventory/Slot
+    ILOAD 5
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot.<init> (Lnet/minecraft/client/gui/inventory/GuiContainerCreative;Lnet/minecraft/inventory/Slot;I)V
+    ASTORE 6
+   L17
+    LINENUMBER 516 L17
+    ALOAD 3
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.inventorySlots : Ljava/util/List;
+    ALOAD 6
+    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z
+    POP
+   L18
+    LINENUMBER 518 L18
+    ILOAD 5
+    ICONST_5
+    IF_ICMPLT L19
+    ILOAD 5
+    BIPUSH 9
+    IF_ICMPGE L19
+   L20
+    LINENUMBER 520 L20
+    ILOAD 5
+    ICONST_5
+    ISUB
+    ISTORE 7
+   L21
+    LINENUMBER 521 L21
+    ILOAD 7
+    ICONST_2
+    IDIV
+    ISTORE 8
+   L22
+    LINENUMBER 522 L22
+    ILOAD 7
+    ICONST_2
+    IREM
+    ISTORE 9
+   L23
+    LINENUMBER 523 L23
+    ALOAD 6
+    BIPUSH 54
+    ILOAD 8
+    BIPUSH 54
+    IMUL
+    IADD
+    PUTFIELD net/minecraft/inventory/Slot.xPos : I
+   L24
+    LINENUMBER 524 L24
+    ALOAD 6
+    BIPUSH 6
+    ILOAD 9
+    BIPUSH 27
+    IMUL
+    IADD
+    PUTFIELD net/minecraft/inventory/Slot.yPos : I
+   L25
+    LINENUMBER 525 L25
+    GOTO L26
+   L19
+    LINENUMBER 526 L19
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot] []
+    ILOAD 5
+    IFLT L27
+    ILOAD 5
+    ICONST_5
+    IF_ICMPGE L27
+   L28
+    LINENUMBER 528 L28
+    ALOAD 6
+    SIPUSH -2000
+    PUTFIELD net/minecraft/inventory/Slot.xPos : I
+   L29
+    LINENUMBER 529 L29
+    ALOAD 6
+    SIPUSH -2000
+    PUTFIELD net/minecraft/inventory/Slot.yPos : I
+    GOTO L26
+   L27
+    LINENUMBER 531 L27
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot] []
+    ILOAD 5
+    BIPUSH 45
+    IF_ICMPNE L30
+   L31
+    LINENUMBER 533 L31
+    ALOAD 6
+    BIPUSH 35
+    PUTFIELD net/minecraft/inventory/Slot.xPos : I
+   L32
+    LINENUMBER 534 L32
+    ALOAD 6
+    BIPUSH 20
+    PUTFIELD net/minecraft/inventory/Slot.yPos : I
+    GOTO L26
+   L30
+    LINENUMBER 536 L30
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot] []
+    ILOAD 5
+    ALOAD 4
+    GETFIELD net/minecraft/inventory/Container.inventorySlots : Ljava/util/List;
+    INVOKEINTERFACE java/util/List.size ()I
+    IF_ICMPGE L26
+   L33
+    LINENUMBER 538 L33
+    ILOAD 5
+    BIPUSH 9
+    ISUB
+    ISTORE 7
+   L34
+    LINENUMBER 539 L34
+    ILOAD 7
+    BIPUSH 9
+    IREM
+    ISTORE 8
+   L35
+    LINENUMBER 540 L35
+    ILOAD 7
+    BIPUSH 9
+    IDIV
+    ISTORE 9
+   L36
+    LINENUMBER 541 L36
+    ALOAD 6
+    BIPUSH 9
+    ILOAD 8
+    BIPUSH 18
+    IMUL
+    IADD
+    PUTFIELD net/minecraft/inventory/Slot.xPos : I
+   L37
+    LINENUMBER 543 L37
+    ILOAD 5
+    BIPUSH 36
+    IF_ICMPLT L38
+   L39
+    LINENUMBER 545 L39
+    ALOAD 6
+    BIPUSH 112
+    PUTFIELD net/minecraft/inventory/Slot.yPos : I
+    GOTO L26
+   L38
+    LINENUMBER 549 L38
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot I I I] []
+    ALOAD 6
+    BIPUSH 54
+    ILOAD 9
+    BIPUSH 18
+    IMUL
+    IADD
+    PUTFIELD net/minecraft/inventory/Slot.yPos : I
+   L26
+    LINENUMBER 513 L26
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I net/minecraft/client/gui/inventory/GuiContainerCreative$CreativeSlot] []
+    IINC 5 1
+    GOTO L14
+   L15
+    LINENUMBER 554 L15
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative net/minecraft/inventory/Container I] []
+    ALOAD 0
+    NEW net/minecraft/inventory/Slot
+    DUP
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.basicInventory : Lnet/minecraft/inventory/InventoryBasic;
+    ICONST_0
+    SIPUSH 173
+    BIPUSH 112
+    INVOKESPECIAL net/minecraft/inventory/Slot.<init> (Lnet/minecraft/inventory/IInventory;III)V
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+   L40
+    LINENUMBER 555 L40
+    ALOAD 3
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.inventorySlots : Ljava/util/List;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z
+    POP
+   L41
+    LINENUMBER 556 L41
+    GOTO L42
+   L8
+    LINENUMBER 557 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative] []
+    ILOAD 2
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPNE L42
+   L43
+    LINENUMBER 559 L43
+    ALOAD 3
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.originalSlots : Ljava/util/List;
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.inventorySlots : Ljava/util/List;
+   L44
+    LINENUMBER 560 L44
+    ALOAD 0
+    ACONST_NULL
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.originalSlots : Ljava/util/List;
+   L42
+    LINENUMBER 563 L42
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    IFNULL L45
+   L46
+    LINENUMBER 565 L46
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.hasSearchBar ()Z
+    IFEQ L47
+   L48
+    LINENUMBER 567 L48
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setVisible (Z)V
+   L49
+    LINENUMBER 568 L49
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setCanLoseFocus (Z)V
+   L50
+    LINENUMBER 569 L50
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setFocused (Z)V
+   L51
+    LINENUMBER 570 L51
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    LDC ""
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setText (Ljava/lang/String;)V
+   L52
+    LINENUMBER 571 L52
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getSearchbarWidth ()I
+    PUTFIELD net/minecraft/client/gui/GuiTextField.width : I
+   L53
+    LINENUMBER 572 L53
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    SIPUSH 171
+    IADD
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    GETFIELD net/minecraft/client/gui/GuiTextField.width : I
+    ISUB
+    PUTFIELD net/minecraft/client/gui/GuiTextField.xPosition : I
+   L54
+    LINENUMBER 573 L54
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.updateCreativeSearch ()V
+    GOTO L45
+   L47
+    LINENUMBER 577 L47
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setVisible (Z)V
+   L55
+    LINENUMBER 578 L55
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_1
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setCanLoseFocus (Z)V
+   L56
+    LINENUMBER 579 L56
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    ICONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.setFocused (Z)V
+   L45
+    LINENUMBER 583 L45
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative] []
+    ALOAD 0
+    FCONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L57
+    LINENUMBER 584 L57
+    ALOAD 3
+    FCONST_0
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.scrollTo (F)V
+   L58
+    LINENUMBER 585 L58
+    RETURN
+   L59
+    LOCALVARIABLE j1 I L21 L25 7
+    LOCALVARIABLE k1 I L22 L25 8
+    LOCALVARIABLE l1 I L23 L25 9
+    LOCALVARIABLE k I L34 L26 7
+    LOCALVARIABLE l I L35 L26 8
+    LOCALVARIABLE i1 I L36 L26 9
+    LOCALVARIABLE slot Lnet/minecraft/inventory/Slot; L17 L26 6
+    LOCALVARIABLE j I L14 L15 5
+    LOCALVARIABLE container Lnet/minecraft/inventory/Container; L10 L41 4
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L59 0
+    LOCALVARIABLE tab Lnet/minecraft/creativetab/CreativeTabs; L0 L59 1
+    LOCALVARIABLE i I L2 L59 2
+    LOCALVARIABLE guicontainercreative$containercreative Lnet/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative; L4 L59 3
+    MAXSTACK = 7
+    MAXLOCALS = 10
+
+  // access flags 0x1
+  public handleMouseInput()V throws java/io/IOException 
+   L0
+    LINENUMBER 592 L0
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.handleMouseInput ()V
+   L1
+    LINENUMBER 593 L1
+    INVOKESTATIC org/lwjgl/input/Mouse.getEventDWheel ()I
+    ISTORE 1
+   L2
+    LINENUMBER 595 L2
+    ILOAD 1
+    IFEQ L3
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.needsScrollBars ()Z
+    IFEQ L3
+   L4
+    LINENUMBER 597 L4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.itemList : Lnet/minecraft/util/NonNullList;
+    INVOKEVIRTUAL net/minecraft/util/NonNullList.size ()I
+    BIPUSH 9
+    IADD
+    ICONST_1
+    ISUB
+    BIPUSH 9
+    IDIV
+    ICONST_5
+    ISUB
+    ISTORE 2
+   L5
+    LINENUMBER 599 L5
+    ILOAD 1
+    IFLE L6
+   L7
+    LINENUMBER 601 L7
+    ICONST_1
+    ISTORE 1
+   L6
+    LINENUMBER 604 L6
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ILOAD 1
+    IFGE L8
+   L9
+    LINENUMBER 606 L9
+    ICONST_M1
+    ISTORE 1
+   L8
+    LINENUMBER 609 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I] []
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    F2D
+    ILOAD 1
+    I2D
+    ILOAD 2
+    I2D
+    DDIV
+    DSUB
+    D2F
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L10
+    LINENUMBER 610 L10
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    FCONST_0
+    FCONST_1
+    INVOKESTATIC net/minecraft/util/math/MathHelper.clamp (FFF)F
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L11
+    LINENUMBER 611 L11
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.scrollTo (F)V
+   L3
+    LINENUMBER 613 L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I] []
+    RETURN
+   L12
+    LOCALVARIABLE j I L5 L3 2
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L12 0
+    LOCALVARIABLE i I L2 L12 1
+    MAXSTACK = 7
+    MAXLOCALS = 3
+
+  // access flags 0x1
+  public drawScreen(IIF)V
+   L0
+    LINENUMBER 620 L0
+    ICONST_0
+    INVOKESTATIC org/lwjgl/input/Mouse.isButtonDown (I)Z
+    ISTORE 4
+   L1
+    LINENUMBER 621 L1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ISTORE 5
+   L2
+    LINENUMBER 622 L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    ISTORE 6
+   L3
+    LINENUMBER 623 L3
+    ILOAD 5
+    SIPUSH 175
+    IADD
+    ISTORE 7
+   L4
+    LINENUMBER 624 L4
+    ILOAD 6
+    BIPUSH 18
+    IADD
+    ISTORE 8
+   L5
+    LINENUMBER 625 L5
+    ILOAD 7
+    BIPUSH 14
+    IADD
+    ISTORE 9
+   L6
+    LINENUMBER 626 L6
+    ILOAD 8
+    BIPUSH 112
+    IADD
+    ISTORE 10
+   L7
+    LINENUMBER 628 L7
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.wasClicking : Z
+    IFNE L8
+    ILOAD 4
+    IFEQ L8
+    ILOAD 1
+    ILOAD 7
+    IF_ICMPLT L8
+    ILOAD 2
+    ILOAD 8
+    IF_ICMPLT L8
+    ILOAD 1
+    ILOAD 9
+    IF_ICMPGE L8
+    ILOAD 2
+    ILOAD 10
+    IF_ICMPGE L8
+   L9
+    LINENUMBER 630 L9
+    ALOAD 0
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.needsScrollBars ()Z
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.isScrolling : Z
+   L8
+    LINENUMBER 633 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I] []
+    ILOAD 4
+    IFNE L10
+   L11
+    LINENUMBER 635 L11
+    ALOAD 0
+    ICONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.isScrolling : Z
+   L10
+    LINENUMBER 638 L10
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I] []
+    ALOAD 0
+    ILOAD 4
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.wasClicking : Z
+   L12
+    LINENUMBER 640 L12
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.isScrolling : Z
+    IFEQ L13
+   L14
+    LINENUMBER 642 L14
+    ALOAD 0
+    ILOAD 2
+    ILOAD 8
+    ISUB
+    I2F
+    LDC 7.5
+    FSUB
+    ILOAD 10
+    ILOAD 8
+    ISUB
+    I2F
+    LDC 15.0
+    FSUB
+    FDIV
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L15
+    LINENUMBER 643 L15
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    FCONST_0
+    FCONST_1
+    INVOKESTATIC net/minecraft/util/math/MathHelper.clamp (FFF)F
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+   L16
+    LINENUMBER 644 L16
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.inventorySlots : Lnet/minecraft/inventory/Container;
+    CHECKCAST net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative$ContainerCreative.scrollTo (F)V
+   L13
+    LINENUMBER 647 L13
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I] []
+    ALOAD 0
+    ILOAD 1
+    ILOAD 2
+    FLOAD 3
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.drawScreen (IIF)V
+   L17
+    LINENUMBER 648 L17
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    BIPUSH 10
+    IMUL
+    ISTORE 11
+   L18
+    LINENUMBER 649 L18
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ARRAYLENGTH
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    ICONST_1
+    IADD
+    BIPUSH 10
+    IMUL
+    ICONST_2
+    IADD
+    INVOKESTATIC java/lang/Math.min (II)I
+    ISTORE 12
+   L19
+    LINENUMBER 650 L19
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    IFEQ L20
+    IINC 11 2
+   L20
+    LINENUMBER 651 L20
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I] []
+    ICONST_0
+    ISTORE 13
+   L21
+    LINENUMBER 653 L21
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ILOAD 11
+    ILOAD 12
+    INVOKESTATIC java/util/Arrays.copyOfRange ([Ljava/lang/Object;II)[Ljava/lang/Object;
+    CHECKCAST [Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 14
+    ALOAD 14
+    ARRAYLENGTH
+    ISTORE 15
+    ICONST_0
+    ISTORE 16
+   L22
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 16
+    ILOAD 15
+    IF_ICMPGE L23
+    ALOAD 14
+    ILOAD 16
+    AALOAD
+    ASTORE 17
+   L24
+    LINENUMBER 655 L24
+    ALOAD 17
+    IFNONNULL L25
+    GOTO L26
+   L25
+    LINENUMBER 656 L25
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    ALOAD 0
+    ALOAD 17
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.renderCreativeInventoryHoveringText (Lnet/minecraft/creativetab/CreativeTabs;II)Z
+    IFEQ L26
+   L27
+    LINENUMBER 658 L27
+    ICONST_1
+    ISTORE 13
+   L28
+    LINENUMBER 659 L28
+    GOTO L23
+   L26
+    LINENUMBER 653 L26
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    IINC 16 1
+    GOTO L22
+   L23
+    LINENUMBER 663 L23
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 13
+    IFNE L29
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.renderCreativeInventoryHoveringText (Lnet/minecraft/creativetab/CreativeTabs;II)Z
+    IFNE L29
+   L30
+    LINENUMBER 665 L30
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.renderCreativeInventoryHoveringText (Lnet/minecraft/creativetab/CreativeTabs;II)Z
+    POP
+   L29
+    LINENUMBER 668 L29
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    IFNULL L31
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPNE L31
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    GETFIELD net/minecraft/inventory/Slot.xPos : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.destroyItemSlot : Lnet/minecraft/inventory/Slot;
+    GETFIELD net/minecraft/inventory/Slot.yPos : I
+    BIPUSH 16
+    BIPUSH 16
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.isPointInRegion (IIIIII)Z
+    IFEQ L31
+   L32
+    LINENUMBER 670 L32
+    ALOAD 0
+    LDC "inventory.binSlot"
+    ICONST_0
+    ANEWARRAY java/lang/Object
+    INVOKESTATIC net/minecraft/client/resources/I18n.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    ILOAD 1
+    ILOAD 2
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawHoveringText (Ljava/lang/String;II)V
+   L31
+    LINENUMBER 673 L31
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.maxPages : I
+    IFEQ L33
+   L34
+    LINENUMBER 675 L34
+    LDC "%d / %d"
+    ICONST_2
+    ANEWARRAY java/lang/Object
+    DUP
+    ICONST_0
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    ICONST_1
+    IADD
+    INVOKESTATIC java/lang/Integer.valueOf (I)Ljava/lang/Integer;
+    AASTORE
+    DUP
+    ICONST_1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.maxPages : I
+    ICONST_1
+    IADD
+    INVOKESTATIC java/lang/Integer.valueOf (I)Ljava/lang/Integer;
+    AASTORE
+    INVOKESTATIC java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    ASTORE 14
+   L35
+    LINENUMBER 676 L35
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    ALOAD 14
+    INVOKEVIRTUAL net/minecraft/client/gui/FontRenderer.getStringWidth (Ljava/lang/String;)I
+    ISTORE 15
+   L36
+    LINENUMBER 677 L36
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting ()V
+   L37
+    LINENUMBER 678 L37
+    ALOAD 0
+    LDC 300.0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.zLevel : F
+   L38
+    LINENUMBER 679 L38
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    LDC 300.0
+    PUTFIELD net/minecraft/client/renderer/RenderItem.zLevel : F
+   L39
+    LINENUMBER 680 L39
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    ALOAD 14
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    ICONST_2
+    IDIV
+    IADD
+    ILOAD 15
+    ICONST_2
+    IDIV
+    ISUB
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 44
+    ISUB
+    ICONST_M1
+    INVOKEVIRTUAL net/minecraft/client/gui/FontRenderer.drawString (Ljava/lang/String;III)I
+    POP
+   L40
+    LINENUMBER 681 L40
+    ALOAD 0
+    FCONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.zLevel : F
+   L41
+    LINENUMBER 682 L41
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    FCONST_0
+    PUTFIELD net/minecraft/client/renderer/RenderItem.zLevel : F
+   L33
+    LINENUMBER 685 L33
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative I I F I I I I I I I I I I java/lang/Object I I] []
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.color (FFFF)V
+   L42
+    LINENUMBER 686 L42
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting ()V
+   L43
+    LINENUMBER 687 L43
+    RETURN
+   L44
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L24 L26 17
+    LOCALVARIABLE page Ljava/lang/String; L35 L33 14
+    LOCALVARIABLE width I L36 L33 15
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L44 0
+    LOCALVARIABLE mouseX I L0 L44 1
+    LOCALVARIABLE mouseY I L0 L44 2
+    LOCALVARIABLE partialTicks F L0 L44 3
+    LOCALVARIABLE flag Z L1 L44 4
+    LOCALVARIABLE i I L2 L44 5
+    LOCALVARIABLE j I L3 L44 6
+    LOCALVARIABLE k I L4 L44 7
+    LOCALVARIABLE l I L5 L44 8
+    LOCALVARIABLE i1 I L6 L44 9
+    LOCALVARIABLE j1 I L7 L44 10
+    LOCALVARIABLE start I L18 L44 11
+    LOCALVARIABLE end I L19 L44 12
+    LOCALVARIABLE rendered Z L21 L44 13
+    MAXSTACK = 7
+    MAXLOCALS = 18
+
+  // access flags 0x4
+  protected renderToolTip(Lnet/minecraft/item/ItemStack;II)V
+   L0
+    LINENUMBER 691 L0
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    IF_ICMPNE L1
+   L2
+    LINENUMBER 693 L2
+    ALOAD 1
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.gameSettings : Lnet/minecraft/client/settings/GameSettings;
+    GETFIELD net/minecraft/client/settings/GameSettings.advancedItemTooltips : Z
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getTooltip (Lnet/minecraft/entity/player/EntityPlayer;Z)Ljava/util/List;
+    ASTORE 4
+   L3
+    LINENUMBER 694 L3
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getItem ()Lnet/minecraft/item/Item;
+    INVOKEVIRTUAL net/minecraft/item/Item.getCreativeTab ()Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 5
+   L4
+    LINENUMBER 696 L4
+    ALOAD 5
+    IFNONNULL L5
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getItem ()Lnet/minecraft/item/Item;
+    GETSTATIC net/minecraft/init/Items.ENCHANTED_BOOK : Lnet/minecraft/item/ItemEnchantedBook;
+    IF_ACMPNE L5
+   L6
+    LINENUMBER 698 L6
+    ALOAD 1
+    INVOKESTATIC net/minecraft/enchantment/EnchantmentHelper.getEnchantments (Lnet/minecraft/item/ItemStack;)Ljava/util/Map;
+    ASTORE 6
+   L7
+    LINENUMBER 700 L7
+    ALOAD 6
+    INVOKEINTERFACE java/util/Map.size ()I
+    ICONST_1
+    IF_ICMPNE L5
+   L8
+    LINENUMBER 702 L8
+    ALOAD 6
+    INVOKEINTERFACE java/util/Map.keySet ()Ljava/util/Set;
+    INVOKEINTERFACE java/util/Set.iterator ()Ljava/util/Iterator;
+    INVOKEINTERFACE java/util/Iterator.next ()Ljava/lang/Object;
+    CHECKCAST net/minecraft/enchantment/Enchantment
+    ASTORE 7
+   L9
+    LINENUMBER 704 L9
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 8
+    ALOAD 8
+    ARRAYLENGTH
+    ISTORE 9
+    ICONST_0
+    ISTORE 10
+   L10
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs java/util/Map net/minecraft/enchantment/Enchantment [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 10
+    ILOAD 9
+    IF_ICMPGE L5
+    ALOAD 8
+    ILOAD 10
+    AALOAD
+    ASTORE 11
+   L11
+    LINENUMBER 706 L11
+    ALOAD 11
+    ALOAD 7
+    GETFIELD net/minecraft/enchantment/Enchantment.type : Lnet/minecraft/enchantment/EnumEnchantmentType;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.hasRelevantEnchantmentType (Lnet/minecraft/enchantment/EnumEnchantmentType;)Z
+    IFEQ L12
+   L13
+    LINENUMBER 708 L13
+    ALOAD 11
+    ASTORE 5
+   L14
+    LINENUMBER 709 L14
+    GOTO L5
+   L12
+    LINENUMBER 704 L12
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs java/util/Map net/minecraft/enchantment/Enchantment [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    IINC 10 1
+    GOTO L10
+   L5
+    LINENUMBER 715 L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs] []
+    ALOAD 5
+    IFNULL L15
+   L16
+    LINENUMBER 717 L16
+    ALOAD 4
+    ICONST_1
+    NEW java/lang/StringBuilder
+    DUP
+    INVOKESPECIAL java/lang/StringBuilder.<init> ()V
+    LDC ""
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    GETSTATIC net/minecraft/util/text/TextFormatting.BOLD : Lnet/minecraft/util/text/TextFormatting;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    GETSTATIC net/minecraft/util/text/TextFormatting.BLUE : Lnet/minecraft/util/text/TextFormatting;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    ALOAD 5
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTranslatedTabLabel ()Ljava/lang/String;
+    ICONST_0
+    ANEWARRAY java/lang/Object
+    INVOKESTATIC net/minecraft/client/resources/I18n.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
+    INVOKEINTERFACE java/util/List.add (ILjava/lang/Object;)V
+   L15
+    LINENUMBER 720 L15
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs] []
+    ICONST_0
+    ISTORE 6
+   L17
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs I] []
+    ILOAD 6
+    ALOAD 4
+    INVOKEINTERFACE java/util/List.size ()I
+    IF_ICMPGE L18
+   L19
+    LINENUMBER 722 L19
+    ILOAD 6
+    IFNE L20
+   L21
+    LINENUMBER 724 L21
+    ALOAD 4
+    ILOAD 6
+    NEW java/lang/StringBuilder
+    DUP
+    INVOKESPECIAL java/lang/StringBuilder.<init> ()V
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/item/ItemStack.getRarity ()Lnet/minecraft/item/EnumRarity;
+    GETFIELD net/minecraft/item/EnumRarity.rarityColor : Lnet/minecraft/util/text/TextFormatting;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    ALOAD 4
+    ILOAD 6
+    INVOKEINTERFACE java/util/List.get (I)Ljava/lang/Object;
+    CHECKCAST java/lang/String
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
+    INVOKEINTERFACE java/util/List.set (ILjava/lang/Object;)Ljava/lang/Object;
+    POP
+    GOTO L22
+   L20
+    LINENUMBER 728 L20
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs I] []
+    ALOAD 4
+    ILOAD 6
+    NEW java/lang/StringBuilder
+    DUP
+    INVOKESPECIAL java/lang/StringBuilder.<init> ()V
+    GETSTATIC net/minecraft/util/text/TextFormatting.GRAY : Lnet/minecraft/util/text/TextFormatting;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    ALOAD 4
+    ILOAD 6
+    INVOKEINTERFACE java/util/List.get (I)Ljava/lang/Object;
+    CHECKCAST java/lang/String
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
+    INVOKEINTERFACE java/util/List.set (ILjava/lang/Object;)Ljava/lang/Object;
+    POP
+   L22
+    LINENUMBER 720 L22
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs I] []
+    IINC 6 1
+    GOTO L17
+   L18
+    LINENUMBER 732 L18
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I java/util/List net/minecraft/creativetab/CreativeTabs I] []
+    ALOAD 1
+    INVOKESTATIC net/minecraftforge/fml/client/config/GuiUtils.preItemToolTip (Lnet/minecraft/item/ItemStack;)V
+   L23
+    LINENUMBER 733 L23
+    ALOAD 0
+    ALOAD 4
+    ILOAD 2
+    ILOAD 3
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawHoveringText (Ljava/util/List;II)V
+   L24
+    LINENUMBER 734 L24
+    INVOKESTATIC net/minecraftforge/fml/client/config/GuiUtils.postItemToolTip ()V
+   L25
+    LINENUMBER 735 L25
+    GOTO L26
+   L1
+    LINENUMBER 738 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I] []
+    ALOAD 0
+    ALOAD 1
+    ILOAD 2
+    ILOAD 3
+    INVOKESPECIAL net/minecraft/client/renderer/InventoryEffectRenderer.renderToolTip (Lnet/minecraft/item/ItemStack;II)V
+   L26
+    LINENUMBER 740 L26
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/item/ItemStack I I] []
+    RETURN
+   L27
+    LOCALVARIABLE creativetabs1 Lnet/minecraft/creativetab/CreativeTabs; L11 L12 11
+    LOCALVARIABLE enchantment Lnet/minecraft/enchantment/Enchantment; L9 L5 7
+    LOCALVARIABLE map Ljava/util/Map; L7 L5 6
+    // signature Ljava/util/Map<Lnet/minecraft/enchantment/Enchantment;Ljava/lang/Integer;>;
+    // declaration: java.util.Map<net.minecraft.enchantment.Enchantment, java.lang.Integer>
+    LOCALVARIABLE i I L17 L18 6
+    LOCALVARIABLE list Ljava/util/List; L3 L25 4
+    // signature Ljava/util/List<Ljava/lang/String;>;
+    // declaration: java.util.List<java.lang.String>
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L4 L25 5
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L27 0
+    LOCALVARIABLE stack Lnet/minecraft/item/ItemStack; L0 L27 1
+    LOCALVARIABLE x I L0 L27 2
+    LOCALVARIABLE y I L0 L27 3
+    MAXSTACK = 5
+    MAXLOCALS = 12
+
+  // access flags 0x4
+  protected drawGuiContainerBackgroundLayer(FII)V
+   L0
+    LINENUMBER 747 L0
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.color (FFFF)V
+   L1
+    LINENUMBER 748 L1
+    INVOKESTATIC net/minecraft/client/renderer/RenderHelper.enableGUIStandardItemLighting ()V
+   L2
+    LINENUMBER 749 L2
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    AALOAD
+    ASTORE 4
+   L3
+    LINENUMBER 751 L3
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    BIPUSH 10
+    IMUL
+    ISTORE 5
+   L4
+    LINENUMBER 752 L4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ARRAYLENGTH
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    ICONST_1
+    IADD
+    BIPUSH 10
+    IMUL
+    ICONST_2
+    IADD
+    INVOKESTATIC java/lang/Math.min (II)I
+    ISTORE 6
+   L5
+    LINENUMBER 753 L5
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    IFEQ L6
+    IINC 5 2
+   L6
+    LINENUMBER 755 L6
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I] []
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.CREATIVE_TAB_ARRAY : [Lnet/minecraft/creativetab/CreativeTabs;
+    ILOAD 5
+    ILOAD 6
+    INVOKESTATIC java/util/Arrays.copyOfRange ([Ljava/lang/Object;II)[Ljava/lang/Object;
+    CHECKCAST [Lnet/minecraft/creativetab/CreativeTabs;
+    ASTORE 7
+    ALOAD 7
+    ARRAYLENGTH
+    ISTORE 8
+    ICONST_0
+    ISTORE 9
+   L7
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ILOAD 9
+    ILOAD 8
+    IF_ICMPGE L8
+    ALOAD 7
+    ILOAD 9
+    AALOAD
+    ASTORE 10
+   L9
+    LINENUMBER 757 L9
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.getTextureManager ()Lnet/minecraft/client/renderer/texture/TextureManager;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.CREATIVE_INVENTORY_TABS : Lnet/minecraft/util/ResourceLocation;
+    INVOKEVIRTUAL net/minecraft/client/renderer/texture/TextureManager.bindTexture (Lnet/minecraft/util/ResourceLocation;)V
+   L10
+    LINENUMBER 759 L10
+    ALOAD 10
+    IFNONNULL L11
+    GOTO L12
+   L11
+    LINENUMBER 760 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    ALOAD 10
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    IF_ICMPEQ L12
+   L13
+    LINENUMBER 762 L13
+    ALOAD 0
+    ALOAD 10
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L12
+    LINENUMBER 755 L12
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I net/minecraft/creativetab/CreativeTabs] []
+    IINC 9 1
+    GOTO L7
+   L8
+    LINENUMBER 766 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    IFEQ L14
+   L15
+    LINENUMBER 768 L15
+    ALOAD 4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L16
+   L17
+    LINENUMBER 770 L17
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.getTextureManager ()Lnet/minecraft/client/renderer/texture/TextureManager;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.CREATIVE_INVENTORY_TABS : Lnet/minecraft/util/ResourceLocation;
+    INVOKEVIRTUAL net/minecraft/client/renderer/texture/TextureManager.bindTexture (Lnet/minecraft/util/ResourceLocation;)V
+   L18
+    LINENUMBER 771 L18
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L16
+    LINENUMBER 773 L16
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L14
+   L19
+    LINENUMBER 775 L19
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.getTextureManager ()Lnet/minecraft/client/renderer/texture/TextureManager;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.CREATIVE_INVENTORY_TABS : Lnet/minecraft/util/ResourceLocation;
+    INVOKEVIRTUAL net/minecraft/client/renderer/texture/TextureManager.bindTexture (Lnet/minecraft/util/ResourceLocation;)V
+   L20
+    LINENUMBER 776 L20
+    ALOAD 0
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L14
+    LINENUMBER 780 L14
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I [Lnet/minecraft/creativetab/CreativeTabs; I I] []
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.getTextureManager ()Lnet/minecraft/client/renderer/texture/TextureManager;
+    NEW net/minecraft/util/ResourceLocation
+    DUP
+    NEW java/lang/StringBuilder
+    DUP
+    INVOKESPECIAL java/lang/StringBuilder.<init> ()V
+    LDC "textures/gui/container/creative_inventory/tab_"
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    ALOAD 4
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getBackgroundImageName ()Ljava/lang/String;
+    INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;
+    INVOKEVIRTUAL java/lang/StringBuilder.toString ()Ljava/lang/String;
+    INVOKESPECIAL net/minecraft/util/ResourceLocation.<init> (Ljava/lang/String;)V
+    INVOKEVIRTUAL net/minecraft/client/renderer/texture/TextureManager.bindTexture (Lnet/minecraft/util/ResourceLocation;)V
+   L21
+    LINENUMBER 781 L21
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    ICONST_0
+    ICONST_0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.ySize : I
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTexturedModalRect (IIIIII)V
+   L22
+    LINENUMBER 782 L22
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.searchField : Lnet/minecraft/client/gui/GuiTextField;
+    INVOKEVIRTUAL net/minecraft/client/gui/GuiTextField.drawTextBox ()V
+   L23
+    LINENUMBER 783 L23
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.color (FFFF)V
+   L24
+    LINENUMBER 784 L24
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    SIPUSH 175
+    IADD
+    ISTORE 7
+   L25
+    LINENUMBER 785 L25
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 18
+    IADD
+    ISTORE 8
+   L26
+    LINENUMBER 786 L26
+    ILOAD 8
+    BIPUSH 112
+    IADD
+    ISTORE 9
+   L27
+    LINENUMBER 787 L27
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.getTextureManager ()Lnet/minecraft/client/renderer/texture/TextureManager;
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.CREATIVE_INVENTORY_TABS : Lnet/minecraft/util/ResourceLocation;
+    INVOKEVIRTUAL net/minecraft/client/renderer/texture/TextureManager.bindTexture (Lnet/minecraft/util/ResourceLocation;)V
+   L28
+    LINENUMBER 789 L28
+    ALOAD 4
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.shouldHidePlayerInventory ()Z
+    IFEQ L29
+   L30
+    LINENUMBER 791 L30
+    ALOAD 0
+    ILOAD 7
+    ILOAD 8
+    ILOAD 9
+    ILOAD 8
+    ISUB
+    BIPUSH 17
+    ISUB
+    I2F
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.currentScroll : F
+    FMUL
+    F2I
+    IADD
+    SIPUSH 232
+    ALOAD 0
+    INVOKESPECIAL net/minecraft/client/gui/inventory/GuiContainerCreative.needsScrollBars ()Z
+    IFEQ L31
+    ICONST_0
+    GOTO L32
+   L31
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] [net/minecraft/client/gui/inventory/GuiContainerCreative I I I]
+    BIPUSH 12
+   L32
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] [net/minecraft/client/gui/inventory/GuiContainerCreative I I I I]
+    IADD
+    ICONST_0
+    BIPUSH 12
+    BIPUSH 15
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTexturedModalRect (IIIIII)V
+   L29
+    LINENUMBER 794 L29
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 4
+    IFNULL L33
+    ALOAD 4
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabPage ()I
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    IF_ICMPEQ L34
+   L33
+    LINENUMBER 796 L33
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L34
+    ALOAD 4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L34
+   L35
+    LINENUMBER 798 L35
+    RETURN
+   L34
+    LINENUMBER 802 L34
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 0
+    ALOAD 4
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTab (Lnet/minecraft/creativetab/CreativeTabs;)V
+   L36
+    LINENUMBER 804 L36
+    ALOAD 4
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPNE L37
+   L38
+    LINENUMBER 806 L38
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    BIPUSH 88
+    IADD
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 45
+    IADD
+    BIPUSH 20
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    BIPUSH 88
+    IADD
+    ILOAD 2
+    ISUB
+    I2F
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    BIPUSH 45
+    IADD
+    BIPUSH 30
+    ISUB
+    ILOAD 3
+    ISUB
+    I2F
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKESTATIC net/minecraft/client/gui/inventory/GuiInventory.drawEntityOnScreen (IIIFFLnet/minecraft/entity/EntityLivingBase;)V
+   L37
+    LINENUMBER 808 L37
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative F I I net/minecraft/creativetab/CreativeTabs I I I I I] []
+    RETURN
+   L39
+    LOCALVARIABLE creativetabs1 Lnet/minecraft/creativetab/CreativeTabs; L9 L12 10
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L39 0
+    LOCALVARIABLE partialTicks F L0 L39 1
+    LOCALVARIABLE mouseX I L0 L39 2
+    LOCALVARIABLE mouseY I L0 L39 3
+    LOCALVARIABLE creativetabs Lnet/minecraft/creativetab/CreativeTabs; L3 L39 4
+    LOCALVARIABLE start I L4 L39 5
+    LOCALVARIABLE end I L5 L39 6
+    LOCALVARIABLE i I L25 L39 7
+    LOCALVARIABLE j I L26 L39 8
+    LOCALVARIABLE k I L27 L39 9
+    MAXSTACK = 7
+    MAXLOCALS = 11
+
+  // access flags 0x4
+  protected isMouseOverTab(Lnet/minecraft/creativetab/CreativeTabs;II)Z
+   L0
+    LINENUMBER 815 L0
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabPage ()I
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    IF_ICMPEQ L1
+   L2
+    LINENUMBER 817 L2
+    ALOAD 1
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.SEARCH : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L1
+    ALOAD 1
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.INVENTORY : Lnet/minecraft/creativetab/CreativeTabs;
+    IF_ACMPEQ L1
+   L3
+    LINENUMBER 819 L3
+    ICONST_0
+    IRETURN
+   L1
+    LINENUMBER 823 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I] []
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabColumn ()I
+    ISTORE 4
+   L4
+    LINENUMBER 824 L4
+    BIPUSH 28
+    ILOAD 4
+    IMUL
+    ISTORE 5
+   L5
+    LINENUMBER 825 L5
+    ICONST_0
+    ISTORE 6
+   L6
+    LINENUMBER 827 L6
+    ILOAD 4
+    ICONST_5
+    IF_ICMPNE L7
+   L8
+    LINENUMBER 829 L8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    BIPUSH 28
+    ISUB
+    ICONST_2
+    IADD
+    ISTORE 5
+    GOTO L9
+   L7
+    LINENUMBER 831 L7
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ILOAD 4
+    IFLE L9
+   L10
+    LINENUMBER 833 L10
+    ILOAD 5
+    ILOAD 4
+    IADD
+    ISTORE 5
+   L9
+    LINENUMBER 836 L9
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.isTabInFirstRow ()Z
+    IFEQ L11
+   L12
+    LINENUMBER 838 L12
+    ILOAD 6
+    BIPUSH 32
+    ISUB
+    ISTORE 6
+    GOTO L13
+   L11
+    LINENUMBER 842 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ILOAD 6
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.ySize : I
+    IADD
+    ISTORE 6
+   L13
+    LINENUMBER 845 L13
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ILOAD 2
+    ILOAD 5
+    IF_ICMPLT L14
+    ILOAD 2
+    ILOAD 5
+    BIPUSH 28
+    IADD
+    IF_ICMPGT L14
+    ILOAD 3
+    ILOAD 6
+    IF_ICMPLT L14
+    ILOAD 3
+    ILOAD 6
+    BIPUSH 32
+    IADD
+    IF_ICMPGT L14
+    ICONST_1
+    GOTO L15
+   L14
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ICONST_0
+   L15
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] [I]
+    IRETURN
+   L16
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L16 0
+    LOCALVARIABLE tab Lnet/minecraft/creativetab/CreativeTabs; L0 L16 1
+    LOCALVARIABLE mouseX I L0 L16 2
+    LOCALVARIABLE mouseY I L0 L16 3
+    LOCALVARIABLE i I L4 L16 4
+    LOCALVARIABLE j I L5 L16 5
+    LOCALVARIABLE k I L6 L16 6
+    MAXSTACK = 3
+    MAXLOCALS = 7
+
+  // access flags 0x4
+  protected renderCreativeInventoryHoveringText(Lnet/minecraft/creativetab/CreativeTabs;II)Z
+   L0
+    LINENUMBER 854 L0
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabColumn ()I
+    ISTORE 4
+   L1
+    LINENUMBER 855 L1
+    BIPUSH 28
+    ILOAD 4
+    IMUL
+    ISTORE 5
+   L2
+    LINENUMBER 856 L2
+    ICONST_0
+    ISTORE 6
+   L3
+    LINENUMBER 858 L3
+    ILOAD 4
+    ICONST_5
+    IF_ICMPNE L4
+   L5
+    LINENUMBER 860 L5
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    BIPUSH 28
+    ISUB
+    ICONST_2
+    IADD
+    ISTORE 5
+    GOTO L6
+   L4
+    LINENUMBER 862 L4
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ILOAD 4
+    IFLE L6
+   L7
+    LINENUMBER 864 L7
+    ILOAD 5
+    ILOAD 4
+    IADD
+    ISTORE 5
+   L6
+    LINENUMBER 867 L6
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.isTabInFirstRow ()Z
+    IFEQ L8
+   L9
+    LINENUMBER 869 L9
+    ILOAD 6
+    BIPUSH 32
+    ISUB
+    ISTORE 6
+    GOTO L10
+   L8
+    LINENUMBER 873 L8
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ILOAD 6
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.ySize : I
+    IADD
+    ISTORE 6
+   L10
+    LINENUMBER 876 L10
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ALOAD 0
+    ILOAD 5
+    ICONST_3
+    IADD
+    ILOAD 6
+    ICONST_3
+    IADD
+    BIPUSH 23
+    BIPUSH 27
+    ILOAD 2
+    ILOAD 3
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.isPointInRegion (IIIIII)Z
+    IFEQ L11
+   L12
+    LINENUMBER 878 L12
+    ALOAD 0
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTranslatedTabLabel ()Ljava/lang/String;
+    ICONST_0
+    ANEWARRAY java/lang/Object
+    INVOKESTATIC net/minecraft/client/resources/I18n.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    ILOAD 2
+    ILOAD 3
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawHoveringText (Ljava/lang/String;II)V
+   L13
+    LINENUMBER 879 L13
+    ICONST_1
+    IRETURN
+   L11
+    LINENUMBER 883 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I] []
+    ICONST_0
+    IRETURN
+   L14
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L14 0
+    LOCALVARIABLE tab Lnet/minecraft/creativetab/CreativeTabs; L0 L14 1
+    LOCALVARIABLE mouseX I L0 L14 2
+    LOCALVARIABLE mouseY I L0 L14 3
+    LOCALVARIABLE i I L1 L14 4
+    LOCALVARIABLE j I L2 L14 5
+    LOCALVARIABLE k I L3 L14 6
+    MAXSTACK = 7
+    MAXLOCALS = 7
+
+  // access flags 0x4
+  protected drawTab(Lnet/minecraft/creativetab/CreativeTabs;)V
+   L0
+    LINENUMBER 893 L0
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    IF_ICMPNE L1
+    ICONST_1
+    GOTO L2
+   L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs] []
+    ICONST_0
+   L2
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs] [I]
+    ISTORE 2
+   L3
+    LINENUMBER 894 L3
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.isTabInFirstRow ()Z
+    ISTORE 3
+   L4
+    LINENUMBER 895 L4
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabColumn ()I
+    ISTORE 4
+   L5
+    LINENUMBER 896 L5
+    ILOAD 4
+    BIPUSH 28
+    IMUL
+    ISTORE 5
+   L6
+    LINENUMBER 897 L6
+    ICONST_0
+    ISTORE 6
+   L7
+    LINENUMBER 898 L7
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    BIPUSH 28
+    ILOAD 4
+    IMUL
+    IADD
+    ISTORE 7
+   L8
+    LINENUMBER 899 L8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiTop : I
+    ISTORE 8
+   L9
+    LINENUMBER 900 L9
+    BIPUSH 32
+    ISTORE 9
+   L10
+    LINENUMBER 902 L10
+    ILOAD 2
+    IFEQ L11
+   L12
+    LINENUMBER 904 L12
+    IINC 6 32
+   L11
+    LINENUMBER 907 L11
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] []
+    ILOAD 4
+    ICONST_5
+    IF_ICMPNE L13
+   L14
+    LINENUMBER 909 L14
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.guiLeft : I
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.xSize : I
+    IADD
+    BIPUSH 28
+    ISUB
+    ISTORE 7
+    GOTO L15
+   L13
+    LINENUMBER 911 L13
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] []
+    ILOAD 4
+    IFLE L15
+   L16
+    LINENUMBER 913 L16
+    ILOAD 7
+    ILOAD 4
+    IADD
+    ISTORE 7
+   L15
+    LINENUMBER 916 L15
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] []
+    ILOAD 3
+    IFEQ L17
+   L18
+    LINENUMBER 918 L18
+    ILOAD 8
+    BIPUSH 28
+    ISUB
+    ISTORE 8
+    GOTO L19
+   L17
+    LINENUMBER 922 L17
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] []
+    IINC 6 64
+   L20
+    LINENUMBER 923 L20
+    ILOAD 8
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.ySize : I
+    ICONST_4
+    ISUB
+    IADD
+    ISTORE 8
+   L19
+    LINENUMBER 926 L19
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] []
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting ()V
+   L21
+    LINENUMBER 927 L21
+    FCONST_1
+    FCONST_1
+    FCONST_1
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.color (FFF)V
+   L22
+    LINENUMBER 928 L22
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.enableBlend ()V
+   L23
+    LINENUMBER 929 L23
+    ALOAD 0
+    ILOAD 7
+    ILOAD 8
+    ILOAD 5
+    ILOAD 6
+    BIPUSH 28
+    BIPUSH 32
+    INVOKEVIRTUAL net/minecraft/client/gui/inventory/GuiContainerCreative.drawTexturedModalRect (IIIIII)V
+   L24
+    LINENUMBER 930 L24
+    ALOAD 0
+    LDC 100.0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.zLevel : F
+   L25
+    LINENUMBER 931 L25
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    LDC 100.0
+    PUTFIELD net/minecraft/client/renderer/RenderItem.zLevel : F
+   L26
+    LINENUMBER 932 L26
+    ILOAD 7
+    BIPUSH 6
+    IADD
+    ISTORE 7
+   L27
+    LINENUMBER 933 L27
+    ILOAD 8
+    BIPUSH 8
+    IADD
+    ILOAD 3
+    IFEQ L28
+    ICONST_1
+    GOTO L29
+   L28
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] [I]
+    ICONST_M1
+   L29
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/creativetab/CreativeTabs I I I I I I I I] [I I]
+    IADD
+    ISTORE 8
+   L30
+    LINENUMBER 934 L30
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.enableLighting ()V
+   L31
+    LINENUMBER 935 L31
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.enableRescaleNormal ()V
+   L32
+    LINENUMBER 936 L32
+    ALOAD 1
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getIconItemStack ()Lnet/minecraft/item/ItemStack;
+    ASTORE 10
+   L33
+    LINENUMBER 937 L33
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    ALOAD 10
+    ILOAD 7
+    ILOAD 8
+    INVOKEVIRTUAL net/minecraft/client/renderer/RenderItem.renderItemAndEffectIntoGUI (Lnet/minecraft/item/ItemStack;II)V
+   L34
+    LINENUMBER 938 L34
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.fontRenderer : Lnet/minecraft/client/gui/FontRenderer;
+    ALOAD 10
+    ILOAD 7
+    ILOAD 8
+    INVOKEVIRTUAL net/minecraft/client/renderer/RenderItem.renderItemOverlays (Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;II)V
+   L35
+    LINENUMBER 939 L35
+    INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting ()V
+   L36
+    LINENUMBER 940 L36
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.itemRender : Lnet/minecraft/client/renderer/RenderItem;
+    FCONST_0
+    PUTFIELD net/minecraft/client/renderer/RenderItem.zLevel : F
+   L37
+    LINENUMBER 941 L37
+    ALOAD 0
+    FCONST_0
+    PUTFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.zLevel : F
+   L38
+    LINENUMBER 942 L38
+    RETURN
+   L39
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L39 0
+    LOCALVARIABLE tab Lnet/minecraft/creativetab/CreativeTabs; L0 L39 1
+    LOCALVARIABLE flag Z L3 L39 2
+    LOCALVARIABLE flag1 Z L4 L39 3
+    LOCALVARIABLE i I L5 L39 4
+    LOCALVARIABLE j I L6 L39 5
+    LOCALVARIABLE k I L7 L39 6
+    LOCALVARIABLE l I L8 L39 7
+    LOCALVARIABLE i1 I L9 L39 8
+    LOCALVARIABLE j1 I L10 L39 9
+    LOCALVARIABLE itemstack Lnet/minecraft/item/ItemStack; L33 L39 10
+    MAXSTACK = 7
+    MAXLOCALS = 11
+
+  // access flags 0x4
+  protected actionPerformed(Lnet/minecraft/client/gui/GuiButton;)V throws java/io/IOException 
+   L0
+    LINENUMBER 949 L0
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/GuiButton.id : I
+    IFNE L1
+   L2
+    LINENUMBER 951 L2
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    NEW net/minecraft/client/gui/achievement/GuiAchievements
+    DUP
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.getStatFileWriter ()Lnet/minecraft/stats/StatisticsManager;
+    INVOKESPECIAL net/minecraft/client/gui/achievement/GuiAchievements.<init> (Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/stats/StatisticsManager;)V
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.displayGuiScreen (Lnet/minecraft/client/gui/GuiScreen;)V
+   L1
+    LINENUMBER 954 L1
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/GuiButton] []
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/GuiButton.id : I
+    ICONST_1
+    IF_ICMPNE L3
+   L4
+    LINENUMBER 956 L4
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    NEW net/minecraft/client/gui/achievement/GuiStats
+    DUP
+    ALOAD 0
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.mc : Lnet/minecraft/client/Minecraft;
+    GETFIELD net/minecraft/client/Minecraft.player : Lnet/minecraft/client/entity/EntityPlayerSP;
+    INVOKEVIRTUAL net/minecraft/client/entity/EntityPlayerSP.getStatFileWriter ()Lnet/minecraft/stats/StatisticsManager;
+    INVOKESPECIAL net/minecraft/client/gui/achievement/GuiStats.<init> (Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/stats/StatisticsManager;)V
+    INVOKEVIRTUAL net/minecraft/client/Minecraft.displayGuiScreen (Lnet/minecraft/client/gui/GuiScreen;)V
+   L3
+    LINENUMBER 959 L3
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/GuiButton] []
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/GuiButton.id : I
+    BIPUSH 101
+    IF_ICMPNE L5
+   L6
+    LINENUMBER 961 L6
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    ICONST_1
+    ISUB
+    ICONST_0
+    INVOKESTATIC java/lang/Math.max (II)I
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    GOTO L7
+   L5
+    LINENUMBER 963 L5
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/GuiButton] []
+    ALOAD 1
+    GETFIELD net/minecraft/client/gui/GuiButton.id : I
+    BIPUSH 102
+    IF_ICMPNE L7
+   L8
+    LINENUMBER 965 L8
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    ICONST_1
+    IADD
+    ALOAD 0
+    GETFIELD net/minecraft/client/gui/inventory/GuiContainerCreative.maxPages : I
+    INVOKESTATIC java/lang/Math.min (II)I
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+   L7
+    LINENUMBER 967 L7
+   FRAME FULL [net/minecraft/client/gui/inventory/GuiContainerCreative net/minecraft/client/gui/GuiButton] []
+    RETURN
+   L9
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L9 0
+    LOCALVARIABLE button Lnet/minecraft/client/gui/GuiButton; L0 L9 1
+    MAXSTACK = 5
+    MAXLOCALS = 2
+
+  // access flags 0x1
+  public getSelectedTabIndex()I
+   L0
+    LINENUMBER 975 L0
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+    IRETURN
+   L1
+    LOCALVARIABLE this Lnet/minecraft/client/gui/inventory/GuiContainerCreative; L0 L1 0
+    MAXSTACK = 1
+    MAXLOCALS = 1
+
+  // access flags 0x1008
+  static synthetic access$100()Lnet/minecraft/inventory/InventoryBasic;
+   L0
+    LINENUMBER 42 L0
+    GETSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.basicInventory : Lnet/minecraft/inventory/InventoryBasic;
+    ARETURN
+    MAXSTACK = 1
+    MAXLOCALS = 0
+
+  // access flags 0x8
+  static <clinit>()V
+   L0
+    LINENUMBER 45 L0
+    NEW net/minecraft/util/ResourceLocation
+    DUP
+    LDC "textures/gui/container/creative_inventory/tabs.png"
+    INVOKESPECIAL net/minecraft/util/ResourceLocation.<init> (Ljava/lang/String;)V
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.CREATIVE_INVENTORY_TABS : Lnet/minecraft/util/ResourceLocation;
+   L1
+    LINENUMBER 46 L1
+    NEW net/minecraft/inventory/InventoryBasic
+    DUP
+    LDC "tmp"
+    ICONST_1
+    BIPUSH 45
+    INVOKESPECIAL net/minecraft/inventory/InventoryBasic.<init> (Ljava/lang/String;ZI)V
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.basicInventory : Lnet/minecraft/inventory/InventoryBasic;
+   L2
+    LINENUMBER 48 L2
+    GETSTATIC net/minecraft/creativetab/CreativeTabs.BUILDING_BLOCKS : Lnet/minecraft/creativetab/CreativeTabs;
+    INVOKEVIRTUAL net/minecraft/creativetab/CreativeTabs.getTabIndex ()I
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.selectedTabIndex : I
+   L3
+    LINENUMBER 60 L3
+    ICONST_0
+    PUTSTATIC net/minecraft/client/gui/inventory/GuiContainerCreative.tabPage : I
+    RETURN
+    MAXSTACK = 5
+    MAXLOCALS = 0
+}
