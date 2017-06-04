@@ -7,12 +7,13 @@ package Orion;
 
 import java.io.IOException;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
-/**
+/** 
  *
  * @author Daesmond
  */
@@ -22,6 +23,7 @@ public class GuiTutorial extends GuiScreen {
     private GuiButton b;
     private GuiLabel l;
     private GuiTextField t;
+    private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -84,10 +86,11 @@ public class GuiTutorial extends GuiScreen {
         super.initGui();
         this.buttonList.add(this.a = new GuiButton(0, this.width / 2 - 100, this.height / 2 - 24, "This is button a"));
         this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
-//        this.labelList.add(this.l = new GuiLabel(3, this.width / 2 - 100, this.height /2 + 4, "This is label l"));
-//        GuiLabel test = new GuiLabel();
+        //this.labelList.add(this.l = new GuiLabel(fr, 3, this.width / 2 - 100, this.height /2 + 4, "This is label l"));
 
-        this.t = new GuiTextField(4, Minecraft.getMinecraft().fontRenderer, this.width / 2 - 68, this.height / 2 - 46, 137, 20);
+
+        
+        this.t = new GuiTextField(4, fr, this.width / 2 - 68, this.height / 2 - 46, 137, 20);
         t.setMaxStringLength(23);
         t.setText("sample text");
         this.t.setFocused(true);
