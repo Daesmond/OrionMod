@@ -60,7 +60,7 @@ public class ItemPearlOrb extends Item {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override

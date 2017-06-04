@@ -33,17 +33,15 @@ public class ItemGoldWand extends Item {
         this.maxStackSize = 1;        
         this.setCreativeTab(OrionItems.tab);
     }
-
-    
     
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BLOCK; //super.getItemUseAction(stack); 
+        return EnumAction.BLOCK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000; //super.getMaxItemUseDuration(stack);
+        return 72000;
     }
 
     @Override
@@ -58,8 +56,6 @@ public class ItemGoldWand extends Item {
 
         // Open Gui Here?
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-
-        //return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     @Override
@@ -67,8 +63,7 @@ public class ItemGoldWand extends Item {
         ItemStack itemstack = player.getHeldItemMainhand();
         
         System.out.format("Held3: %s\n", itemstack.getUnlocalizedName());
-        
-        
+
         return super.onLeftClickEntity(stack, player, entity); 
     }
     
@@ -84,12 +79,11 @@ public class ItemGoldWand extends Item {
         }
 
         return EnumActionResult.SUCCESS;
-        //return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override

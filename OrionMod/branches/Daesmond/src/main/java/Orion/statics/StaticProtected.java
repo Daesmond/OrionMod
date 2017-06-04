@@ -94,42 +94,6 @@ public class StaticProtected extends StaticAbstract {
         return res;
     }
 
-    public void SetProtectBlock(World world, BlockPos bp) {
-//        IBlockState ibs = world.getBlockState(bp);
-//        IBlockState ibs2 = ibs;
-//
-//        try {
-//            Field field = OrionReflection.getField(ibs.getClass(), "field_177239_a");
-//            Block test = Blocks.BEDROCK;
-//            IBlockState oibs = ibs.getBlock().getExtendedState(ibs, world, bp);
-//
-//            field.setAccessible(true);
-//            field.set(ibs, test);
-//            world.setBlockState(bp, ibs2, 3);
-//            world.setBlockState(bp, oibs, 3);
-//            field.setAccessible(false);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-    }
-
-    public void UnsetProtectBlock(World world, BlockPos bp) {
-//        IBlockState ibs = world.getBlockState(bp);
-//
-//        try {
-//            Field field = OrionReflection.getField(ibs.getClass(), "field_177239_a");
-//            OrionProtectBlock opb = (OrionProtectBlock) cMap.get(PosToStr(bp));
-//            IBlockState oibs = opb.block.getDefaultState();
-//            
-//            field.setAccessible(true);
-//            field.set(ibs, opb.block);
-//            world.setBlockState(bp, oibs,3);
-//            field.setAccessible(false);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-    }
-
     public void Protect(World world, BlockPos bp, String pname) {
         String axis = OrionMain.PosToStr(bp);
         Object o = cMap.get(axis);
@@ -147,11 +111,6 @@ public class StaticProtected extends StaticAbstract {
             opb.Resistance = getBlockResistance(blk);
 
             cMap.put(axis, opb);
-
-            //System.out.format("Before %s Set Block=%s  Hardness=%s  Resistance=%1.2f\n", axis, opb.BlockName, opb.Hardness, opb.Resistance);
-            SetProtectBlock(world, bp);
-            //blk = world.getBlockState(bp).getBlock();
-            //System.out.format("After %s Set Block=%s  Hardness=%s  Resistance=%1.2f\n", axis, blk.getUnlocalizedName(), getBlockHardness(blk), getBlockResistance(blk));
         }
     }
 
@@ -161,16 +120,11 @@ public class StaticProtected extends StaticAbstract {
 
         if (o != null) {
             OrionProtectBlock opb = (OrionProtectBlock) o;
-            //Block blk = world.getBlockState(bp).getBlock();
 
-            //System.out.format("Before %s Unset Block=%s  Hardness=%s  Resistance=%1.2f\n", axis, opb.BlockName, opb.Hardness, opb.Resistance);
-            UnsetProtectBlock(world, opb.pos);
             opb.block = null;
             opb.pos = null;
             opb = null;
             cMap.remove(axis);
-            //blk = world.getBlockState(bp).getBlock();
-            //System.out.format("After %s Unset Block=%s  Hardness=%s  Resistance=%1.2f\n", axis, blk.getUnlocalizedName(), getBlockHardness(blk), getBlockResistance(blk));
         }
     }
 
@@ -288,11 +242,6 @@ public class StaticProtected extends StaticAbstract {
                 opb.BlockName = blk.getUnlocalizedName().trim();
                 opb.Hardness = getBlockHardness(blk);
                 opb.Resistance = getBlockResistance(blk);
-
-                //System.out.format("Before Init Block=%s  Hardness=%s  Resistance=%1.2f\n", opb.BlockName, opb.Hardness, opb.Resistance);
-                SetProtectBlock(world, bp);
-                blk = world.getBlockState(bp).getBlock();
-                //System.out.format("After Init Block=%s  Hardness=%s  Resistance=%1.2f\n", blk.getUnlocalizedName(), getBlockHardness(blk), getBlockResistance(blk));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -318,24 +267,8 @@ public class StaticProtected extends StaticAbstract {
         boolean ret = false;
         int tmp, c, d;
 
-//        c = (a < 0) ? a * -1 : a;
-//        d = (b < 0) ? b * -1 : a;
-//        if (a < 0 && b < 0) {
         tmp = a - b;
         ret = (tmp < 0);
-//        } else if (a<0 && b>0) {          
-//        }
-
-        return ret;
-    }
-
-    private int chkCount(int a, int b) {
-        int ret = 0;
-        int c, d;
-
-        c = (a < 0) ? a * -1 : a;
-        d = (b < 0) ? b * -1 : b;
-        ret = (c > d) ? c - d : d - c;
 
         return ret;
     }

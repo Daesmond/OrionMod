@@ -41,12 +41,12 @@ public class ItemIronWand extends Item {
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BLOCK; //super.getItemUseAction(stack); 
+        return EnumAction.BLOCK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000; //super.getMaxItemUseDuration(stack);
+        return 72000;
     }
 
     @Override
@@ -61,8 +61,6 @@ public class ItemIronWand extends Item {
 
         // Open Gui Here?
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-
-        //return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     @Override
@@ -102,7 +100,7 @@ public class ItemIronWand extends Item {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override

@@ -29,20 +29,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public abstract class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
-        // minecraftbyexample.mbe31_inventory_furnace.StartupCommon.preInitCommon();
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
         GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
-
         OrionItems.load();
     }
 
     public void init(FMLInitializationEvent event) {
-        // minecraftbyexample.mbe31_inventory_furnace.StartupCommon.initCommon();
         MinecraftForge.EVENT_BUS.register(new OrionChatListener());
         MinecraftForge.EVENT_BUS.register(new OrionDeathSpawnListener());
         MinecraftForge.EVENT_BUS.register(new OrionProtectListener());
         MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
-
         OrionRecipes.loadDefaultRecipes(-1);
     }
 
@@ -56,14 +52,4 @@ public abstract class CommonProxy {
     abstract public boolean playerIsInCreativeMode(EntityPlayer player);
 
     abstract public boolean isDedicatedServer();
-
-//    public static void registerItem(Item item, String name, int meta) {
-//        ResourceLocation loc = new ResourceLocation(OrionMain.MODID, name);
-//
-//        if (!Item.REGISTRY.containsKey(loc)) {
-//            GameRegistry.register(item, loc);
-//        }
-//    }
-
-
 }
