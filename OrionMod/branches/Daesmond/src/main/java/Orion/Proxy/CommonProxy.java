@@ -5,8 +5,8 @@
  */
 package Orion.Proxy;
 
-import Orion.GuiHandler;
-import Orion.GuiHandlerRegistry;
+import Orion.gui.GuiHandler;
+import Orion.gui.GuiHandlerRegistry;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.OrionRecipes;

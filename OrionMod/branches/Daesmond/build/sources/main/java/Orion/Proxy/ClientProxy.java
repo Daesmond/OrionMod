@@ -5,7 +5,7 @@
  */
 package Orion.Proxy;
 
-import Orion.GuiHandler;
+import Orion.gui.GuiHandler;
 import static Orion.OrionItems.DiamondWand;
 import static Orion.OrionItems.GoldWand;
 import static Orion.OrionItems.IronWand;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.gui;
 
 import java.util.HashMap;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +31,7 @@ public class GuiHandlerRegistry implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         IGuiHandler handler = registeredHandlers.get(ID);
+        
         if (handler != null) {
             return handler.getServerGuiElement(ID, player, world, x, y, z);
         } else {

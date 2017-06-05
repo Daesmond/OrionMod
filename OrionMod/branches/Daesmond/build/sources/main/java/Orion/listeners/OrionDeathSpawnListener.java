@@ -5,7 +5,7 @@
  */
 package Orion.listeners;
 
-import Orion.GuiHandler;
+import Orion.gui.GuiHandler;
 import Orion.OrionMain;
 import Orion.statics.StaticOrion;
 import java.util.ArrayList;

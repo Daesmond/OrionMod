@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.gui;
 
 import java.io.IOException;
 import net.minecraft.client.Minecraft;
@@ -13,17 +13,23 @@ import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
-/** 
+/**
  *
  * @author Daesmond
  */
-public class GuiTutorial extends GuiScreen {
+public class GuiPassword extends GuiScreen {
+
+    private static final int GUIID = 14344;
 
     private GuiButton a;
     private GuiButton b;
     private GuiLabel l;
     private GuiTextField t;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+
+    public static int getGuiID() {
+        return GuiPassword.GUIID;
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -88,8 +94,6 @@ public class GuiTutorial extends GuiScreen {
         this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
         //this.labelList.add(this.l = new GuiLabel(fr, 3, this.width / 2 - 100, this.height /2 + 4, "This is label l"));
 
-
-        
         this.t = new GuiTextField(4, fr, this.width / 2 - 68, this.height / 2 - 46, 137, 20);
         t.setMaxStringLength(23);
         t.setText("sample text");

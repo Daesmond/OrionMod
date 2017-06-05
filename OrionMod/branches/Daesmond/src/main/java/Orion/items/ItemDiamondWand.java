@@ -5,7 +5,7 @@
  */
 package Orion.items;
 
-import Orion.GuiHandler;
+import Orion.gui.GuiHandler;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import net.minecraft.entity.Entity;
