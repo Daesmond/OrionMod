@@ -69,12 +69,15 @@ public class ItemOrionKey extends Item {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack itemstack = player.getHeldItemMainhand();
         Block t;
         String pname = player.getName();
         String bpos = OrionMain.PosToStr(pos);
         BlockPos p = pos;
         OrionProtectBlock opb;
 
+        System.out.format("Held2: %s\n", itemstack.getUnlocalizedName());
+        
         if (worldIn.isRemote) {
             return EnumActionResult.SUCCESS;
         }

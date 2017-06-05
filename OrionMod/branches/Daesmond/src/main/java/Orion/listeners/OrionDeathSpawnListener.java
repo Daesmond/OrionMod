@@ -5,6 +5,8 @@
  */
 package Orion.listeners;
 
+import Orion.GuiHandler;
+import Orion.OrionMain;
 import Orion.statics.StaticOrion;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +15,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 /**
  *
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 public class OrionDeathSpawnListener {
 
     ArrayList<String> DeadPlayers = new ArrayList<String>();
+    boolean isFirst = false;
 
     @SubscribeEvent
     public void ePlayerLoginOrion(PlayerEvent.PlayerLoggedInEvent e) {
@@ -55,6 +59,8 @@ public class OrionDeathSpawnListener {
                 e.player.setPositionAndUpdate(X, Y, Z);
                 e.player.velocityChanged = false;
             }
+        } else {
+
         }
 
     }
@@ -66,6 +72,20 @@ public class OrionDeathSpawnListener {
                 EntityPlayer p = (EntityPlayer) e.getEntity();
 
                 DeadPlayers.add(p.getName());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.PlayerTickEvent e) {
+        EntityPlayer p = e.player;
+
+        if (p.world != null) {
+            if (e.player.world.isRemote) {
+                if (!isFirst) {
+                    isFirst = true;
+                    //p.openGui(OrionMain.instance, GuiHandler.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                }
             }
         }
     }
