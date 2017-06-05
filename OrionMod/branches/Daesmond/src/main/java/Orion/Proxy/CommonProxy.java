@@ -10,6 +10,7 @@ import Orion.gui.GuiHandlerRegistry;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.OrionRecipes;
+import Orion.gui.GuiPassword;
 import Orion.listeners.OrionChatListener;
 import Orion.listeners.OrionDeathSpawnListener;
 import Orion.listeners.OrionLevitateListener;

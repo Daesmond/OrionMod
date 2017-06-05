@@ -23,7 +23,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        System.out.println("getServerGuiElement");
+        System.out.format("getServerGuiElement  ID=>%d", ID);
 
         if (ID == GuiPassword.getGuiID()) {
             return new GuiPassword();
@@ -34,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        System.out.println("getClientGuiElement");
+        System.out.format("getClientGuiElement  ID=>%d", ID);
 
         if (ID == GuiPassword.getGuiID()) {
             return new GuiPassword();

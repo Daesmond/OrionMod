@@ -5,8 +5,6 @@
  */
 package Orion.listeners;
 
-import Orion.gui.GuiHandler;
-import Orion.OrionMain;
 import Orion.statics.StaticOrion;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -84,7 +82,7 @@ public class OrionDeathSpawnListener {
             if (e.player.world.isRemote) {
                 if (!isFirst) {
                     isFirst = true;
-                    //p.openGui(OrionMain.instance, GuiHandler.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                    //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
                 }
             }
         }

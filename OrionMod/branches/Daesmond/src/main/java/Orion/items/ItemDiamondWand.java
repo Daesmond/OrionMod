@@ -5,9 +5,9 @@
  */
 package Orion.items;
 
-import Orion.gui.GuiHandler;
 import Orion.OrionItems;
 import Orion.OrionMain;
+import Orion.gui.GuiPassword;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +53,7 @@ public class ItemDiamondWand extends Item {
         if (!worldIn.isRemote) {
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
-            playerIn.openGui(OrionMain.instance, GuiHandler.getGuiID(), worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+            playerIn.openGui(OrionMain.instance, GuiPassword.getGuiID(), worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
