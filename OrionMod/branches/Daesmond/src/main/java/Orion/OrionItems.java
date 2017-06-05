@@ -41,8 +41,6 @@ public class OrionItems {
         OrionKey= new ItemOrionKey().setUnlocalizedName("orionkey").setFull3D();
     }
 
-
-
     public static boolean isOp(EntityPlayer player) {
         return FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getPlayerList().canSendCommands(player.getGameProfile());
     }

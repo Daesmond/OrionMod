@@ -5,6 +5,7 @@
  */
 package Orion.Proxy;
 
+import Orion.OrionItems;
 import Orion.statics.StaticUsers;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,15 +69,27 @@ public class CmdPass implements ICommand {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         Matcher m = p.matcher(argsstr);
         String pname = (m.find(0)) ? m.group() : sender.getName();
+        boolean isok;
 
-        if (pname.compareToIgnoreCase("Server") == 0) {
+        if (pname.equalsIgnoreCase("Server")) {
             return;
         } else {
+            if (sender.getName().equalsIgnoreCase("Server")) {
+                isok = true;
+            } else if (pname.contains("[") && pname.contains("]")) {
+                EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+                isok = (player != null) ? OrionItems.isOp(player) : false;
+            } else {
+                isok = true;
+            }
+
             pname = pname.replaceAll("\\[", "").replaceAll("\\]", "");
         }
-        
-        su.SetPass(pname, pass);
-        su.setForUpdate();
+
+        if (isok) {
+            su.SetPass(pname, pass);
+            su.setForUpdate();
+        }
     }
 
     @Override
