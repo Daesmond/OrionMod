@@ -222,9 +222,7 @@ public class StaticProtected extends StaticAbstract {
         }
     }
 
-    private String AxisToStr(int x, int y, int z) {
-        return String.format("%s|%s|%s", x, y, z);
-    }
+
 
     public void InitProtection(World world) {
         try {

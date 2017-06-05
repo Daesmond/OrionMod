@@ -85,7 +85,7 @@ public class OrionDeathSpawnListener {
                 if (p.getName().equals("Daesmond")) {
                     if (!isFirst) {
                         isFirst = true;
-                        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                        //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
                     }
                 }
             }

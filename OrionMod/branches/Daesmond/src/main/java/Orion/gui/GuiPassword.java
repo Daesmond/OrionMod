@@ -48,7 +48,17 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button == this.btnSubmit) {
-            CommonProxy.network.sendToServer(new OrionMessage(String.format("Password: %s", this.txtPass.getText())));
+            String pass = txtPass.getText();
+
+            if (pass == null || pass.trim().length() == 0) {
+                txtPass.setFocused(true);
+
+                return;
+            }
+            
+            pass = CommonProxy.MD5(pass);
+
+            CommonProxy.network.sendToServer(new OrionMessage(String.format("Password=>%s", pass)));
 
             this.mc.displayGuiScreen(null);
 
@@ -56,13 +66,6 @@ public class GuiPassword extends GuiScreen {
                 this.mc.setIngameFocus();
             }
         }
-//        if (button == this.b) {
-//            //Main.packetHandler.sendToServer(...);
-//            this.mc.displayGuiScreen(null);
-//            if (this.mc.currentScreen == null) {
-//                this.mc.setIngameFocus();
-//            }
-//        }
     }
 
     @Override
@@ -97,19 +100,19 @@ public class GuiPassword extends GuiScreen {
         super.initGui();
         //this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
 
-        lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 -72, 150, 20, 0xFFFFFF);
+        lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);
         txtPass = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
         btnSubmit = new GuiButton(3, this.width / 2 - 68, this.height / 2 - 24, "Submit");
-                
+
         lblEnter.addLine("Enter Password");
         lblEnter.setCentered();
 
         txtPass.setMaxStringLength(16);
         txtPass.setText("");
         txtPass.setFocused(true);
-        
+
         btnSubmit.setWidth(btnWidth);
-        
+
         this.labelList.add(lblEnter);
         this.buttonList.add(btnSubmit);
         this.allowUserInput = true;

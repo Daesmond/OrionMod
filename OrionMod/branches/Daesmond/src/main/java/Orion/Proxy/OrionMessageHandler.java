@@ -5,6 +5,7 @@
  */
 package Orion.Proxy;
 
+import Orion.statics.StaticUsers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -20,9 +21,11 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
     @Override
     public IMessage onMessage(OrionMessage msg, MessageContext ctx) {
-        String prePass = "Password: ";
+        String prePass = "Password=>";
 
         if (ctx.side == Side.SERVER) {
+            StaticUsers su = StaticUsers.getConfig();
+            
             EntityPlayerMP p = ctx.getServerHandler().player;
             System.out.println(String.format("Received %s from %s", msg.Message, p.getName()));
 
@@ -31,7 +34,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
                 if (!pass.equals("5254")) {
                     //System.out.format("Madugas ka %s\r\n", p.getName());
-                    CommonProxy.network.sendTo(new OrionMessage(String.format("Madugas ka %s\r\n", p.getName())), p);
+                    //CommonProxy.network.sendTo(new OrionMessage(String.format("Madugas ka %s\r\n", p.getName())), p);
                 }
             }
         } else {

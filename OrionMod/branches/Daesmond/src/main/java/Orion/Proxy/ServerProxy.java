@@ -46,6 +46,7 @@ public class ServerProxy extends CommonProxy {
 
         World world = event.getServer().getEntityWorld();
         sp.InitProtection(world);
+        event.registerServerCommand(new CmdPass());
     }
 
     @Override
