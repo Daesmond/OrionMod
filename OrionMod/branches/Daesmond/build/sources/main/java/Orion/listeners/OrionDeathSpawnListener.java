@@ -5,9 +5,10 @@
  */
 package Orion.listeners;
 
-import Orion.OrionMain;
-import Orion.gui.GuiPassword;
+import Orion.Proxy.OrionMessage;
+import Orion.Proxy.ServerProxy;
 import Orion.statics.StaticOrion;
+import Orion.statics.StaticUsers;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,7 +35,7 @@ public class OrionDeathSpawnListener {
             return;
         }
 
-        if (e.player.world.isRemote) {
+        if (e.player.world.isRemote) { // Client side
             StaticOrion so = StaticOrion.getConfig();
             pname = e.player.getName();
 
@@ -59,8 +60,14 @@ public class OrionDeathSpawnListener {
                 e.player.setPositionAndUpdate(X, Y, Z);
                 e.player.velocityChanged = false;
             }
-        } else {
+        } else { // Server Side
+            StaticUsers su = StaticUsers.getConfig();
+            pname = e.player.getName();
 
+            if (su.withPassword(pname)) {
+                System.out.format("ENTER PASSWORD FOR %s\r\n", pname);
+                ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), (EntityPlayerMP) e.player);
+            }
         }
 
     }
@@ -78,18 +85,27 @@ public class OrionDeathSpawnListener {
 
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent e) {
-        EntityPlayer p = e.player;
-
-        if (p.world != null) {
-            if (e.player.world.isRemote) {
-                if (p.getName().equals("Daesmond")) {
-                    if (!isFirst) {
-                        isFirst = true;
-                        //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
-                    }
-                }
-            }
-        }
+//        EntityPlayer p = e.player;
+//
+//        if (p.world != null) {
+//            if (e.player.world.isRemote) {
+//                
+////                if (p.getName().equals("Daesmond")) {
+////                    if (!isFirst) {
+////                        isFirst = true;
+////                        //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+////                    }
+////                }
+//            } else {
+//                if (!isFirst) {
+//                    isFirst = true;
+//                    StaticUsers su = StaticUsers.getConfig();
+//
+//                    System.out.println("Mag message ka");
+//                    ServerProxy.network.sendTo(new OrionMessage("Test Mo Ko"), (EntityPlayerMP) p);
+//                }
+//            }
+//        }
     }
 
     @SubscribeEvent

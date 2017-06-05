@@ -73,6 +73,7 @@ public class StaticUsers extends StaticAbstract {
     public boolean withPassword(String player) {
         Object o = cPlayer.get(player);
 
+        
         return (o != null);
     }
 
