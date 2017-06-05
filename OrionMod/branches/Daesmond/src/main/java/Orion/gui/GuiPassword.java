@@ -23,10 +23,10 @@ public class GuiPassword extends GuiScreen {
 
     private static final int GUIID = 14344;
 
-    private GuiButton a;
-    private GuiButton b;
-    private GuiLabel l;
-    private GuiTextField t;
+    private GuiButton btnSubmit;
+    //private GuiButton b;
+    private GuiLabel lblEnter;
+    private GuiTextField txtPass;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
     public static int getGuiID() {
@@ -36,7 +36,7 @@ public class GuiPassword extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.t.drawTextBox();
+        this.txtPass.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -47,29 +47,29 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if (button == this.a) {                       
-            CommonProxy.network.sendToServer(new OrionMessage(this.t.getText()));
-            
+        if (button == this.btnSubmit) {
+            CommonProxy.network.sendToServer(new OrionMessage(String.format("Password: %s", this.txtPass.getText())));
+
             this.mc.displayGuiScreen(null);
-            
+
             if (this.mc.currentScreen == null) {
                 this.mc.setIngameFocus();
             }
         }
-        if (button == this.b) {
-            //Main.packetHandler.sendToServer(...);
-            this.mc.displayGuiScreen(null);
-            if (this.mc.currentScreen == null) {
-                this.mc.setIngameFocus();
-            }
-        }
+//        if (button == this.b) {
+//            //Main.packetHandler.sendToServer(...);
+//            this.mc.displayGuiScreen(null);
+//            if (this.mc.currentScreen == null) {
+//                this.mc.setIngameFocus();
+//            }
+//        }
     }
 
     @Override
     protected void keyTyped(char par1, int par2) {
         try {
             super.keyTyped(par1, par2);
-            this.t.textboxKeyTyped(par1, par2);
+            this.txtPass.textboxKeyTyped(par1, par2);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -78,14 +78,14 @@ public class GuiPassword extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        this.t.updateCursorCounter();
+        this.txtPass.updateCursorCounter();
     }
 
     @Override
     protected void mouseClicked(int x, int y, int btn) {
         try {
             super.mouseClicked(x, y, btn);
-            this.t.mouseClicked(x, y, btn);
+            this.txtPass.mouseClicked(x, y, btn);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -93,16 +93,25 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     public void initGui() {
+        int btnWidth = 50;
         super.initGui();
-        this.buttonList.add(this.a = new GuiButton(0, this.width / 2 - 100, this.height / 2 - 24, "This is button a"));
-        this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
-        //this.labelList.add(this.l = new GuiLabel(fr, 3, this.width / 2 - 100, this.height /2 + 4, "This is label l"));
+        //this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
 
-        this.t = new GuiTextField(4, fr, this.width / 2 - 68, this.height / 2 - 46, 137, 20);
-        t.setMaxStringLength(23);
-        t.setText("sample text");
-        this.t.setFocused(true);
+        lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 -72, 150, 20, 0xFFFFFF);
+        txtPass = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
+        btnSubmit = new GuiButton(3, this.width / 2 - 68, this.height / 2 - 24, "Submit");
+                
+        lblEnter.addLine("Enter Password");
+        lblEnter.setCentered();
 
+        txtPass.setMaxStringLength(16);
+        txtPass.setText("");
+        txtPass.setFocused(true);
+        
+        btnSubmit.setWidth(btnWidth);
+        
+        this.labelList.add(lblEnter);
+        this.buttonList.add(btnSubmit);
         this.allowUserInput = true;
     }
 

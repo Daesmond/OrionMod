@@ -5,6 +5,8 @@
  */
 package Orion.listeners;
 
+import Orion.OrionMain;
+import Orion.gui.GuiPassword;
 import Orion.statics.StaticOrion;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +24,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class OrionDeathSpawnListener {
 
     ArrayList<String> DeadPlayers = new ArrayList<String>();
-    boolean isFirst = false;
+    public boolean isFirst = false;
 
     @SubscribeEvent
     public void ePlayerLoginOrion(PlayerEvent.PlayerLoggedInEvent e) {
@@ -80,9 +82,11 @@ public class OrionDeathSpawnListener {
 
         if (p.world != null) {
             if (e.player.world.isRemote) {
-                if (!isFirst) {
-                    isFirst = true;
-                    //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                if (p.getName().equals("Daesmond")) {
+                    if (!isFirst) {
+                        isFirst = true;
+                        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@
  */
 package Orion.Proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -19,9 +20,28 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
     @Override
     public IMessage onMessage(OrionMessage msg, MessageContext ctx) {
+        String prePass = "Password: ";
+
         if (ctx.side == Side.SERVER) {
             EntityPlayerMP p = ctx.getServerHandler().player;
             System.out.println(String.format("Received %s from %s", msg.Message, p.getName()));
+
+            if (msg.Message.startsWith(prePass) && p.getName().equals("Daesmond")) {
+                String pass = msg.Message.replaceAll(prePass, "");
+
+                if (!pass.equals("5254")) {
+                    //System.out.format("Madugas ka %s\r\n", p.getName());
+                    CommonProxy.network.sendTo(new OrionMessage(String.format("Madugas ka %s\r\n", p.getName())), p);
+                }
+            }
+        } else {
+            String pname = ctx.getClientHandler().getGameProfile().getName();
+            System.out.println(String.format("Received %s from Server", msg.Message));
+            
+            if (msg.Message.startsWith("Madugas ka") && msg.Message.contains(pname)) {
+                Minecraft.getMinecraft().shutdown();
+                //System.exit(-1);
+            }
         }
 
         return null; // no response in this case
