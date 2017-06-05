@@ -38,7 +38,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        ClientProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 1, Side.CLIENT);
         registerClient();
     }
 

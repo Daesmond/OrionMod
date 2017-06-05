@@ -36,6 +36,13 @@ public abstract class CommonProxy {
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
         GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
         CommonProxy.network = NetworkRegistry.INSTANCE.newSimpleChannel(OrionMain.MODID);
+
+        if (event.getSide().isServer()) {
+            CommonProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 0, Side.SERVER);
+        } else {
+            CommonProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 0, Side.CLIENT);
+        }
+        
         OrionItems.load();
     }
 

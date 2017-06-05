@@ -5,7 +5,7 @@
  */
 package Orion.gui;
 
-import Orion.Proxy.ClientProxy;
+import Orion.Proxy.CommonProxy;
 import Orion.Proxy.OrionMessage;
 import java.io.IOException;
 import net.minecraft.client.Minecraft;
@@ -48,7 +48,7 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button == this.a) {                       
-            ClientProxy.network.sendToServer(new OrionMessage(this.t.getText()));
+            CommonProxy.network.sendToServer(new OrionMessage(this.t.getText()));
             
             this.mc.displayGuiScreen(null);
             

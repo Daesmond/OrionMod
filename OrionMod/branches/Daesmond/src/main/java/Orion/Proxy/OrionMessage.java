@@ -17,7 +17,12 @@ public class OrionMessage implements IMessage {
 
     public String Message;
 
+    public OrionMessage() {
+        this.Message = "";
+    }
+    
     public OrionMessage(String msg) {
+        System.out.format("Test: %s\r\n", msg);
         this.Message = msg;
     }
 
