@@ -33,23 +33,22 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
         if (ctx.side == Side.SERVER) { // Server side
             StaticUsers su = StaticUsers.getConfig();
-
             EntityPlayerMP p = ctx.getServerHandler().player;
             String pname = p.getName();
 
-            System.out.println(String.format("Received %s from %s", msg.Message, pname));
+            //System.out.println(String.format("Received %s from %s", msg.Message, pname));
 
             if (msg.Message.startsWith(preNOTAUTH)) {
-                System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
+                //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
                 ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), p);
             } else if (msg.Message.startsWith(prePass)) {
                 String pass = msg.Message.replaceAll(prePass, "");
 
                 if (!su.isAuthUser(pname, pass)) {
-                    System.out.format("%s %s\r\n", preSHUT, p.getName());
+                    //System.out.format("%s %s\r\n", preSHUT, p.getName());
                     CommonProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else {
-                    System.out.println("Success AUTH " + pname);
+                    //System.out.println("Success AUTH " + pname);
                 }
             }
         } else { // Client Side            
@@ -63,7 +62,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
                     OrionMessageHandler.isFirst = true;
 
-                    while (pasok) {
+                    while (pasok) { // Make sure inGameHashFocus before opening GUI
                         pasok = !Minecraft.getMinecraft().inGameHasFocus;
 
                         try {
@@ -77,7 +76,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                         p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
                     }
                 }
-            } else if (msg.Message.startsWith("") && msg.Message.contains(pname)) {
+            } else if (msg.Message.startsWith(preSHUT) && msg.Message.contains(pname)) {
                 Minecraft.getMinecraft().shutdown();
                 System.exit(-1);
             }

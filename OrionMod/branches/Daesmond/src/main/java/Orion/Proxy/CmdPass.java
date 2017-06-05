@@ -28,8 +28,6 @@ public class CmdPass implements ICommand {
     private final List aliases;
     private final String strsetpass = "setpass";
 
-    // protected String fullEntityName;
-    // protected Entity conjuredEntity;
     public CmdPass() {
         aliases = new ArrayList();
         aliases.add(strsetpass);
