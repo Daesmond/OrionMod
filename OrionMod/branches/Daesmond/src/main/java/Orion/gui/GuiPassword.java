@@ -5,6 +5,8 @@
  */
 package Orion.gui;
 
+import Orion.Proxy.ClientProxy;
+import Orion.Proxy.OrionMessage;
 import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -45,9 +47,11 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if (button == this.a) {
-            //Main.packetHandler.sendToServer(...);
+        if (button == this.a) {                       
+            ClientProxy.network.sendToServer(new OrionMessage(this.t.getText()));
+            
             this.mc.displayGuiScreen(null);
+            
             if (this.mc.currentScreen == null) {
                 this.mc.setIngameFocus();
             }

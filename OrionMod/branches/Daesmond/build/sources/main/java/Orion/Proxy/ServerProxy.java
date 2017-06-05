@@ -30,7 +30,8 @@ public class ServerProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        
+        ServerProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 0, Side.SERVER);
+
         so = StaticOrion.getConfig();
         sp = StaticProtected.getConfig();
         System.out.format("Global Spawn Location >> %s\n", so.getDefaultSpawnPrintable());

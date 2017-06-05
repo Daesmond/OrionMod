@@ -5,7 +5,6 @@
  */
 package Orion.Proxy;
 
-import Orion.gui.GuiHandler;
 import static Orion.OrionItems.DiamondWand;
 import static Orion.OrionItems.GoldWand;
 import static Orion.OrionItems.IronWand;
@@ -13,6 +12,7 @@ import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
+import Orion.gui.GuiHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -34,9 +34,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        ClientProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 1, Side.CLIENT);
         registerClient();
     }
 

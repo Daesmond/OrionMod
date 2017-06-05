@@ -10,7 +10,6 @@ import Orion.gui.GuiHandlerRegistry;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.OrionRecipes;
-import Orion.gui.GuiPassword;
 import Orion.listeners.OrionChatListener;
 import Orion.listeners.OrionDeathSpawnListener;
 import Orion.listeners.OrionLevitateListener;
@@ -22,6 +21,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  *
@@ -29,9 +30,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
  */
 public abstract class CommonProxy {
 
+    public static SimpleNetworkWrapper network;
+
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
         GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
+        CommonProxy.network = NetworkRegistry.INSTANCE.newSimpleChannel(OrionMain.MODID);
         OrionItems.load();
     }
 
