@@ -10,6 +10,7 @@ import Orion.struct.OrionProtectBlock;
 import Orion.OrionReflection;
 import Orion.statics.StaticOrion;
 import Orion.statics.StaticProtected;
+import Orion.statics.StaticUsers;
 import com.google.common.collect.Sets;
 import java.util.Set;
 import net.minecraft.block.Block;
@@ -77,6 +78,19 @@ public class OrionProtectListener {
                 sp.incTicks();
             }
         }
+
+        StaticUsers su = StaticUsers.getConfig();
+
+        if (event.phase == Phase.END && su.IsUpdateNeeded()) {
+            if (su.getTicks() >= 80) {
+                su.setNotForUpdate();
+                su.resetTicks();
+                su.SaveConfig();
+            } else {
+                su.incTicks();
+            }
+        }
+
     }
 
     @SubscribeEvent
