@@ -55,9 +55,25 @@ public class StaticUsers extends StaticAbstract {
         }
         return ConfigUsers;
     }
-    
+
     public void SetPass(String player, String pass) {
         cPlayer.put(player, pass);
+    }
+    
+    public boolean isAuthUser(String player, String pass) {
+        String o = cPlayer.get(player);
+        
+        if (o != null) {
+            return (pass.equals(o));
+        } else {
+            return false;
+        }
+    }
+
+    public boolean withPassword(String player) {
+        Object o = cPlayer.get(player);
+
+        return (o != null);
     }
 
     private void LoadConfig() {
