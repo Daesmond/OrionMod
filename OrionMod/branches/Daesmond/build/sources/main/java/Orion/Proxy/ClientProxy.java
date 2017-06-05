@@ -9,6 +9,7 @@ import Orion.GuiHandler;
 import static Orion.OrionItems.DiamondWand;
 import static Orion.OrionItems.GoldWand;
 import static Orion.OrionItems.IronWand;
+import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
@@ -42,8 +43,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
-
-        //System.out.println("Client Side Registry Ito");
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
     }
 
@@ -79,12 +78,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void registerClient() {
-        System.out.println("Set Orion model Items!");
-
         ModelItem(IronWand, "inventory");
         ModelItem(GoldWand, "inventory");
         ModelItem(StoneWand, "inventory");
         ModelItem(DiamondWand, "inventory");
         ModelItem(PearlOrb, "inventory");
+        ModelItem(OrionKey, "inventory");
     }
 }

@@ -37,8 +37,8 @@ public class OrionItems {
         IronWand = new ItemIronWand().setUnlocalizedName("ironwand").setFull3D();
         StoneWand = new ItemStoneWand().setUnlocalizedName("stonewand").setFull3D();
         DiamondWand = new ItemDiamondWand().setUnlocalizedName("diamondwand").setFull3D();
-        PearlOrb = new ItemOrionKey().setUnlocalizedName("orionkey").setFull3D();
-        OrionKey= new ItemPearlOrb().setUnlocalizedName("pearl_orb").setFull3D();
+        PearlOrb = new ItemPearlOrb().setUnlocalizedName("pearl_orb").setFull3D();
+        OrionKey= new ItemOrionKey().setUnlocalizedName("orionkey").setFull3D();
     }
 
 

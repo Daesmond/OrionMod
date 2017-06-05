@@ -18,14 +18,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -63,55 +60,6 @@ public class OrionProtectListener {
         }
     }
 
-//    @SubscribeEvent
-//    public void eProtectObjectTag(PlayerInteractEvent.RightClickBlock e) {
-//        World world = e.getWorld();
-//
-//        if (world.isRemote) {
-//            return;
-//        }
-//
-//        if (!(e.getEntity() instanceof EntityPlayer)) {
-//            return;
-//        }
-//
-//        StaticProtected sp = StaticProtected.getConfig();
-//        EntityPlayer player = e.getEntityPlayer();
-//        String pname = e.getEntity().getName();
-//
-//        if (!sp.isProtection(pname)) {
-//            return;
-//        }
-//
-//        BlockPos p = e.getPos();
-//        String bpos = OrionMain.PosToStr(e.getPos());
-//        Item i = player.getHeldItemMainhand().getItem();
-//        Block t;
-//        OrionProtectBlock opb = sp.isProtected(bpos);
-//
-//        if (opb != null) {
-//            System.out.println(opb.axis);
-//
-//            if (i.getUnlocalizedName().contains("item.sword") && e.getItemStack().getUnlocalizedName().equals(i.getUnlocalizedName())) {
-//                sp.Unprotect(world, p, pname);
-//                sp.setForUpdate();
-//
-//                player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now unprotected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
-//                t = e.getWorld().getBlockState(p).getBlock();
-//                System.out.format("U Block=%s  Hardness=%1.2f  Resistance=%1.2f\n", t.getUnlocalizedName(), sp.getBlockHardness(t), sp.getBlockResistance(t));
-//            }
-//        } else {
-//            if (i.getUnlocalizedName().contains("item.pickaxe") && e.getItemStack().getUnlocalizedName().equals(i.getUnlocalizedName())) {
-//                sp.Protect(world, p, pname);
-//                opb = sp.isProtected(bpos);
-//                sp.setForUpdate();
-//
-//                player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now protected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
-//                t = world.getBlockState(p).getBlock();
-//                System.out.format("P Block=%s  Hardness=%1.2f  Resistance=%1.2f\n", t.getUnlocalizedName(), sp.getBlockHardness(t), sp.getBlockResistance(t));
-//            }
-//        }
-//    }
     @SubscribeEvent
     public void onServerWorldTick(WorldTickEvent event) {
         if (event.side == Side.CLIENT) {

@@ -22,6 +22,7 @@ public class OrionRecipes {
             GameRegistry.addRecipe(new ItemStack(OrionItems.IronWand, 1), new Object[]{"  X", " Y ", " Y ", Character.valueOf('X'), Items.IRON_INGOT, Character.valueOf('Y'), Items.STICK});
             GameRegistry.addRecipe(new ItemStack(OrionItems.GoldWand, 1), new Object[]{"  X", " Y ", " Y ", Character.valueOf('X'), Items.GOLD_INGOT, Character.valueOf('Y'), Items.STICK});
             GameRegistry.addRecipe(new ItemStack(OrionItems.DiamondWand, 1), new Object[]{"  X", " Y ", " Y ", Character.valueOf('X'), Items.DIAMOND, Character.valueOf('Y'), Items.STICK});
+            GameRegistry.addRecipe(new ItemStack(OrionItems.OrionKey, 1), new Object[]{"  X", " Y ", "Y  ", Character.valueOf('X'), Items.GOLD_NUGGET, Character.valueOf('Y'), Items.GOLD_INGOT});
         }
     }
 }

@@ -9,6 +9,7 @@ import Orion.GuiHandler;
 import static Orion.OrionItems.DiamondWand;
 import static Orion.OrionItems.GoldWand;
 import static Orion.OrionItems.IronWand;
+import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
@@ -82,5 +83,6 @@ public class ClientProxy extends CommonProxy {
         ModelItem(StoneWand, "inventory");
         ModelItem(DiamondWand, "inventory");
         ModelItem(PearlOrb, "inventory");
+        ModelItem(OrionKey, "inventory");
     }
 }

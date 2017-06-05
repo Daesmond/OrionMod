@@ -109,8 +109,6 @@ public class OrionDeathSpawnListener {
                 DeadPlayers.remove(pname);
                 p.velocityChanged = true;
                 p.connection.setPlayerLocation(X, Y, Z, 0, 0);
-                //p.setLocationAndAngles(X, Y, Z, 0, 0);                
-                //p.setPositionAndUpdate(X, Y, Z);
                 p.velocityChanged = false;
             }
         }

@@ -8,6 +8,7 @@ package Orion;
 import Orion.items.ItemDiamondWand;
 import Orion.items.ItemGoldWand;
 import Orion.items.ItemIronWand;
+import Orion.items.ItemOrionKey;
 import Orion.items.ItemPearlOrb;
 import Orion.items.ItemStoneWand;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +26,7 @@ public class OrionItems {
     public static Item StoneWand;
     public static Item DiamondWand;
     public static Item PearlOrb;
+    public static Item OrionKey;
 
     public static OrionCreativeTab tab = new OrionCreativeTab(OrionMain.MODID);
 
@@ -36,6 +38,7 @@ public class OrionItems {
         StoneWand = new ItemStoneWand().setUnlocalizedName("stonewand").setFull3D();
         DiamondWand = new ItemDiamondWand().setUnlocalizedName("diamondwand").setFull3D();
         PearlOrb = new ItemPearlOrb().setUnlocalizedName("pearl_orb").setFull3D();
+        OrionKey= new ItemOrionKey().setUnlocalizedName("orionkey").setFull3D();
     }
 
 
