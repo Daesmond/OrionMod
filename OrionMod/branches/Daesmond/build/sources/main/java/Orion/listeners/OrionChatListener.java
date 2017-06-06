@@ -5,6 +5,7 @@
  */
 package Orion.listeners;
 
+import Orion.OrionItems;
 import Orion.statics.StaticOrion;
 import Orion.statics.StaticProtected;
 import java.util.regex.Matcher;
@@ -30,7 +31,6 @@ public class OrionChatListener extends ListenerAbstract {
         String msg = event.getMessage().toLowerCase();
         EntityPlayerMP player = event.getPlayer();
         String pname = player.getName();
-        World world = player.getEntityWorld();
 
         if (msg.contains(("setglobalspawn"))) {
             setPPos(event.getPlayer().getPosition());
@@ -47,6 +47,11 @@ public class OrionChatListener extends ListenerAbstract {
             so.setForUpdate();
             player.sendMessage(new TextComponentTranslation(String.format("%s your spawn is set to %s\n", pname, so.getMySpawnPrintable(pname))));
         } else if (msg.startsWith("protect coord ")) {
+            if (!OrionItems.isOp(player)) {
+                player.sendMessage(new TextComponentTranslation(String.format("%s you need to be op to use this command!\n", pname)));
+                return;
+            }
+
             String s = msg.replace("protect coord ", "");
             String[] s2 = s.split(" ");
             String[] s3 = s2[0].split("\\,");
@@ -57,7 +62,7 @@ public class OrionChatListener extends ListenerAbstract {
             if (s2.length >= 3) {
                 Pattern p = Pattern.compile("\\[(.*?)\\]");
                 Matcher m = p.matcher(s);
-                
+
                 pname = (m.find(0)) ? m.group() : player.getName();
                 pname = pname.replaceAll("\\[", "").replaceAll("\\]", "");
             }
@@ -67,6 +72,11 @@ public class OrionChatListener extends ListenerAbstract {
             sp.Protection3D(player.getServerWorld(), pname, a, b);
             player.sendMessage(new TextComponentTranslation(String.format("%s protection is now set on block coordinates!\n", pname)));
         } else if (msg.startsWith("unprotect coord ")) {
+            if (!OrionItems.isOp(player)) {
+                player.sendMessage(new TextComponentTranslation(String.format("%s you need to be op to use this command!\n", pname)));
+                return;
+            }
+
             String s = msg.replace("unprotect coord ", "");
             String[] s2 = s.split(" ");
             String[] s3 = s2[0].split("\\,");
@@ -77,7 +87,7 @@ public class OrionChatListener extends ListenerAbstract {
             if (s2.length >= 3) {
                 Pattern p = Pattern.compile("\\[(.*?)\\]");
                 Matcher m = p.matcher(s);
-                
+
                 pname = (m.find(0)) ? m.group() : player.getName();
                 pname = pname.replaceAll("\\[", "").replaceAll("\\]", "");
             }
