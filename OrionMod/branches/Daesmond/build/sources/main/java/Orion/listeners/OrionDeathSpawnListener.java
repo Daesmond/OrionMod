@@ -24,8 +24,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
  */
 public class OrionDeathSpawnListener {
 
-    ArrayList<String> DeadPlayers = new ArrayList<String>();
-    public boolean isFirst = false;
+    private ArrayList<String> DeadPlayers = new ArrayList<String>();
 
     @SubscribeEvent
     public void ePlayerLoginOrion(PlayerEvent.PlayerLoggedInEvent e) {
@@ -44,11 +43,13 @@ public class OrionDeathSpawnListener {
         String pname = p.getName();
 
         if (p.getScore() == 0) {
-            if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).trim().isEmpty()) {
+            String spawn = so.getMySpawnPrintable(pname);
+            
+            if (spawn == null || spawn.trim().isEmpty()) {
                 return;
             }
 
-            System.out.format("Login: %s joining and spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
+            System.out.format("Login: %s joining and spawning to location => %s\r\n", pname, so.getMySpawnPrintable(pname));
 
             try {
                 Integer.parseInt(so.getMySpawnAxis(pname, "X"));
@@ -116,11 +117,13 @@ public class OrionDeathSpawnListener {
         }
 
         if (DeadPlayers.contains(pname)) {
-            if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).isEmpty()) {
+            String spawn = so.getMySpawnPrintable(pname);
+            
+            if (spawn == null || spawn.trim().isEmpty()) {
                 return;
             }
 
-            System.out.format("Join: %s is spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
+            System.out.format("Dead Joining: %s is spawning to location => %s\r\n", pname, so.getMySpawnPrintable(pname));
 
             int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
             int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));

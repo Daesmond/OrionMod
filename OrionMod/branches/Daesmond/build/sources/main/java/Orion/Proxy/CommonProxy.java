@@ -47,12 +47,10 @@ public abstract class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
-        if (event.getSide().isServer()) {
-            MinecraftForge.EVENT_BUS.register(new OrionChatListener());
-            MinecraftForge.EVENT_BUS.register(new OrionDeathSpawnListener());
-            MinecraftForge.EVENT_BUS.register(new OrionProtectListener());
-            MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
-        }
+        MinecraftForge.EVENT_BUS.register(new OrionChatListener());
+        MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
+        MinecraftForge.EVENT_BUS.register(new OrionProtectListener());
+        MinecraftForge.EVENT_BUS.register(new OrionDeathSpawnListener());
         OrionRecipes.loadDefaultRecipes(-1);
     }
 
@@ -65,8 +63,9 @@ public abstract class CommonProxy {
 
     public static String MD5(String md5) {
         try {
+            String pass = String.format("ORION%s2017", md5);
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
+            byte[] array = md.digest(pass.getBytes());
             StringBuffer sb = new StringBuffer();
 
             for (int i = 0; i < array.length; ++i) {

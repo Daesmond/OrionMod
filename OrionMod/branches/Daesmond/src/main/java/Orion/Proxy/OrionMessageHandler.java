@@ -38,32 +38,30 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             String pname = p.getName();
 
             //System.out.println(String.format("Received %s from %s", msg.Message, pname));
-
             if (msg.Message.startsWith(preNOTAUTH)) {
                 //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
                 //ServerProxy.network.sendTo(new OrionMessage(preENTER), p);
-                
-                ServerProxy.network.sendTo(new OrionMessage(preSHUT), p); // Probably escaped GUI so shutdown client instead
+
+                ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p); // Probably escaped GUI so shutdown client instead
             } else if (msg.Message.startsWith(prePass)) {
                 String pass = msg.Message.replaceAll(prePass, "");
 
                 if (!su.isAuthUser(pname, pass)) { // Failed authentication so shutdown client
                     //System.out.format("%s %s\r\n", preSHUT, p.getName());
-                    CommonProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
+                    ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else { // Successful authentication
+                    System.out.format("%s is now authenticted!", pname);
                     p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!\n", pname)));
                 }
             }
         } else { // Client Side            
             String pname = ctx.getClientHandler().getGameProfile().getName();
-            System.out.println(String.format("Received %s from Server", msg.Message));
+            // System.out.println(String.format("Received %s from Server", msg.Message));
 
             if (msg.Message.equals(preENTER)) {
                 if (!OrionMessageHandler.isFirst) {
                     EntityPlayer p = Minecraft.getMinecraft().world.getPlayerEntityByName(pname);
                     boolean pasok = true;
-
-                    OrionMessageHandler.isFirst = true;
 
                     while (pasok) { // Make sure inGameHashFocus before opening GUI
                         pasok = !Minecraft.getMinecraft().inGameHasFocus;
@@ -76,10 +74,11 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                     }
 
                     if (Minecraft.getMinecraft().inGameHasFocus) {
+                        OrionMessageHandler.isFirst = true;
                         p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
                     }
                 }
-            } else if (msg.Message.startsWith(preSHUT) && msg.Message.contains(pname)) {
+            } else if (msg.Message.startsWith(preSHUT)) {
                 Minecraft.getMinecraft().shutdown();
                 System.exit(-1);
             }
