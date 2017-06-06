@@ -35,7 +35,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             EntityPlayerMP p = ctx.getServerHandler().player;
             String pname = p.getName();
 
-            //System.out.println(String.format("Received %s from %s", msg.Message, pname));
+            System.out.println(String.format("Received %s from %s", msg.Message, pname));
             if (msg.Message.startsWith(preNOTAUTH)) {
                 //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
                 //ServerProxy.network.sendTo(new OrionMessage(preENTER), p);
