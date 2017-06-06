@@ -33,8 +33,7 @@ public class GuiPassword extends GuiScreen {
 
     public GuiPassword() {
         super();
-        ClientProxy.getMC().setIngameNotInFocus();
-        org.lwjgl.input.Mouse.create();
+        //ClientProxy.getMC().setIngameNotInFocus();
     }
 
     public static int getGuiID() {

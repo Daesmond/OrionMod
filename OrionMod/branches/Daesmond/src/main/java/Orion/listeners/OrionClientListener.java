@@ -5,15 +5,13 @@
  */
 package Orion.listeners;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
+import Orion.Proxy.ClientProxy;
+import Orion.gui.GuiPassword;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Level;
 
 /**
  *
@@ -24,7 +22,9 @@ public class OrionClientListener {
 
     @SubscribeEvent
     public void onGuiOpenEvent(InitGuiEvent event) {
-
+        if (event.getGui() instanceof GuiPassword) {
+            ClientProxy.getMC().setIngameNotInFocus();
+        }
     }
 
     @SubscribeEvent

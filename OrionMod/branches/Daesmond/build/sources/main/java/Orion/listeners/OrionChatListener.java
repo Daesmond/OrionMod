@@ -5,10 +5,8 @@
  */
 package Orion.listeners;
 
-import Orion.Proxy.CommonProxy;
 import Orion.statics.StaticOrion;
 import Orion.statics.StaticProtected;
-import Orion.statics.StaticUsers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,8 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  *

@@ -14,6 +14,7 @@ import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
 import Orion.gui.GuiHandler;
 import Orion.gui.GuiPassword;
+import Orion.listeners.OrionClientListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -21,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -61,6 +63,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
+        MinecraftForge.EVENT_BUS.register(new OrionClientListener());        
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
     }
 
