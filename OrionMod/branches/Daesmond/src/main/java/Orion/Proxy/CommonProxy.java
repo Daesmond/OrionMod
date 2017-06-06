@@ -57,7 +57,7 @@ public abstract class CommonProxy {
         OrionItems.load();
     }
 
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {       
         MinecraftForge.EVENT_BUS.register(new OrionChatListener());
         MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
         MinecraftForge.EVENT_BUS.register(new OrionProtectListener());

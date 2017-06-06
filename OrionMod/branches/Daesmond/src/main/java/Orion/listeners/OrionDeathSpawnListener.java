@@ -84,10 +84,6 @@ public class OrionDeathSpawnListener {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent e) {
-    }
-
-    @SubscribeEvent
     public void eSpawnOrion(EntityJoinWorldEvent e) {
         if (e == null) {
             return;
