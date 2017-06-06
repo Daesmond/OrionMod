@@ -5,11 +5,11 @@
  */
 package Orion.gui;
 
+import Orion.Proxy.ClientProxy;
 import Orion.Proxy.CommonProxy;
 import Orion.Proxy.OrionMessage;
 import Orion.Proxy.OrionMessageHandler;
 import java.io.IOException;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -28,7 +28,6 @@ public class GuiPassword extends GuiScreen {
     private GuiButton btnSubmit;
     private GuiLabel lblEnter;
     private GuiTextField txtPass;
-    private GuiTextField txtHide;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
     private boolean isClick;
     private String strHide;
@@ -57,9 +56,8 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawDefaultBackground();
-        //this.mc.setIngameNotInFocus();
-        txtHide.drawTextBox();
+        ClientProxy.Sleep(500); // There's a race condition thus try to sleep before default background
+        this.drawDefaultBackground();
         txtPass.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -124,10 +122,6 @@ public class GuiPassword extends GuiScreen {
             txtPass.updateCursorCounter();
         }
 
-        if (txtHide != null) {
-            txtHide.updateCursorCounter();
-        }
-
         super.updateScreen();
     }
 
@@ -135,7 +129,6 @@ public class GuiPassword extends GuiScreen {
     protected void mouseClicked(int x, int y, int btn) {
         try {
             super.mouseClicked(x, y, btn);
-            this.txtHide.mouseClicked(x, y, btn);
             this.txtPass.mouseClicked(x, y, btn);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -172,15 +165,12 @@ public class GuiPassword extends GuiScreen {
         strHide = "";
 
         lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);
-        txtHide = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
         txtPass = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
         btnSubmit = new GuiButton(3, this.width / 2 - 68 + btnWidth, this.height / 2 - 24, "Submit");
 
         lblEnter.addLine("Enter Password");
         lblEnter.setCentered();
 
-        //txtHide.setEnabled(true);
-        //txtHide.setVisible(false);
         txtPass.setMaxStringLength(16);
         txtPass.setText("");
         txtPass.setFocused(true);
