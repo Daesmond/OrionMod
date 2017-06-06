@@ -4,7 +4,11 @@
 @rem  Gradle startup script for Windows
 @rem
 @rem ##########################################################################
-set JAVA_HOME="C:\Program Files\Java\jdk1.8.0_112"
+@IF "%USERDOMAIN%" == "ZIYA-ORION" (  
+  set JAVA_HOME="C:\Program Files\Java\jdk1.8.0_131"
+) else (
+  set JAVA_HOME="C:\Program Files\Java\jdk1.8.0_112"
+)
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 

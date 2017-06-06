@@ -5,13 +5,16 @@
  */
 package Orion.Proxy;
 
-import Orion.GuiHandler;
 import static Orion.OrionItems.DiamondWand;
 import static Orion.OrionItems.GoldWand;
 import static Orion.OrionItems.IronWand;
+import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
+import Orion.gui.GuiHandler;
+import Orion.gui.GuiPassword;
+import Orion.listeners.OrionClientListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -19,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -33,6 +37,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+
+    public ClientProxy() {
+        super();
+    }
+
+    public static Minecraft getMC() {
+        return Minecraft.getMinecraft();
+    }
+
+    public static void LoadGuiPassword() {
+        getMC().displayGuiScreen(new GuiPassword());
+    }
+
+    public static void LoadGuiPassword(EntityPlayer p) {
+        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+    }
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
@@ -42,8 +63,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
-
-        //System.out.println("Client Side Registry Ito");
+        MinecraftForge.EVENT_BUS.register(new OrionClientListener());        
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
     }
 
@@ -79,12 +99,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void registerClient() {
-        System.out.println("Set Orion model Items!");
-
         ModelItem(IronWand, "inventory");
         ModelItem(GoldWand, "inventory");
         ModelItem(StoneWand, "inventory");
         ModelItem(DiamondWand, "inventory");
         ModelItem(PearlOrb, "inventory");
+        ModelItem(OrionKey, "inventory");
     }
 }

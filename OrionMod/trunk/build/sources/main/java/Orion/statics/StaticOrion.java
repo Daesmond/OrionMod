@@ -78,7 +78,6 @@ public class StaticOrion extends StaticAbstract {
 
     public static StaticOrion getConfig() {
         if (ConfigOrion == null) {
-            //System.out.println(getCallerCallerClassName());
             ConfigOrion = new StaticOrion();
         }
         return ConfigOrion;
@@ -156,7 +155,6 @@ public class StaticOrion extends StaticAbstract {
     }
 
    
-
     public boolean AllowCreeperToExplode() {
         return Boolean.parseBoolean(Config.get(CREEPERS_BLOWS));
     }
