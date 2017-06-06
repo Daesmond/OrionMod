@@ -39,8 +39,8 @@ public class GuiPassword extends GuiScreen {
     public GuiPassword() {
         super();
         isInit = false;
-        keyInt=-1;
-        keyChar=(char)-1;
+        keyInt = -1;
+        keyChar = (char) -1;
     }
 
     public static GuiPassword getConfig() {
@@ -133,21 +133,41 @@ public class GuiPassword extends GuiScreen {
                 return;
             }
 
-            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(keyChar), keyInt)));
-            if (par2 == 14) { // if backspace
-                txtPass.textboxKeyTyped(par1, par2);
+            txtPass.textboxKeyTyped(par1, par2);
+            String s = txtPass.getText();
 
-                if (strHide.length() <= 1) {
-                    strHide = "";
-                } else {
-                    StringBuilder sb = new StringBuilder(strHide);
-                    sb.deleteCharAt(strHide.length() - 1);
-                    strHide = sb.toString();
-                }
-            } else { // display asterisk
-                txtPass.textboxKeyTyped('*', 9);
-                strHide += par1;
+            if (s.length() == 0) {
+            } else if (strHide.length() < s.length()) {
+                String r = Character.toString(s.charAt(s.length() - 1));
+
+                strHide += r;
+                s = s.replaceAll(r, "*");
+                ClientProxy.Sleep(100);
+                txtPass.setText(s);
+            } else if (strHide.length() > s.length()) {
+                strHide = strHide.substring(0, s.length());
             }
+
+            //s.charAt(s.length()-1)
+            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(keyChar), keyInt)));
+//            if (par2 == 14) { // if backspace
+//                txtPass.textboxKeyTyped(par1, par2);
+//
+//                if (strHide.length() <= 1) {
+//                    strHide = "";
+//                } else {
+//                    StringBuilder sb = new StringBuilder(strHide);
+//                    sb.deleteCharAt(strHide.length() - 1);
+//                    strHide = sb.toString();
+//                }
+//            } else { // display asterisk
+//                if (!(par1 == -1 && par2 == 1)) {
+//                    CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(par1), par2)));
+//
+//                    txtPass.textboxKeyTyped('*', 9);
+//                    strHide += par1;
+//                }
+//            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -166,30 +186,10 @@ public class GuiPassword extends GuiScreen {
     protected void mouseClicked(int x, int y, int btn) {
         try {
             super.mouseClicked(x, y, btn);
-            this.txtPass.mouseClicked(x, y, btn);
+            //this.txtPass.mouseClicked(x, y, btn);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    @Override
-    public void handleKeyboardInput() throws IOException {
-        super.handleKeyboardInput(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void onGuiClosed() {
-        if (!isClick) {
-            OrionMessageHandler.isFirst = false;
-            //CommonProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
-        }
-
-        super.onGuiClosed();
     }
 
     @Override

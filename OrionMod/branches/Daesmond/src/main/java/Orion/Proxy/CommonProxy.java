@@ -44,8 +44,8 @@ public abstract class CommonProxy {
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
-        GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
+        //NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
+        //GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
         CommonProxy.network = NetworkRegistry.INSTANCE.newSimpleChannel(OrionMain.MODID);
 
         if (event.getSide().isServer()) {

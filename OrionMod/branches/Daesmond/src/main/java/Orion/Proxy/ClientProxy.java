@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
         MinecraftForge.EVENT_BUS.register(new OrionClientListener());        
-        NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
+        //NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
     }
 
     @Override
