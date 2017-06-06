@@ -9,6 +9,7 @@ import Orion.Proxy.CommonProxy;
 import Orion.Proxy.OrionMessage;
 import Orion.Proxy.OrionMessageHandler;
 import java.io.IOException;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -30,6 +31,7 @@ public class GuiPassword extends GuiScreen {
     private GuiTextField txtHide;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
     private boolean isClick;
+    private String strHide;
 
     public GuiPassword() {
         super();
@@ -40,10 +42,11 @@ public class GuiPassword extends GuiScreen {
     }
 
     private void Submit() {
-        String pass = txtHide.getText();
+        String pass = strHide.trim();
+        String md5 = CommonProxy.MD5(pass);
 
-        pass = CommonProxy.MD5(pass);
-        CommonProxy.network.sendToServer(new OrionMessage(String.format("Password=>%s", pass)));
+        //CommonProxy.network.sendToServer(new OrionMessage(String.format("Test clear Password %s  and length is %d", pass, pass.length())));
+        CommonProxy.network.sendToServer(new OrionMessage(String.format("Password=>%s", md5)));
         isClick = true;
         this.mc.displayGuiScreen(null);
 
@@ -69,7 +72,7 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button == this.btnSubmit) {
-            String pass = txtHide.getText();
+            String pass = strHide;
 
             if (pass == null || pass.trim().length() == 0) {
                 txtPass.setFocused(true);
@@ -84,21 +87,32 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void keyTyped(char par1, int par2) {
         try {
+            char xpar1 = par1;
+            //int xpar2 = par2;
+
             super.keyTyped(par1, par2);
 
             if (par2 == 28) { // enter key
                 Submit();
+                return;
             }
- 
-            CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(par1), par2)));
+
+            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(par1), par2)));
 
             if (par2 == 14) { // if backspace
                 txtPass.textboxKeyTyped(par1, par2);
+
+                if (strHide.length() <= 1) {
+                    strHide = "";
+                } else {
+                    StringBuilder sb = new StringBuilder(strHide);
+                    sb.deleteCharAt(strHide.length()-1);
+                    strHide = sb.toString();
+                }
             } else { // display asterisk
                 txtPass.textboxKeyTyped('*', 9);
+                strHide += xpar1;
             }
-
-            txtHide.textboxKeyTyped(par1, par2);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -155,6 +169,7 @@ public class GuiPassword extends GuiScreen {
         super.initGui();
         allowUserInput = true;
         isClick = false;
+        strHide = "";
 
         lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);
         txtHide = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
@@ -164,8 +179,8 @@ public class GuiPassword extends GuiScreen {
         lblEnter.addLine("Enter Password");
         lblEnter.setCentered();
 
-        txtHide.setEnabled(true);
-        txtHide.setVisible(false);
+        //txtHide.setEnabled(true);
+        //txtHide.setVisible(false);
         txtPass.setMaxStringLength(16);
         txtPass.setText("");
         txtPass.setFocused(true);
