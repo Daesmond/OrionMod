@@ -48,7 +48,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                     System.out.format("> %s %s\r\n", preSHUT, p.getName());
                     ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else { // Successful authentication
-                    System.out.format("> %s is now authenticted!\r\n", pname);
+                    System.out.format("> %s is now authenticated!\r\n", pname);
                     p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!", pname)));
                 }
             }
@@ -74,8 +74,8 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
                     if (mc.inGameHasFocus) {
                         OrionMessageHandler.isFirst = true;
-                        //ClientProxy.LoadGuiPassword();
-                        ClientProxy.LoadGuiPassword(p);
+                        ClientProxy.LoadGuiPassword();
+                        //ClientProxy.LoadGuiPassword(p);
                     }
                 }
             } else if (msg.Message.startsWith(preSHUT)) {

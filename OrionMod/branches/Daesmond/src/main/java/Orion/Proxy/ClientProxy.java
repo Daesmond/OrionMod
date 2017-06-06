@@ -47,12 +47,12 @@ public class ClientProxy extends CommonProxy {
     }
 
     public static void LoadGuiPassword() {
-        getMC().displayGuiScreen(new GuiPassword());
+        getMC().displayGuiScreen(GuiPassword.getConfig());
     }
 
-    public static void LoadGuiPassword(EntityPlayer p) {
-        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
-    }
+//    public static void LoadGuiPassword(EntityPlayer p) {
+//        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+//    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

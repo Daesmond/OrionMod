@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiTextField;
  */
 public class GuiPassword extends GuiScreen {
 
+    private static GuiPassword instance;
     private static final int GUIID = 14344;
 
     private GuiButton btnSubmit;
@@ -30,14 +31,51 @@ public class GuiPassword extends GuiScreen {
     private GuiTextField txtPass;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
     private boolean isClick;
+    private boolean isInit;
     private String strHide;
+    private int keyInt;
+    private char keyChar;
 
     public GuiPassword() {
         super();
+        isInit = false;
+        keyInt=-1;
+        keyChar=(char)-1;
+    }
+
+    public static GuiPassword getConfig() {
+        if (instance == null) {
+            instance = new GuiPassword();
+        }
+        return instance;
+    }
+
+    public boolean isButtonClick() {
+        return isClick;
+    }
+
+    public int getKeyInt() {
+        return keyInt;
+    }
+
+    public int getKeyCharInt() {
+        return Character.getNumericValue(keyChar);
+    }
+
+    public char getKeyChar() {
+        return keyChar;
+    }
+
+    public boolean isInit() {
+        return isInit;
     }
 
     public static int getGuiID() {
         return GuiPassword.GUIID;
+    }
+
+    public void SetTxtPassFocus() {
+        txtPass.setFocused(true);
     }
 
     private void Submit() {
@@ -85,18 +123,17 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void keyTyped(char par1, int par2) {
         try {
-            char xpar1 = par1;
-            //int xpar2 = par2;
+            keyChar = par1;
+            keyInt = par2;
 
             super.keyTyped(par1, par2);
 
-            if (par2 == 28) { // enter key
+            if (keyInt == 28) { // enter key
                 Submit();
                 return;
             }
 
-            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(par1), par2)));
-
+            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(keyChar), keyInt)));
             if (par2 == 14) { // if backspace
                 txtPass.textboxKeyTyped(par1, par2);
 
@@ -104,12 +141,12 @@ public class GuiPassword extends GuiScreen {
                     strHide = "";
                 } else {
                     StringBuilder sb = new StringBuilder(strHide);
-                    sb.deleteCharAt(strHide.length()-1);
+                    sb.deleteCharAt(strHide.length() - 1);
                     strHide = sb.toString();
                 }
             } else { // display asterisk
                 txtPass.textboxKeyTyped('*', 9);
-                strHide += xpar1;
+                strHide += par1;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -149,7 +186,7 @@ public class GuiPassword extends GuiScreen {
     public void onGuiClosed() {
         if (!isClick) {
             OrionMessageHandler.isFirst = false;
-            CommonProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
+            //CommonProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
         }
 
         super.onGuiClosed();
@@ -179,6 +216,7 @@ public class GuiPassword extends GuiScreen {
 
         labelList.add(lblEnter);
         buttonList.add(btnSubmit);
+        isInit = true;
     }
 
 }
