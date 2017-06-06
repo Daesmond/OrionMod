@@ -14,16 +14,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  *
  * @author Daesmond
  */
-public class OrionChatListener {
-    private BlockPos pPos = new BlockPos(0, 0, 0);
-
-    public OrionChatListener() {
-    }
+@SideOnly(Side.SERVER)
+public class OrionChatListener extends ListenerAbstract {
 
     @SubscribeEvent
     public void eServerChatEvent(ServerChatEvent event) {
@@ -98,14 +97,14 @@ public class OrionChatListener {
         }
     }
 
-    private void setPPos(BlockPos mypos) {
-        pPos = new BlockPos(mypos);
-    }
-
     @SubscribeEvent
     public void onServerWorldTick(TickEvent.WorldTickEvent event) {
+        if (event.side.isClient()) {
+            return;
+        }
+
         StaticOrion so = StaticOrion.getConfig();
-        
+
         if (event.phase == TickEvent.Phase.END && so.IsUpdateNeeded()) {
             if (so.getTicks() >= 1200) {
                 so.setNotForUpdate();

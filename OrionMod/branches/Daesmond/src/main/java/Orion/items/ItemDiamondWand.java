@@ -18,16 +18,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  *
  * @author Daesmond
  */
-public class ItemDiamondWand extends Item {
+public class ItemDiamondWand extends ItemAbstract {
 
     public ItemDiamondWand() {
         this.maxStackSize = 1;
@@ -92,11 +90,5 @@ public class ItemDiamondWand extends Item {
         return super.setUnlocalizedName(unlocalizedName);
     }
 
-    public void registerItem(Item item, String name, int meta) {
-        ResourceLocation loc = new ResourceLocation(OrionMain.MODID, name);
 
-        if (!Item.REGISTRY.containsKey(loc)) {
-            GameRegistry.register(item, loc);
-        }
-    }
 }

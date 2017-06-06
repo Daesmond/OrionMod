@@ -5,6 +5,7 @@
  */
 package Orion.gui;
 
+import Orion.Proxy.ClientProxy;
 import Orion.Proxy.CommonProxy;
 import Orion.Proxy.OrionMessage;
 import Orion.Proxy.OrionMessageHandler;
@@ -25,10 +26,9 @@ public class GuiPassword extends GuiScreen {
     private static final int GUIID = 14344;
 
     private GuiButton btnSubmit;
-    //private GuiButton b;
     private GuiLabel lblEnter;
     private GuiTextField txtPass;
-    private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+    private FontRenderer fr;
     private boolean isClick;
 
     public GuiPassword() {
@@ -78,10 +78,10 @@ public class GuiPassword extends GuiScreen {
     @Override
     protected void keyTyped(char par1, int par2) {
         try {
-            System.out.format("Napindot ko ay %c %d", par1, par2);
+            //System.out.format("Napindot ko ay %c %d", par1, par2);
             super.keyTyped(par1, par2);
-            System.out.format("Napindot2 ko ay %c %d", par1, par2);
-            this.txtPass.textboxKeyTyped(par1, par2);
+            //System.out.format("Napindot2 ko ay %c %d", par1, par2);
+            txtPass.textboxKeyTyped(par1, par2);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -90,7 +90,10 @@ public class GuiPassword extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        this.txtPass.updateCursorCounter();
+
+        if (txtPass != null) {
+            txtPass.updateCursorCounter();
+        }
     }
 
     @Override
@@ -107,7 +110,7 @@ public class GuiPassword extends GuiScreen {
     public void onGuiClosed() {
         if (!isClick) {
             OrionMessageHandler.isFirst = false;
-            CommonProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
+            ClientProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
         }
 
         super.onGuiClosed();
@@ -120,13 +123,14 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     public void initGui() {
+        fr = Minecraft.getMinecraft().fontRenderer;
         int btnWidth = 50;
+        
         super.initGui();
-        //this.buttonList.add(this.b = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 4, "This is button b"));
 
         lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);
         txtPass = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
-        btnSubmit = new GuiButton(3, this.width / 2 - 68, this.height / 2 - 24, "Submit");
+        btnSubmit = new GuiButton(3, this.width / 2 - 68 + 15, this.height / 2 - 24, "Submit");
 
         lblEnter.addLine("Enter Password");
         lblEnter.setCentered();

@@ -21,7 +21,7 @@ public class OrionLevitateListener {
     public void eFall(LivingFallEvent event) {
         EntityPlayer player = null;
 
-        if (event.getEntity().getEntityWorld().isRemote) {
+        if (event.getEntity().getEntityWorld().isRemote) { // Client Side
             return;
         }
 
@@ -58,7 +58,7 @@ public class OrionLevitateListener {
 
         player = (EntityPlayer) event.getEntityLiving();
 
-        if (!player.getEntityWorld().isRemote) {
+        if (!player.getEntityWorld().isRemote) { // Server Side
             if (OrionItems.isOp(player)) {
                 handleFlight(player);
             }

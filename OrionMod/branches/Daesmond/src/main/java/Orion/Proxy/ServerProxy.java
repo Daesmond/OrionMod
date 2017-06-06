@@ -7,6 +7,7 @@ package Orion.Proxy;
 
 import Orion.statics.StaticOrion;
 import Orion.statics.StaticProtected;
+import Orion.statics.StaticUsers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
@@ -24,15 +25,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.SERVER)
 public class ServerProxy extends CommonProxy {
 
-    public static StaticOrion so;
-    public static StaticProtected sp;
-
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        so = StaticOrion.getConfig();
-        sp = StaticProtected.getConfig();
-        System.out.format("Global Spawn Location >> %s\n", so.getDefaultSpawnPrintable());
+
+        if (event.getSide().isClient()) {
+            return;
+        }
+
+        System.out.format("Global Spawn Location >> %s\n", StaticOrion.getConfig().getDefaultSpawnPrintable());
+        StaticUsers.getConfig();
+        StaticProtected.getConfig();
     }
 
     @Override
@@ -44,8 +47,12 @@ public class ServerProxy extends CommonProxy {
     public void onServerStarting(FMLServerStartingEvent event) {
         super.onServerStarting(event);
 
+        if (event.getSide().isClient()) {
+            return;
+        }
+
         World world = event.getServer().getEntityWorld();
-        sp.InitProtection(world);
+        StaticProtected.getConfig().InitProtection(world);
         event.registerServerCommand(new CmdPass());
     }
 
@@ -53,8 +60,13 @@ public class ServerProxy extends CommonProxy {
     public void onServerStopping(FMLServerStoppingEvent event) {
         super.onServerStopping(event);
 
-        sp.SaveConfig();
-        so.SaveConfig();
+        if (event.getSide().isClient()) {
+            return;
+        }
+
+        StaticProtected.getConfig().SaveConfig();
+        StaticOrion.getConfig().SaveConfig();
+        StaticUsers.getConfig().SaveConfig();
     }
 
     @Override

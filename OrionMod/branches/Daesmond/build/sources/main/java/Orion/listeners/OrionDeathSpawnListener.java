@@ -29,52 +29,51 @@ public class OrionDeathSpawnListener {
 
     @SubscribeEvent
     public void ePlayerLoginOrion(PlayerEvent.PlayerLoggedInEvent e) {
-        String pname;
 
         if (e.player.getServer().isSinglePlayer()) {
             return;
         }
 
         if (e.player.world.isRemote) { // Client side
-            StaticOrion so = StaticOrion.getConfig();
-            pname = e.player.getName();
-
-            if (e.player.getScore() == 0) {
-                if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).trim().isEmpty()) {
-                    return;
-                }
-
-                System.out.format("%s joining and spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
-
-                try {
-                    Integer.parseInt(so.getMySpawnAxis(pname, "X"));
-                } catch (Exception ex) {
-                    return;
-                }
-
-                int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
-                int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));
-                int Z = Integer.parseInt(so.getMySpawnAxis(pname, "Z"));
-
-                e.player.velocityChanged = true;
-                e.player.setPositionAndUpdate(X, Y, Z);
-                e.player.velocityChanged = false;
-            }
-        } else { // Server Side
-            StaticUsers su = StaticUsers.getConfig();
-            pname = e.player.getName();
-
-            if (su.withPassword(pname)) {
-                System.out.format("ENTER PASSWORD FOR %s\r\n", pname);
-                ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), (EntityPlayerMP) e.player);
-            }
+            return;
         }
 
+        // Server Side
+        StaticOrion so = StaticOrion.getConfig();
+        EntityPlayerMP p = (EntityPlayerMP) e.player;
+        String pname = p.getName();
+
+        if (p.getScore() == 0) {
+            if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).trim().isEmpty()) {
+                return;
+            }
+
+            System.out.format("Login: %s joining and spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
+
+            try {
+                Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+            } catch (Exception ex) {
+                return;
+            }
+
+            int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+            int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));
+            int Z = Integer.parseInt(so.getMySpawnAxis(pname, "Z"));
+
+            p.velocityChanged = true;
+            p.connection.setPlayerLocation(X, Y, Z, 0, 0);
+            p.velocityChanged = false;
+        }
+
+        if (StaticUsers.getConfig().withPassword(pname)) {
+            System.out.format("ENTER PASSWORD FOR %s\r\n", pname);
+            ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), (EntityPlayerMP) e.player);
+        }
     }
 
     @SubscribeEvent
     public void eDeathOrion(LivingDeathEvent e) {
-        if (!e.getEntity().world.isRemote) {
+        if (!e.getEntity().world.isRemote) { // Server Side
             if (e.getEntity() instanceof EntityPlayer) {
                 EntityPlayer p = (EntityPlayer) e.getEntity();
 
@@ -85,27 +84,6 @@ public class OrionDeathSpawnListener {
 
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent e) {
-//        EntityPlayer p = e.player;
-//
-//        if (p.world != null) {
-//            if (e.player.world.isRemote) {
-//                
-////                if (p.getName().equals("Daesmond")) {
-////                    if (!isFirst) {
-////                        isFirst = true;
-////                        //p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
-////                    }
-////                }
-//            } else {
-//                if (!isFirst) {
-//                    isFirst = true;
-//                    StaticUsers su = StaticUsers.getConfig();
-//
-//                    System.out.println("Mag message ka");
-//                    ServerProxy.network.sendTo(new OrionMessage("Test Mo Ko"), (EntityPlayerMP) p);
-//                }
-//            }
-//        }
     }
 
     @SubscribeEvent
@@ -122,33 +100,36 @@ public class OrionDeathSpawnListener {
             return;
         }
 
-        if (e.getEntity().world.isRemote) {
-            StaticOrion so = StaticOrion.getConfig();
-            EntityPlayerMP p = (EntityPlayerMP) e.getEntity();
-            String pname = p.getName();
+        if (e.getEntity().world.isRemote) { // Client Side
+            return;
+        }
 
-            try {
-                Integer.parseInt(so.getMySpawnAxis(pname, "X"));
-            } catch (Exception ex) {
+        StaticOrion so = StaticOrion.getConfig();
+        EntityPlayerMP p = (EntityPlayerMP) e.getEntity();
+        String pname = p.getName();
+
+        try {
+            Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return;
+        }
+
+        if (DeadPlayers.contains(pname)) {
+            if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).isEmpty()) {
                 return;
             }
 
-            if (DeadPlayers.contains(pname)) {
-                if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).isEmpty()) {
-                    return;
-                }
+            System.out.format("Join: %s is spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
 
-                System.out.format("%s is spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
+            int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+            int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));
+            int Z = Integer.parseInt(so.getMySpawnAxis(pname, "Z"));
 
-                int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
-                int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));
-                int Z = Integer.parseInt(so.getMySpawnAxis(pname, "Z"));
-
-                DeadPlayers.remove(pname);
-                p.velocityChanged = true;
-                p.connection.setPlayerLocation(X, Y, Z, 0, 0);
-                p.velocityChanged = false;
-            }
+            DeadPlayers.remove(pname);
+            p.velocityChanged = true;
+            p.connection.setPlayerLocation(X, Y, Z, 0, 0);
+            p.velocityChanged = false;
         }
     }
 }

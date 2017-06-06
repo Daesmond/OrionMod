@@ -5,14 +5,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/D:/prg/OrionMod/src/main/java/Orion/statics/StaticProtected.java</file>
-        <file>file:/D:/prg/OrionMod/src/main/java/Orion/statics/StaticOrion.java</file>
-        <file>file:/D:/prg/OrionMod/src/main/java/Orion/listeners/OrionProtectListener.java</file>
-      </group>
-    </open-files>
-    <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group>
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/ClientProxy.java</file>
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/gui/GuiPassword.java</file>
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/OrionMessageHandler.java</file>
@@ -20,6 +12,14 @@
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/CommonProxy.java</file>
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/listeners/OrionDeathSpawnListener.java</file>
         <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/ServerProxy.java</file>
+      </group>
+    </open-files>
+    <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+      <group>
+        <file>file:/D:/prg/OrionMod/src/main/java/Orion/gui/GuiPassword.java</file>
+        <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/OrionMessageHandler.java</file>
+        <file>file:/D:/prg/OrionMod/src/main/java/Orion/Proxy/CmdPass.java</file>
       </group>
     </open-files>
   </auxiliary>

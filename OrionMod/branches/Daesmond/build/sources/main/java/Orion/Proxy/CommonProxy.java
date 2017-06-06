@@ -42,15 +42,17 @@ public abstract class CommonProxy {
         } else {
             CommonProxy.network.registerMessage(OrionMessageHandler.class, OrionMessage.class, 0, Side.CLIENT);
         }
-        
+
         OrionItems.load();
     }
 
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new OrionChatListener());
-        MinecraftForge.EVENT_BUS.register(new OrionDeathSpawnListener());
-        MinecraftForge.EVENT_BUS.register(new OrionProtectListener());
-        MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
+        if (event.getSide().isServer()) {
+            MinecraftForge.EVENT_BUS.register(new OrionChatListener());
+            MinecraftForge.EVENT_BUS.register(new OrionDeathSpawnListener());
+            MinecraftForge.EVENT_BUS.register(new OrionProtectListener());
+            MinecraftForge.EVENT_BUS.register(new OrionLevitateListener());
+        }
         OrionRecipes.loadDefaultRecipes(-1);
     }
 
@@ -60,13 +62,13 @@ public abstract class CommonProxy {
     public void onServerStopping(FMLServerStoppingEvent event) {
 
     }
-    
-        public static String MD5(String md5) {
+
+    public static String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
             StringBuffer sb = new StringBuffer();
-            
+
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
             }

@@ -19,16 +19,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  *
  * @author Daesmond
  */
-public class ItemOrionKey extends Item {
+public class ItemOrionKey extends ItemAbstract {
 
     public ItemOrionKey() {
         this.maxStackSize = 1;
@@ -95,13 +93,5 @@ public class ItemOrionKey extends Item {
     public Item setUnlocalizedName(String unlocalizedName) {
         registerItem(this, unlocalizedName, 0);
         return super.setUnlocalizedName(unlocalizedName);
-    }
-
-    public void registerItem(Item item, String name, int meta) {
-        ResourceLocation loc = new ResourceLocation(OrionMain.MODID, name);
-
-        if (!Item.REGISTRY.containsKey(loc)) {
-            GameRegistry.register(item, loc);
-        }
     }
 }

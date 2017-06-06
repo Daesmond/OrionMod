@@ -11,6 +11,7 @@ import Orion.statics.StaticUsers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -40,15 +41,17 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
             if (msg.Message.startsWith(preNOTAUTH)) {
                 //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
-                ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), p);
+                //ServerProxy.network.sendTo(new OrionMessage(preENTER), p);
+                
+                ServerProxy.network.sendTo(new OrionMessage(preSHUT), p); // Probably escaped GUI so shutdown client instead
             } else if (msg.Message.startsWith(prePass)) {
                 String pass = msg.Message.replaceAll(prePass, "");
 
-                if (!su.isAuthUser(pname, pass)) {
+                if (!su.isAuthUser(pname, pass)) { // Failed authentication so shutdown client
                     //System.out.format("%s %s\r\n", preSHUT, p.getName());
                     CommonProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
-                } else {
-                    //System.out.println("Success AUTH " + pname);
+                } else { // Successful authentication
+                    p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!\n", pname)));
                 }
             }
         } else { // Client Side            

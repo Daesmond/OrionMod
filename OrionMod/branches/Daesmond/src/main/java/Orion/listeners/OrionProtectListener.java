@@ -38,12 +38,12 @@ public class OrionProtectListener {
 
     @SubscribeEvent
     public void eBreakBlock(BlockEvent.BreakEvent e) {
-        if (e.getWorld().isRemote) {
+        if (e.getWorld().isRemote) { // Client Side
             return;
         }
 
+        // Server Side
         StaticProtected sp = StaticProtected.getConfig();
-
         String bpos = OrionMain.PosToStr(e.getPos());
         OrionProtectBlock opb = sp.isProtected(bpos);
 
@@ -63,7 +63,7 @@ public class OrionProtectListener {
 
     @SubscribeEvent
     public void onServerWorldTick(WorldTickEvent event) {
-        if (event.side == Side.CLIENT) {
+        if (event.side == Side.CLIENT) { // Client Sided
             return;
         }
 
@@ -95,6 +95,10 @@ public class OrionProtectListener {
 
     @SubscribeEvent
     public void eBoomEvent(ExplosionEvent.Detonate event) {
+        if (event.getWorld().isRemote) {
+            return;
+        }
+
         StaticProtected sp = StaticProtected.getConfig();
         boolean isCancel = false;
         Set<BlockPos> obombs = Sets.<BlockPos>newHashSet();
@@ -121,7 +125,9 @@ public class OrionProtectListener {
     @SubscribeEvent
     public void eLivingUpdateEvent(LivingEvent.LivingUpdateEvent event) {
         if (event.getEntityLiving() instanceof EntityCreeper) {
-            CreeperExplode((EntityCreeper) event.getEntityLiving());
+            if (!event.getEntityLiving().world.isRemote) {
+                CreeperExplode((EntityCreeper) event.getEntityLiving());
+            }
         }
     }
 
