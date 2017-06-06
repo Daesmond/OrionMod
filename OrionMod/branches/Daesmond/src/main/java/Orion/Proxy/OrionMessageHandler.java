@@ -39,7 +39,6 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             if (msg.Message.startsWith(preNOTAUTH)) {
                 //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
                 //ServerProxy.network.sendTo(new OrionMessage(preENTER), p);
-
                 ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p); // Probably escaped GUI so shutdown client instead
             } else if (msg.Message.startsWith(prePass)) {
                 String pass = msg.Message.replaceAll(prePass, "");
@@ -75,7 +74,6 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                     if (mc.inGameHasFocus) {
                         OrionMessageHandler.isFirst = true;
                         ClientProxy.LoadGuiPassword();
-                        //ClientProxy.LoadGuiPassword(p);
                     }
                 }
             } else if (msg.Message.startsWith(preSHUT)) {

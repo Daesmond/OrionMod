@@ -8,8 +8,8 @@ package Orion.gui;
 import Orion.Proxy.ClientProxy;
 import Orion.Proxy.CommonProxy;
 import Orion.Proxy.OrionMessage;
-import Orion.Proxy.OrionMessageHandler;
 import java.io.IOException;
+import java.util.Arrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -30,7 +30,6 @@ public class GuiPassword extends GuiScreen {
     private GuiLabel lblEnter;
     private GuiTextField txtPass;
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-    private boolean isClick;
     private boolean isInit;
     private String strHide;
     private int keyInt;
@@ -48,10 +47,6 @@ public class GuiPassword extends GuiScreen {
             instance = new GuiPassword();
         }
         return instance;
-    }
-
-    public boolean isButtonClick() {
-        return isClick;
     }
 
     public int getKeyInt() {
@@ -82,9 +77,8 @@ public class GuiPassword extends GuiScreen {
         String pass = strHide.trim();
         String md5 = CommonProxy.MD5(pass);
 
-        //CommonProxy.network.sendToServer(new OrionMessage(String.format("Test clear Password %s  and length is %d", pass, pass.length())));
-        CommonProxy.network.sendToServer(new OrionMessage(String.format("Password=>%s", md5)));
-        isClick = true;
+        //CommonProxy.network.sendToServer(new OrionMessage(String.format("Text clear Password %s  and length is %d", pass, pass.length())));
+        CommonProxy.network.sendToServer(new OrionMessage(String.format("Password=>%s", md5))); // Send to server for authentication
         this.mc.displayGuiScreen(null);
 
         if (this.mc.currentScreen == null) {
@@ -94,7 +88,7 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ClientProxy.Sleep(500); // There's a race condition thus try to sleep before default background
+        ClientProxy.Sleep(10); // There's a race condition thus try to sleep before default background
         this.drawDefaultBackground();
         txtPass.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -137,37 +131,18 @@ public class GuiPassword extends GuiScreen {
             String s = txtPass.getText();
 
             if (s.length() == 0) {
+                strHide = "";
             } else if (strHide.length() < s.length()) {
                 String r = Character.toString(s.charAt(s.length() - 1));
-
+                char[] ch = new char[s.length()];
+                
+                Arrays.fill(ch, '*');
                 strHide += r;
-                s = s.replaceAll(r, "*");
-                ClientProxy.Sleep(100);
+                s = new String(ch);
                 txtPass.setText(s);
             } else if (strHide.length() > s.length()) {
                 strHide = strHide.substring(0, s.length());
             }
-
-            //s.charAt(s.length()-1)
-            //CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(keyChar), keyInt)));
-//            if (par2 == 14) { // if backspace
-//                txtPass.textboxKeyTyped(par1, par2);
-//
-//                if (strHide.length() <= 1) {
-//                    strHide = "";
-//                } else {
-//                    StringBuilder sb = new StringBuilder(strHide);
-//                    sb.deleteCharAt(strHide.length() - 1);
-//                    strHide = sb.toString();
-//                }
-//            } else { // display asterisk
-//                if (!(par1 == -1 && par2 == 1)) {
-//                    CommonProxy.network.sendToServer(new OrionMessage(String.format("Napindot ko %d=>%d", Character.getNumericValue(par1), par2)));
-//
-//                    txtPass.textboxKeyTyped('*', 9);
-//                    strHide += par1;
-//                }
-//            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -198,7 +173,6 @@ public class GuiPassword extends GuiScreen {
 
         super.initGui();
         allowUserInput = true;
-        isClick = false;
         strHide = "";
 
         lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);

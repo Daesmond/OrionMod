@@ -11,8 +11,6 @@ import static Orion.OrionItems.IronWand;
 import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
-import Orion.OrionMain;
-import Orion.gui.GuiHandler;
 import Orion.gui.GuiPassword;
 import Orion.listeners.OrionClientListener;
 import net.minecraft.client.Minecraft;
@@ -27,7 +25,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

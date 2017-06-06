@@ -5,9 +5,6 @@
  */
 package Orion.listeners;
 
-import Orion.Proxy.ClientProxy;
-import Orion.Proxy.CommonProxy;
-import Orion.Proxy.OrionMessage;
 import Orion.gui.GuiPassword;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
@@ -28,10 +25,7 @@ public class OrionClientListener {
         if (event.getGui() == null) {
             GuiPassword g = GuiPassword.getConfig();
             
-            //CommonProxy.network.sendToServer(new OrionMessage(String.format("GuiOpenEvent GP keychar=%d  keyInt=%d", g.getKeyCharInt(), g.getKeyInt())));
-            
-            if (GuiPassword.getConfig().isInit() && GuiPassword.getConfig().getKeyInt() == 1) { // ESC is BAD!
-                CommonProxy.network.sendToServer(new OrionMessage("OpenGuiEvent Cancelling ESC CloseEvent!"));
+            if (g.getConfig().isInit() && g.getConfig().getKeyInt() == 1) { // ESC is BAD!
                 event.setCanceled(true);
             }
         }
