@@ -191,6 +191,8 @@ public class GuiPassword extends GuiScreen {
         labelList.add(lblEnter);
         buttonList.add(btnSubmit);
         isInit = true;
+        
+        GuiGraphics gp;
     }
 
 }

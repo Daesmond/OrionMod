@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessage> {
 
-    public static boolean isFirst = false;
+    private boolean isFirst = false;
 
     @Override
     public IMessage onMessage(OrionMessage msg, MessageContext ctx) {
@@ -57,22 +57,21 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             // System.out.println(String.format("Received %s from Server", msg.Message));
 
             if (msg.Message.equals(preENTER)) {
-                if (!OrionMessageHandler.isFirst) {
+                if (!isFirst) {
                     EntityPlayer p = Minecraft.getMinecraft().world.getPlayerEntityByName(pname);
-                    boolean pasok = true;
+                    int sleeptime = 50;
 
-                    while (pasok) { // Make sure inGameHashFocus before opening GUI
-                        pasok = !Minecraft.getMinecraft().inGameHasFocus;
-
+                    while (!Minecraft.getMinecraft().inGameHasFocus) { // Make sure inGameHashFocus before opening GUI
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(sleeptime);
+                            sleeptime+=50;
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
 
                     if (mc.inGameHasFocus) {
-                        OrionMessageHandler.isFirst = true;
+                        isFirst = true;
                         ClientProxy.LoadGuiPassword();
                     }
                 }
