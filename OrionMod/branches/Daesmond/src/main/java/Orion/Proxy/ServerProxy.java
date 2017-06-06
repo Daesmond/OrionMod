@@ -25,6 +25,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.SERVER)
 public class ServerProxy extends CommonProxy {
 
+    public ServerProxy() {
+        super();
+    }
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);

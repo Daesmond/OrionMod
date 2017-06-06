@@ -5,8 +5,6 @@
  */
 package Orion.Proxy;
 
-import Orion.OrionMain;
-import Orion.gui.GuiPassword;
 import Orion.statics.StaticUsers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,15 +45,16 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                 String pass = msg.Message.replaceAll(prePass, "");
 
                 if (!su.isAuthUser(pname, pass)) { // Failed authentication so shutdown client
-                    //System.out.format("%s %s\r\n", preSHUT, p.getName());
+                    System.out.format("> %s %s\r\n", preSHUT, p.getName());
                     ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else { // Successful authentication
-                    System.out.format("%s is now authenticted!", pname);
-                    p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!\n", pname)));
+                    System.out.format("> %s is now authenticted!\r\n", pname);
+                    p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!", pname)));
                 }
             }
         } else { // Client Side            
             String pname = ctx.getClientHandler().getGameProfile().getName();
+            Minecraft mc = ClientProxy.getMC();
             // System.out.println(String.format("Received %s from Server", msg.Message));
 
             if (msg.Message.equals(preENTER)) {
@@ -73,9 +72,10 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                         }
                     }
 
-                    if (Minecraft.getMinecraft().inGameHasFocus) {
+                    if (mc.inGameHasFocus) {
                         OrionMessageHandler.isFirst = true;
-                        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+                        //ClientProxy.LoadGuiPassword();
+                        ClientProxy.LoadGuiPassword(p);
                     }
                 }
             } else if (msg.Message.startsWith(preSHUT)) {

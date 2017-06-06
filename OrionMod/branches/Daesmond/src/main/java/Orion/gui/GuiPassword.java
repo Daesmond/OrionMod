@@ -31,7 +31,6 @@ public class GuiPassword extends GuiScreen {
     private FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
     private boolean isClick;
 
-
     public GuiPassword() {
         super();
     }
@@ -117,7 +116,7 @@ public class GuiPassword extends GuiScreen {
     }
 
     @Override
-    public void onGuiClosed() {        
+    public void onGuiClosed() {
         if (!isClick) {
             OrionMessageHandler.isFirst = false;
             CommonProxy.network.sendToServer(new OrionMessage("NOTAUTH"));
@@ -128,10 +127,11 @@ public class GuiPassword extends GuiScreen {
 
     @Override
     public void initGui() {
-        
         int btnWidth = 50;
 
         super.initGui();
+        allowUserInput = true;
+        isClick = false;
 
         lblEnter = new GuiLabel(fr, 1, this.width / 2 - 68, this.height / 2 - 72, 150, 20, 0xFFFFFF);
         txtPass = new GuiTextField(2, fr, this.width / 2 - 68, this.height / 2 - 48, 150, 20);
@@ -148,10 +148,9 @@ public class GuiPassword extends GuiScreen {
 
         labelList.add(lblEnter);
         buttonList.add(btnSubmit);
-        allowUserInput = true;
-        isClick = false;
 
-        //this.updateScreen();
+        ClientProxy.getMC().setIngameNotInFocus();
+
     }
 
 }

@@ -32,6 +32,17 @@ public abstract class CommonProxy {
 
     public static SimpleNetworkWrapper network;
 
+    public CommonProxy() {
+    }
+
+    public static void Sleep(long s) {
+        try {
+            Thread.sleep(s);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
         GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());

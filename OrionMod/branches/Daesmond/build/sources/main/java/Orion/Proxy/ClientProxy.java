@@ -13,6 +13,7 @@ import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
 import Orion.OrionMain;
 import Orion.gui.GuiHandler;
+import Orion.gui.GuiPassword;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -34,6 +35,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+
+    public ClientProxy() {
+        super();
+    }
+
+    public static Minecraft getMC() {
+        return Minecraft.getMinecraft();
+    }
+
+    public static void LoadGuiPassword() {
+        getMC().displayGuiScreen(new GuiPassword());
+    }
+
+    public static void LoadGuiPassword(EntityPlayer p) {
+        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
