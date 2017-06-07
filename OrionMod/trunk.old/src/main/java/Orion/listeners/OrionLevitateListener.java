@@ -16,19 +16,22 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * @author Daesmond
  */
 public class OrionLevitateListener {
+
     @SubscribeEvent
     public void eFall(LivingFallEvent event) {
         EntityPlayer player = null;
 
-        if (event.getEntity().getEntityWorld().isRemote) {
+        if (event.getEntity().getEntityWorld().isRemote) { // Client Side
             return;
         }
 
         if (event.getEntity() instanceof EntityPlayer) {
             player = (EntityPlayer) event.getEntity();
 
-//            System.out.format("pname: %s  Item Held: %s == %s\n",
-//                    player.getName(), player.getHeldItemOffhand().getItem().getUnlocalizedName(), OrionItems.PearlOrb.getUnlocalizedName());
+            if (!OrionItems.isOp(player)) {
+                return;
+            }
+
             handleFlight(player);
 
             if (player.getHeldItemOffhand().getItem().getUnlocalizedName().equals(OrionItems.PearlOrb.getUnlocalizedName())) {
@@ -55,8 +58,10 @@ public class OrionLevitateListener {
 
         player = (EntityPlayer) event.getEntityLiving();
 
-        if (!player.getEntityWorld().isRemote) {
-            handleFlight(player);
+        if (!player.getEntityWorld().isRemote) { // Server Side
+            if (OrionItems.isOp(player)) {
+                handleFlight(player);
+            }
         }
     }
 

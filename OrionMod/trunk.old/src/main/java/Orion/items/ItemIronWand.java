@@ -5,7 +5,6 @@
  */
 package Orion.items;
 
-import Orion.Proxy.CommonProxy;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.statics.StaticProtected;
@@ -29,9 +28,7 @@ import net.minecraft.world.World;
  *
  * @author Admin
  */
-public class ItemIronWand extends Item {
-
-    StaticProtected sp = StaticProtected.getConfig();
+public class ItemIronWand extends ItemAbstract {
 
     public ItemIronWand() {
         this.maxStackSize = 1;
@@ -40,12 +37,12 @@ public class ItemIronWand extends Item {
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BLOCK; //super.getItemUseAction(stack); 
+        return EnumAction.BLOCK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000; //super.getMaxItemUseDuration(stack);
+        return 72000;
     }
 
     @Override
@@ -60,8 +57,6 @@ public class ItemIronWand extends Item {
 
         // Open Gui Here?
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-
-        //return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     @Override
@@ -85,6 +80,7 @@ public class ItemIronWand extends Item {
             return EnumActionResult.SUCCESS;
         }
 
+        StaticProtected sp = StaticProtected.getConfig();
         opb = sp.isProtected(bpos);
 
         if (opb == null) {
@@ -94,7 +90,6 @@ public class ItemIronWand extends Item {
 
             player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now protected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
             t = worldIn.getBlockState(p).getBlock();
-            System.out.format("P Block=%s  Hardness=%1.2f  Resistance=%1.2f\n", t.getUnlocalizedName(), sp.getBlockHardness(t), sp.getBlockResistance(t));
         }
 
         return EnumActionResult.SUCCESS;
@@ -102,12 +97,12 @@ public class ItemIronWand extends Item {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        CommonProxy.registerItem(this, unlocalizedName, 0);
+        registerItem(this, unlocalizedName, 0);
         return super.setUnlocalizedName(unlocalizedName);
     }
 }

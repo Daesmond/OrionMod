@@ -5,13 +5,15 @@
  */
 package Orion;
 
-import Orion.Proxy.CommonProxy;
 import Orion.items.ItemDiamondWand;
 import Orion.items.ItemGoldWand;
 import Orion.items.ItemIronWand;
+import Orion.items.ItemOrionKey;
 import Orion.items.ItemPearlOrb;
 import Orion.items.ItemStoneWand;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  *
@@ -24,6 +26,7 @@ public class OrionItems {
     public static Item StoneWand;
     public static Item DiamondWand;
     public static Item PearlOrb;
+    public static Item OrionKey;
 
     public static OrionCreativeTab tab = new OrionCreativeTab(OrionMain.MODID);
 
@@ -35,15 +38,10 @@ public class OrionItems {
         StoneWand = new ItemStoneWand().setUnlocalizedName("stonewand").setFull3D();
         DiamondWand = new ItemDiamondWand().setUnlocalizedName("diamondwand").setFull3D();
         PearlOrb = new ItemPearlOrb().setUnlocalizedName("pearl_orb").setFull3D();
+        OrionKey= new ItemOrionKey().setUnlocalizedName("orionkey").setFull3D();
     }
 
-    public static void registerClient() {
-        System.out.println("Set Orion model Items!");
-        
-        CommonProxy.ModelItem(IronWand, "inventory");
-        CommonProxy.ModelItem(GoldWand, "inventory");
-        CommonProxy.ModelItem(StoneWand, "inventory");
-        CommonProxy.ModelItem(DiamondWand, "inventory");
-        CommonProxy.ModelItem(PearlOrb, "inventory");
+    public static boolean isOp(EntityPlayer player) {
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getPlayerList().canSendCommands(player.getGameProfile());
     }
 }

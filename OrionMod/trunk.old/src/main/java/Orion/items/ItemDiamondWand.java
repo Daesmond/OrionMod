@@ -5,8 +5,9 @@
  */
 package Orion.items;
 
-import Orion.Proxy.CommonProxy;
 import Orion.OrionItems;
+import Orion.OrionMain;
+import Orion.gui.GuiPassword;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,7 @@ import net.minecraft.world.World;
  *
  * @author Daesmond
  */
-public class ItemDiamondWand  extends Item {
+public class ItemDiamondWand extends ItemAbstract {
 
     public ItemDiamondWand() {
         this.maxStackSize = 1;
@@ -33,63 +34,61 @@ public class ItemDiamondWand  extends Item {
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BLOCK; //super.getItemUseAction(stack); 
+        return EnumAction.BLOCK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000; //super.getMaxItemUseDuration(stack);
+        return 72000;
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-        
+
         System.out.format("Held1: %s\n", itemstack.getUnlocalizedName());
 
         if (!worldIn.isRemote) {
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+        } else {
+            playerIn.openGui(OrionMain.instance, GuiPassword.getGuiID(), worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
         }
 
-        // Open Gui Here?
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-
-        //return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         ItemStack itemstack = player.getHeldItemMainhand();
-        
+
         System.out.format("Held3: %s\n", itemstack.getUnlocalizedName());
-        
-        
-        return super.onLeftClickEntity(stack, player, entity); 
+
+        return super.onLeftClickEntity(stack, player, entity);
     }
-    
-    
+
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack itemstack = player.getHeldItemMainhand();
-        
+
         System.out.format("Held2: %s\n", itemstack.getUnlocalizedName());
-        
+
         if (worldIn.isRemote) {
             return EnumActionResult.SUCCESS;
         }
 
         return EnumActionResult.SUCCESS;
-        //return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        CommonProxy.registerItem(this, unlocalizedName, 0);
+        registerItem(this, unlocalizedName, 0);
         return super.setUnlocalizedName(unlocalizedName);
     }
+
+
 }

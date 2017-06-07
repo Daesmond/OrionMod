@@ -6,6 +6,9 @@
 package Orion.items;
 
 import Orion.OrionItems;
+import Orion.OrionMain;
+import Orion.struct.OrionProtectBlock;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,9 +26,9 @@ import net.minecraft.world.World;
  *
  * @author Daesmond
  */
-public class ItemPearlOrb extends ItemAbstract {
+public class ItemOrionKey extends ItemAbstract {
 
-    public ItemPearlOrb() {
+    public ItemOrionKey() {
         this.maxStackSize = 1;
         this.setCreativeTab(OrionItems.tab);
     }
@@ -40,19 +43,45 @@ public class ItemPearlOrb extends ItemAbstract {
         return 72000;
     }
 
-    @Override
+   @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        System.out.format("Held1: %s\n", itemstack.getUnlocalizedName());
+
+        if (!worldIn.isRemote) {
+            return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+        }
+
+        return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+        ItemStack itemstack = player.getHeldItemMainhand();
+
+        System.out.format("Held3: %s\n", itemstack.getUnlocalizedName());
+
         return super.onLeftClickEntity(stack, player, entity);
     }
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+        ItemStack itemstack = player.getHeldItemMainhand();
+        Block t;
+        String pname = player.getName();
+        String bpos = OrionMain.PosToStr(pos);
+        BlockPos p = pos;
+        OrionProtectBlock opb;
+
+        System.out.format("Held2: %s\n", itemstack.getUnlocalizedName());
+        
+        if (worldIn.isRemote) {
+            return EnumActionResult.SUCCESS;
+        }
+
+
+        return EnumActionResult.SUCCESS;
     }
 
     @Override

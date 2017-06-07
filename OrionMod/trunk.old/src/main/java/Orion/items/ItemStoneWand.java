@@ -5,7 +5,6 @@
  */
 package Orion.items;
 
-import Orion.Proxy.CommonProxy;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.statics.StaticProtected;
@@ -29,10 +28,7 @@ import net.minecraft.world.World;
  *
  * @author Daesmond
  */
-public class ItemStoneWand extends Item {
-
-    StaticProtected sp = StaticProtected.getConfig();
-
+public class ItemStoneWand extends ItemAbstract {
     public ItemStoneWand() {
         this.maxStackSize = 1;
         this.setCreativeTab(OrionItems.tab);
@@ -40,12 +36,12 @@ public class ItemStoneWand extends Item {
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BLOCK; //super.getItemUseAction(stack); 
+        return EnumAction.BLOCK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000; //super.getMaxItemUseDuration(stack);
+        return 72000; 
     }
 
     @Override
@@ -60,8 +56,6 @@ public class ItemStoneWand extends Item {
 
         // Open Gui Here?
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-
-        //return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     @Override
@@ -85,15 +79,20 @@ public class ItemStoneWand extends Item {
             return EnumActionResult.SUCCESS;
         }
 
+        StaticProtected sp = StaticProtected.getConfig();
+        
         opb = sp.isProtected(bpos);
 
         if (opb != null) {
-            sp.Unprotect(worldIn, p, pname);
-            sp.setForUpdate();
+            if (opb.ByName.equals(pname) || OrionItems.isOp(player)) {
+                sp.Unprotect(worldIn, p, pname);
+                sp.setForUpdate();
 
-            player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now unprotected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
-            t = worldIn.getBlockState(p).getBlock();
-            System.out.format("U Block=%s  Hardness=%1.2f  Resistance=%1.2f\n", t.getUnlocalizedName(), sp.getBlockHardness(t), sp.getBlockResistance(t));
+                player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now unprotected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
+                t = worldIn.getBlockState(p).getBlock();
+            } else {
+                player.sendMessage(new TextComponentTranslation(String.format("%s, you cannot unprotect block protected by %s\n", pname, opb.ByName)));
+            }
         }
 
         return EnumActionResult.SUCCESS;
@@ -101,12 +100,12 @@ public class ItemStoneWand extends Item {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        return stack; //super.onItemUseFinish(stack, worldIn, entityLiving);
+        return stack;
     }
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        CommonProxy.registerItem(this, unlocalizedName, 0);
+        registerItem(this, unlocalizedName, 0);
         return super.setUnlocalizedName(unlocalizedName);
     }
 }

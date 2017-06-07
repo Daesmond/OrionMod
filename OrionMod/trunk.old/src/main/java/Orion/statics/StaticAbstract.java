@@ -15,13 +15,17 @@ public abstract class StaticAbstract {
     protected boolean isupdateneeded;
     protected boolean isupdating;
 
+    public String AxisToStr(int x, int y, int z) {
+        return String.format("%s|%s|%s", x, y, z);
+    }
+
     public StaticAbstract() {
         ticks = 0;
         isupdateneeded = false;
         isupdating = false;
     }
-    
-     public void incTicks() {
+
+    public void incTicks() {
         ticks += 1;
     }
 
