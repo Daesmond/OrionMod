@@ -5,9 +5,11 @@
  */
 package Orion.listeners;
 
-import Orion.Proxy.ClientProxy;
 import Orion.gui.GuiPassword;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -21,10 +23,31 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class OrionClientListener {
 
     @SubscribeEvent
-    public void onGuiOpenEvent(InitGuiEvent event) {
-        if (event.getGui() instanceof GuiPassword) {
-            ClientProxy.getMC().setIngameNotInFocus();
+    public void onGuiOpenEvent(GuiOpenEvent event) {
+        if (event.getGui() == null) {
+            GuiPassword g = GuiPassword.getConfig();
+
+            if (g.getConfig().isInit() && g.getConfig().getKeyInt() == 1) { // ESC is BAD!
+                event.setCanceled(true);
+            }
         }
+    }
+
+    
+    @SubscribeEvent
+    public void onTest(MouseEvent event) {
+        
+    }
+    
+    @SubscribeEvent
+    public void onDrawScreenEventPre(DrawScreenEvent.Pre event) {
+//        if (event.getGui() instanceof GuiPassword) {
+//            ClientProxy.network.sendToServer(new OrionMessage(String.format("Mouse x=%d y=%d", event.getMouseX(), event.getMouseY())));
+//        }
+    }
+
+    @SubscribeEvent
+    public void onGuiKeyInputEvent(KeyboardInputEvent event) {
     }
 
     @SubscribeEvent

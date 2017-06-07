@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -21,7 +22,8 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessage> {
 
-    public static boolean isFirst = false;
+    private boolean isFirst = false;
+    private GameType myGameType;
 
     @Override
     public IMessage onMessage(OrionMessage msg, MessageContext ctx) {
@@ -29,6 +31,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
         String preENTER = "ENTERPASS";
         String preNOTAUTH = "NOTAUTH";
         String preSHUT = "Madugas ka";
+        String preAUTH = "you are now authenticated!";
 
         if (ctx.side == Side.SERVER) { // Server side
             StaticUsers su = StaticUsers.getConfig();
@@ -39,7 +42,6 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             if (msg.Message.startsWith(preNOTAUTH)) {
                 //System.out.format("NOT YET AUTH ENTER PASS AGAIN %s\r\n", pname);
                 //ServerProxy.network.sendTo(new OrionMessage(preENTER), p);
-
                 ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p); // Probably escaped GUI so shutdown client instead
             } else if (msg.Message.startsWith(prePass)) {
                 String pass = msg.Message.replaceAll(prePass, "");
@@ -48,8 +50,9 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                     System.out.format("> %s %s\r\n", preSHUT, p.getName());
                     ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else { // Successful authentication
-                    System.out.format("> %s is now authenticted!\r\n", pname);
-                    p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!", pname)));
+                    System.out.format("> %s is now authenticated!\r\n", pname);
+                    p.capabilities.disableDamage = false;
+                    p.sendMessage(new TextComponentTranslation(String.format("%s %s", pname, preAUTH)));
                 }
             }
         } else { // Client Side            
@@ -58,29 +61,27 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
             // System.out.println(String.format("Received %s from Server", msg.Message));
 
             if (msg.Message.equals(preENTER)) {
-                if (!OrionMessageHandler.isFirst) {
-                    EntityPlayer p = Minecraft.getMinecraft().world.getPlayerEntityByName(pname);
-                    boolean pasok = true;
+                if (!isFirst) {
+                    EntityPlayer p = ClientProxy.getMC().world.getPlayerEntityByName(pname);
+                    int sleeptime = 50;
 
-                    while (pasok) { // Make sure inGameHashFocus before opening GUI
-                        pasok = !Minecraft.getMinecraft().inGameHasFocus;
-
+                    while (!Minecraft.getMinecraft().inGameHasFocus) { // Make sure inGameHashFocus before opening GUI
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(sleeptime);
+                            sleeptime += 50;
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
 
                     if (mc.inGameHasFocus) {
-                        OrionMessageHandler.isFirst = true;
-                        //ClientProxy.LoadGuiPassword();
-                        ClientProxy.LoadGuiPassword(p);
+                        isFirst = true;
+                        ClientProxy.LoadGuiPassword();
                     }
                 }
             } else if (msg.Message.startsWith(preSHUT)) {
                 Minecraft.getMinecraft().shutdown();
-                System.exit(-1);
+                //System.exit(-1);
             }
         }
 
