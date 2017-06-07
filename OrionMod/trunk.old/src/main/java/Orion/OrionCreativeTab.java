@@ -5,8 +5,8 @@
  */
 package Orion;
 
+import Orion.items.ItemPearlOrb;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
  */
 public class OrionCreativeTab extends CreativeTabs {
 
-    public Item item = Items.STICK;
+    public Item item = (Item) new ItemPearlOrb();
     public int meta = 0;
 
     public OrionCreativeTab(String label) {

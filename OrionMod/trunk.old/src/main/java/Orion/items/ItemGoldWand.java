@@ -1,9 +1,8 @@
 package Orion.items;
 
 
-import Orion.CommonProxy;
+import Orion.Proxy.CommonProxy;
 import Orion.OrionItems;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +29,7 @@ public class ItemGoldWand extends Item {
 
     public ItemGoldWand() {
         this.maxStackSize = 1;        
-        this.setCreativeTab(CreativeTabs.INVENTORY);
+        this.setCreativeTab(OrionItems.tab);
     }
 
     

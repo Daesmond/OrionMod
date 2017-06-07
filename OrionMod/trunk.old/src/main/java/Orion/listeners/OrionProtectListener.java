@@ -6,7 +6,6 @@
 package Orion.listeners;
 
 import Orion.OrionMain;
-import static Orion.OrionMain.PosToStr;
 import Orion.struct.OrionProtectBlock;
 import Orion.OrionReflection;
 import Orion.statics.StaticOrion;
@@ -29,6 +28,7 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  *
@@ -36,17 +36,16 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
  */
 public class OrionProtectListener {
 
-    StaticProtected sp = StaticProtected.getConfig();
-    StaticOrion so = StaticOrion.getConfig();
-
     @SubscribeEvent
     public void eBreakBlock(BlockEvent.BreakEvent e) {
-        String bpos = OrionMain.PosToStr(e.getPos());
-        OrionProtectBlock opb = sp.isProtected(bpos);
-
         if (e.getWorld().isRemote) {
             return;
         }
+
+        StaticProtected sp = StaticProtected.getConfig();
+
+        String bpos = OrionMain.PosToStr(e.getPos());
+        OrionProtectBlock opb = sp.isProtected(bpos);
 
         if (opb != null) {
             String byname = opb.ByName;
@@ -74,6 +73,7 @@ public class OrionProtectListener {
             return;
         }
 
+        StaticProtected sp = StaticProtected.getConfig();
         EntityPlayer player = e.getEntityPlayer();
         String pname = e.getEntity().getName();
 
@@ -113,6 +113,12 @@ public class OrionProtectListener {
 
     @SubscribeEvent
     public void onServerWorldTick(WorldTickEvent event) {
+        if (event.side == Side.CLIENT) {
+            return;
+        }
+
+        StaticProtected sp = StaticProtected.getConfig();
+
         if (event.phase == Phase.END && sp.IsUpdateNeeded()) {
             if (sp.getTicks() >= 1200) {
                 sp.setNotForUpdate();
@@ -126,6 +132,7 @@ public class OrionProtectListener {
 
     @SubscribeEvent
     public void eBoomEvent(ExplosionEvent.Detonate event) {
+        StaticProtected sp = StaticProtected.getConfig();
         boolean isCancel = false;
         Set<BlockPos> obombs = Sets.<BlockPos>newHashSet();
 
@@ -156,6 +163,8 @@ public class OrionProtectListener {
     }
 
     private void CreeperExplode(EntityCreeper creeper) {
+        StaticOrion so = StaticOrion.getConfig();
+        
         if (creeper.getCreeperState() == 1) {
             int ignite = OrionReflection.getIntField(creeper, "field_70833_d");
             int fuse = OrionReflection.getIntField(creeper, "field_82225_f");
@@ -211,7 +220,7 @@ public class OrionProtectListener {
         }
 
         if (blk.getUnlocalizedName().toLowerCase().contains("chest")) {
-            System.out.format("Block: %s\n", blk.getLocalizedName());            
+            System.out.format("Block: %s\n", blk.getLocalizedName());
         }
     }
 

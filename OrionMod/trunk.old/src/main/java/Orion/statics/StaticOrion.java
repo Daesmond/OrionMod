@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Loader;
  *
  * @author Daesmond
  */
-public class StaticOrion {
+public class StaticOrion extends StaticAbstract {
 
     private static StaticOrion ConfigOrion;
     private static final String SPAWN_DEFAULT = "SpawnDefault";
@@ -33,21 +33,16 @@ public class StaticOrion {
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
-    private int ticks;
-    private boolean isupdateneeded;
-    private boolean isupdating;
+
 
     private StaticOrion() {
-        System.out.println(Thread.currentThread().getStackTrace());
+        super();
         
         cMap = Collections.synchronizedMap(new HashMap<String, HashMap>(1000));
         //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
         ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
         ConfigFile = new File(String.format("%s/OrionConfig.json", ConfigDir));
         ConfigTemp = new File(String.format("%s/OrionConfig.json.tmp", ConfigDir));
-        ticks = 0;
-        isupdateneeded = false;
-        isupdating = false;
 
         if (!ConfigDir.exists()) {
             ConfigDir.mkdir();
@@ -64,25 +59,21 @@ public class StaticOrion {
         }
 
         LoadConfig();
-        Config = cMap.get(ORIONCONFIG);
-//        System.out.println(Config.size());
-    }
 
-    public static String getCallerCallerClassName() {
-        System.out.println("Caller Class");
-        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        String callerClassName = null;
-        for (int i = 1; i < stElements.length; i++) {
-            StackTraceElement ste = stElements[i];
-            if (!ste.getClassName().equals(StaticOrion.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
-                if (callerClassName == null) {
-                    callerClassName = ste.getClassName();
-                } else if (!callerClassName.equals(ste.getClassName())) {
-                    return ste.getClassName();
-                }
-            }
+        if (!cMap.containsKey(ORIONCONFIG)) {
+            HashMap<String, String> cb = new HashMap<>();
+
+            cb.put(CREEPERS_BLOWS, "false");
+            cMap.put(ORIONCONFIG, cb);
+            SaveConfig();
         }
-        return null;
+        
+        if (!cMap.containsKey(SPAWN_DEFAULT)) {
+            cMap.put(SPAWN_DEFAULT, new HashMap<>());
+            SaveConfig();
+        }
+
+        Config = cMap.get(ORIONCONFIG);
     }
 
     public static StaticOrion getConfig() {
@@ -108,6 +99,12 @@ public class StaticOrion {
     }
 
     public String getDefaultSpawnPrintable() {
+        Object o = cMap.get(SPAWN_DEFAULT);
+
+        if (o == null) {
+            return null;
+        }
+
         return String.format("X=>%s  Y=>%s  Z=>%s", getDefaultSpawnAxis("X"), getDefaultSpawnAxis("Y"), getDefaultSpawnAxis("Z"));
     }
 
@@ -158,29 +155,7 @@ public class StaticOrion {
         hString.put(axis, value);
     }
 
-    public void incTicks() {
-        ticks += 1;
-    }
-
-    public int getTicks() {
-        return ticks;
-    }
-
-    public void resetTicks() {
-        ticks = 0;
-    }
-
-    public boolean IsUpdateNeeded() {
-        return isupdateneeded;
-    }
-
-    public void setForUpdate() {
-        isupdateneeded = true;
-    }
-
-    public void setNotForUpdate() {
-        isupdateneeded = false;
-    }
+   
 
     public boolean AllowCreeperToExplode() {
         return Boolean.parseBoolean(Config.get(CREEPERS_BLOWS));

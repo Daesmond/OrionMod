@@ -18,33 +18,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Loader;
 
 /**
  *
  * @author Daesmond
  */
-public class StaticLock {
+public class StaticLock extends StaticAbstract {
 
     private static StaticLock ConfigLock;
     private final Map<String, OrionLockBlock> cMap;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
-    private int ticks;
-    private boolean isupdateneeded;
-    private boolean isupdating;
+
 
     public StaticLock() {
+        super();
         cMap = Collections.synchronizedMap(new HashMap<>(10000));
         //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
         ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
         ConfigFile = new File(String.format("%s/Locked.json", ConfigDir));
         ConfigTemp = new File(String.format("%s/Locked.json.tmp", ConfigDir));
-        ticks = 0;
-        isupdateneeded = false;
-        isupdating = false;
 
         if (!ConfigDir.exists()) {
             ConfigDir.mkdir();
@@ -62,30 +57,6 @@ public class StaticLock {
             ConfigLock = new StaticLock();
         }
         return ConfigLock;
-    }
-
-    public void incTicks() {
-        ticks += 1;
-    }
-
-    public int getTicks() {
-        return ticks;
-    }
-
-    public void resetTicks() {
-        ticks = 0;
-    }
-
-    public boolean IsUpdateNeeded() {
-        return isupdateneeded;
-    }
-
-    public void setForUpdate() {
-        isupdateneeded = true;
-    }
-
-    public void setNotForUpdate() {
-        isupdateneeded = false;
     }
 
     private void LoadConfig() {

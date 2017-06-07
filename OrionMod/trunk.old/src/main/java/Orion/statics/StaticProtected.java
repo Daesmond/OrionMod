@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.Loader;
  *
  * @author Daesmond
  */
-public class StaticProtected {
+public class StaticProtected extends StaticAbstract {
 
     private static StaticProtected ConfigProtected;
     private final Map<String, OrionProtectBlock> cMap;
@@ -37,20 +37,15 @@ public class StaticProtected {
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
-    private int ticks;
-    private boolean isupdateneeded;
-    private boolean isupdating;
 
     private StaticProtected() {
+        super();
         cMap = Collections.synchronizedMap(new HashMap<>(1000000));
         cPlayer = Collections.synchronizedMap(new HashMap<>(1000));
         //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
         ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
         ConfigFile = new File(String.format("%s/Protected.json", ConfigDir));
         ConfigTemp = new File(String.format("%s/Protected.json.tmp", ConfigDir));
-        ticks = 0;
-        isupdateneeded = false;
-        isupdating = false;
 
         if (!ConfigDir.exists()) {
             ConfigDir.mkdir();
@@ -195,30 +190,6 @@ public class StaticProtected {
         }
 
         return (Boolean) cPlayer.get(pname);
-    }
-
-    public void incTicks() {
-        ticks += 1;
-    }
-
-    public int getTicks() {
-        return ticks;
-    }
-
-    public void resetTicks() {
-        ticks = 0;
-    }
-
-    public boolean IsUpdateNeeded() {
-        return isupdateneeded;
-    }
-
-    public void setForUpdate() {
-        isupdateneeded = true;
-    }
-
-    public void setNotForUpdate() {
-        isupdateneeded = false;
     }
 
     private void LoadConfig() {

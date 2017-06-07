@@ -5,12 +5,12 @@
  */
 package Orion.items;
 
-import Orion.CommonProxy;
+import Orion.Proxy.CommonProxy;
+import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.statics.StaticProtected;
 import Orion.struct.OrionProtectBlock;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class ItemIronWand extends Item {
 
     public ItemIronWand() {
         this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.INVENTORY);
+        this.setCreativeTab(OrionItems.tab);
     }
 
     @Override

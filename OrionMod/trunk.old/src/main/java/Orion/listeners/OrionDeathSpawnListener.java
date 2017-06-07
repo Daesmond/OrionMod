@@ -21,34 +21,37 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 public class OrionDeathSpawnListener {
 
     ArrayList<String> DeadPlayers = new ArrayList<String>();
-    StaticOrion so = StaticOrion.getConfig();
 
     @SubscribeEvent
     public void ePlayerLoginOrion(PlayerEvent.PlayerLoggedInEvent e) {
         String pname;
 
-        if (!e.player.world.isRemote) {
+        if (e.player.getServer().isSinglePlayer()) {
+            return;
+        }
+
+        if (e.player.world.isRemote) {
+            StaticOrion so = StaticOrion.getConfig();
             pname = e.player.getName();
 
-            /*            
-            System.out.format("Score=%d  Age=%d\n", e.player.getScore(), e.player.getAge());
-
-            Collection<Score> sp = e.player.getWorldScoreboard().getScores();
-
-            for (Score s : sp) {
-                System.out.format("Player=%s  %s=>%d\n", s.getPlayerName(), s.getObjective().getName(), s.getScorePoints());
-            }
-             */
             if (e.player.getScore() == 0) {
-                System.out.format("%s joining and spawning to location >> %s\n", pname, so.getDefaultSpawnPrintable());
+                if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).trim().isEmpty()) {
+                    return;
+                }
 
-                                
+                System.out.format("%s joining and spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
+
+                try {
+                    Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+                } catch (Exception ex) {
+                    return;
+                }
+
                 int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
                 int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));
                 int Z = Integer.parseInt(so.getMySpawnAxis(pname, "Z"));
 
                 e.player.velocityChanged = true;
-                //e.player.setLocationAndAngles(X, Y, Z, 0, 0);
                 e.player.setPositionAndUpdate(X, Y, Z);
                 e.player.velocityChanged = false;
             }
@@ -73,7 +76,7 @@ public class OrionDeathSpawnListener {
             return;
         }
 
-        if (!(e.getEntity() instanceof EntityPlayer)) {
+        if (!(e.getEntity() instanceof EntityPlayerMP)) {
             return;
         }
 
@@ -81,12 +84,23 @@ public class OrionDeathSpawnListener {
             return;
         }
 
-        if (!e.getEntity().world.isRemote) {
+        if (e.getEntity().world.isRemote) {
+            StaticOrion so = StaticOrion.getConfig();
             EntityPlayerMP p = (EntityPlayerMP) e.getEntity();
             String pname = p.getName();
 
+            try {
+                Integer.parseInt(so.getMySpawnAxis(pname, "X"));
+            } catch (Exception ex) {
+                return;
+            }
+
             if (DeadPlayers.contains(pname)) {
-                System.out.format("%s is spawning to location >> %s\n", pname, so.getDefaultSpawnPrintable());
+                if (so.getMySpawnPrintable(pname) == null || so.getMySpawnPrintable(pname).isEmpty()) {
+                    return;
+                }
+
+                System.out.format("%s is spawning to location >> %s\n", pname, so.getMySpawnPrintable(pname));
 
                 int X = Integer.parseInt(so.getMySpawnAxis(pname, "X"));
                 int Y = Integer.parseInt(so.getMySpawnAxis(pname, "Y"));

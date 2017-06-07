@@ -5,8 +5,8 @@
  */
 package Orion.items;
 
-import Orion.CommonProxy;
-import net.minecraft.creativetab.CreativeTabs;
+import Orion.Proxy.CommonProxy;
+import Orion.OrionItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class ItemDiamondWand  extends Item {
 
     public ItemDiamondWand() {
         this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.INVENTORY);
+        this.setCreativeTab(OrionItems.tab);
     }
 
     @Override
