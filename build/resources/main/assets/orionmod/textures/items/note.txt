@@ -1,0 +1,5 @@
+The Following Textures are created by iGrek.  Thanks Pal.
+diamondwand.png
+ironwand.png
+stonewand.png
+goldwand.png
