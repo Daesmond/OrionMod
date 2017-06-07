@@ -60,7 +60,6 @@ public class StaticLock extends StaticAbstract {
 
     private void LoadConfig() {
         try {
-
             System.out.println("Loading Orion Lock chest/doors Configurations!");
 
             JsonReader reader = new JsonReader(new FileReader(ConfigFile));
@@ -88,12 +87,6 @@ public class StaticLock extends StaticAbstract {
 
     public void SaveConfig() {
         try {
-            if (isupdating) {
-                return;
-            }
-
-            isupdating = true;
-
             System.out.println("Saving Orion Lock chest/doors Configurations!");
 
             JsonWriter writer = new JsonWriter(new FileWriter(ConfigTemp));
@@ -105,10 +98,10 @@ public class StaticLock extends StaticAbstract {
             while (iMap.hasNext()) {
                 Map.Entry mentry = (Map.Entry) iMap.next();
                 String text = (String) mentry.getKey();
-                OrionLockBlock val = (OrionLockBlock) mentry.getValue();
+                String val = (String) mentry.getValue();
 
                 writer.name(text);
-                writer.value(val.getJsonLine());
+                writer.value(val);
             }
 
             writer.endObject();
@@ -122,7 +115,6 @@ public class StaticLock extends StaticAbstract {
                 ConfigTemp.renameTo(ConfigFile);
             }
 
-            isupdating = false;
             System.out.println("Done Saving Orion Lock chest/doors Configurations!");
         } catch (Exception ex) {
             ex.printStackTrace();
