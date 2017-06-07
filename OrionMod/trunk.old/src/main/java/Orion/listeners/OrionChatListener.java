@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.listeners;
 
+import Orion.statics.StaticOrion;
+import Orion.statics.StaticProtected;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -63,7 +65,7 @@ public class OrionChatListener {
         } else if (msg.contains("protection off")) {
             sp.UnsetProtection(player.getName());
             player.sendMessage(new TextComponentTranslation(String.format("%s protection is now set off!\n", pname)));
-        } else if (msg.contains("protect coord ")) {
+        } else if (msg.startsWith("protect coord ")) {
             String s = msg.replace("protect coord ", "");
             String[] s2 = s.split(" ");
             String[] s3 = s2[0].split("\\,");
@@ -75,7 +77,7 @@ public class OrionChatListener {
             b = new BlockPos(Integer.parseInt(s4[0]), Integer.parseInt(s4[1]), Integer.parseInt(s4[2]));
             sp.Protection3D(player.getServerWorld(), pname, a, b);
             player.sendMessage(new TextComponentTranslation(String.format("%s protection is now set on block coordinates!\n", pname)));
-        } else if (msg.contains("unprotect coord ")) {
+        } else if (msg.startsWith("unprotect coord ")) {
             String s = msg.replace("unprotect coord ", "");
             String[] s2 = s.split(" ");
             String[] s3 = s2[0].split("\\,");

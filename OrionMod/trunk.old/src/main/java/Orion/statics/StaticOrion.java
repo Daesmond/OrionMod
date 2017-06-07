@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.statics;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -26,7 +26,10 @@ public class StaticOrion {
 
     private static StaticOrion ConfigOrion;
     private static final String SPAWN_DEFAULT = "SpawnDefault";
-    private final Map<String,HashMap> cMap;
+    private static final String ORIONCONFIG = "CONFIG";
+    private static final String CREEPERS_BLOWS = "CreepersBlows";
+    private final Map<String, HashMap> cMap;
+    private final Map<String, String> Config;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
@@ -35,6 +38,8 @@ public class StaticOrion {
     private boolean isupdating;
 
     private StaticOrion() {
+        System.out.println(Thread.currentThread().getStackTrace());
+        
         cMap = Collections.synchronizedMap(new HashMap<String, HashMap>(1000));
         //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
         ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
@@ -43,21 +48,46 @@ public class StaticOrion {
         ticks = 0;
         isupdateneeded = false;
         isupdating = false;
-        
+
         if (!ConfigDir.exists()) {
             ConfigDir.mkdir();
         }
 
         if (!ConfigFile.exists()) {
+            HashMap<String, String> cb = new HashMap<>();
+
+            cb.put(CREEPERS_BLOWS, "false");
+
             cMap.put(SPAWN_DEFAULT, new HashMap<>());
+            cMap.put(ORIONCONFIG, cb);
             SaveConfig();
         }
 
         LoadConfig();
+        Config = cMap.get(ORIONCONFIG);
+//        System.out.println(Config.size());
+    }
+
+    public static String getCallerCallerClassName() {
+        System.out.println("Caller Class");
+        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+        String callerClassName = null;
+        for (int i = 1; i < stElements.length; i++) {
+            StackTraceElement ste = stElements[i];
+            if (!ste.getClassName().equals(StaticOrion.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                if (callerClassName == null) {
+                    callerClassName = ste.getClassName();
+                } else if (!callerClassName.equals(ste.getClassName())) {
+                    return ste.getClassName();
+                }
+            }
+        }
+        return null;
     }
 
     public static StaticOrion getConfig() {
         if (ConfigOrion == null) {
+            //System.out.println(getCallerCallerClassName());
             ConfigOrion = new StaticOrion();
         }
         return ConfigOrion;
@@ -152,6 +182,10 @@ public class StaticOrion {
         isupdateneeded = false;
     }
 
+    public boolean AllowCreeperToExplode() {
+        return Boolean.parseBoolean(Config.get(CREEPERS_BLOWS));
+    }
+
     private void LoadConfig() {
         try {
 
@@ -209,7 +243,7 @@ public class StaticOrion {
                 return;
             }
             isupdating = true;
-            
+
             System.out.println("Saving Orion Configurations!");
 
             JsonWriter writer = new JsonWriter(new FileWriter(ConfigTemp));

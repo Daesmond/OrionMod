@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.statics;
 
+import Orion.OrionMain;
+import Orion.struct.OrionProtectBlock;
+import Orion.OrionReflection;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -133,7 +136,7 @@ public class StaticProtected {
     }
 
     public void Protect(World world, BlockPos bp, String pname) {
-        String axis = PosToStr(bp);
+        String axis = OrionMain.PosToStr(bp);
         Object o = cMap.get(axis);
 
         if (o == null) {
@@ -158,7 +161,7 @@ public class StaticProtected {
     }
 
     public void Unprotect(World world, BlockPos bp, String pname) {
-        String axis = PosToStr(bp);
+        String axis = OrionMain.PosToStr(bp);
         Object o = cMap.get(axis);
 
         if (o != null) {
@@ -294,10 +297,6 @@ public class StaticProtected {
         }
     }
 
-    public String PosToStr(BlockPos b) {
-        return String.format("%s|%s|%s", b.getX(), b.getY(), b.getZ());
-    }
-
     private String AxisToStr(int x, int y, int z) {
         return String.format("%s|%s|%s", x, y, z);
     }
@@ -426,7 +425,7 @@ public class StaticProtected {
             }
         }
 
-        System.out.format("Protected Coordinates: %s-%s\n", PosToStr(a), AxisToStr(resx, resy, resz));
+        System.out.format("Protected Coordinates: %s-%s\n", OrionMain.PosToStr(a), AxisToStr(resx, resy, resz));
         this.setForUpdate();
     }
 
@@ -447,11 +446,8 @@ public class StaticProtected {
 
                 while (true) {
                     BlockPos bp = new BlockPos(resx, resy, resz);
-                    Block blk = world.getBlockState(bp).getBlock();
 
-                    if ((blk != Blocks.AIR) && (blk != Blocks.LAVA) && (blk != Blocks.LEAVES) && (blk != Blocks.LEAVES2) && (blk != Blocks.WATER)) {
-                        this.Unprotect(world, bp, pname);
-                    }
+                    this.Unprotect(world, bp, pname);
 
                     if (resz == b.getZ()) {
                         break;
@@ -486,7 +482,7 @@ public class StaticProtected {
             }
         }
 
-        System.out.format("Protected Coordinates: %s-%s\n", PosToStr(a), AxisToStr(resx, resy, resz));
+        System.out.format("UnProtected Coordinates: %s-%s\n", OrionMain.PosToStr(a), AxisToStr(resx, resy, resz));
         this.setForUpdate();
     }
 

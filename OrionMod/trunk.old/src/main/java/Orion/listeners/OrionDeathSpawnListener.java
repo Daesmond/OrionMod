@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.listeners;
 
+import Orion.statics.StaticOrion;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -80,7 +82,7 @@ public class OrionDeathSpawnListener {
         }
 
         if (!e.getEntity().world.isRemote) {
-            EntityPlayer p = (EntityPlayer) e.getEntity();
+            EntityPlayerMP p = (EntityPlayerMP) e.getEntity();
             String pname = p.getName();
 
             if (DeadPlayers.contains(pname)) {
@@ -92,8 +94,9 @@ public class OrionDeathSpawnListener {
 
                 DeadPlayers.remove(pname);
                 p.velocityChanged = true;
-                //p.setLocationAndAngles(X, Y, Z, 0, 0);
-                p.setPositionAndUpdate(X, Y, Z);
+                p.connection.setPlayerLocation(X, Y, Z, 0, 0);
+                //p.setLocationAndAngles(X, Y, Z, 0, 0);                
+                //p.setPositionAndUpdate(X, Y, Z);
                 p.velocityChanged = false;
             }
         }

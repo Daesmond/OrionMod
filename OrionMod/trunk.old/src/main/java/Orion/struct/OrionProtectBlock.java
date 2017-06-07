@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.struct;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;

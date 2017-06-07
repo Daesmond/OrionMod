@@ -3,16 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orion;
+package Orion.listeners;
 
+import Orion.OrionMain;
+import static Orion.OrionMain.PosToStr;
+import Orion.struct.OrionProtectBlock;
+import Orion.OrionReflection;
+import Orion.statics.StaticOrion;
+import Orion.statics.StaticProtected;
 import com.google.common.collect.Sets;
 import java.util.Set;
 import net.minecraft.block.Block;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
@@ -27,14 +37,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 public class OrionProtectListener {
 
     StaticProtected sp = StaticProtected.getConfig();
-
-    private String PosToStr(BlockPos b) {
-        return String.format("%s|%s|%s", b.getX(), b.getY(), b.getZ());
-    }
+    StaticOrion so = StaticOrion.getConfig();
 
     @SubscribeEvent
     public void eBreakBlock(BlockEvent.BreakEvent e) {
-        String bpos = PosToStr(e.getPos());
+        String bpos = OrionMain.PosToStr(e.getPos());
         OrionProtectBlock opb = sp.isProtected(bpos);
 
         if (e.getWorld().isRemote) {
@@ -66,7 +73,7 @@ public class OrionProtectListener {
         if (!(e.getEntity() instanceof EntityPlayer)) {
             return;
         }
-        
+
         EntityPlayer player = e.getEntityPlayer();
         String pname = e.getEntity().getName();
 
@@ -75,7 +82,7 @@ public class OrionProtectListener {
         }
 
         BlockPos p = e.getPos();
-        String bpos = PosToStr(e.getPos());
+        String bpos = OrionMain.PosToStr(e.getPos());
         Item i = player.getHeldItemMainhand().getItem();
         Block t;
         OrionProtectBlock opb = sp.isProtected(bpos);
@@ -123,7 +130,7 @@ public class OrionProtectListener {
         Set<BlockPos> obombs = Sets.<BlockPos>newHashSet();
 
         for (BlockPos bp : event.getAffectedBlocks()) {
-            Object o = (Object) sp.isProtected(PosToStr(bp));
+            Object o = (Object) sp.isProtected(OrionMain.PosToStr(bp));
             Block blk = event.getWorld().getBlockState(bp).getBlock();
 
             if (o != null) {
@@ -140,4 +147,72 @@ public class OrionProtectListener {
             event.getAffectedBlocks().addAll(obombs);
         }
     }
+
+    @SubscribeEvent
+    public void eLivingUpdateEvent(LivingEvent.LivingUpdateEvent event) {
+        if (event.getEntityLiving() instanceof EntityCreeper) {
+            CreeperExplode((EntityCreeper) event.getEntityLiving());
+        }
+    }
+
+    private void CreeperExplode(EntityCreeper creeper) {
+        if (creeper.getCreeperState() == 1) {
+            int ignite = OrionReflection.getIntField(creeper, "field_70833_d");
+            int fuse = OrionReflection.getIntField(creeper, "field_82225_f");
+
+            if (ignite >= fuse - 1) {
+
+                if (!so.AllowCreeperToExplode()) {
+                    creeper.setDead();
+
+                    if (!creeper.getEntityWorld().isRemote) {
+                        creeper.getEntityWorld().playSound((EntityPlayer) null, creeper.posX, creeper.posY, creeper.posZ, SoundEvents.ENTITY_FIREWORK_TWINKLE,
+                                SoundCategory.BLOCKS, 0.5f, (1.0f + (creeper.getEntityWorld().rand.nextFloat() - creeper.getEntityWorld().rand.nextFloat()) * 0.2f) * 0.7f);
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void ePlaceBlock(BlockEvent.PlaceEvent e) {
+//        BlockPos bp = e.getPos();
+//        ItemStack i = e.getItemInHand();
+//        EntityPlayer p = e.getPlayer();
+//        String pname = e.getPlayer().getName();
+//        World w = e.getWorld();
+//
+//        if (sp.isProtection(pname)) {
+//
+//            if (i.getUnlocalizedName().equals("tile.stone.stone")) {
+//                //if (w.isRemote) {
+//                //new GuiTutorial();
+//                System.out.format("GUI!!!\n");
+//                p.openGui(OrionMain.instance, GuiHandler.getGuiID(), w, p.getPosition().getX(), p.getPosition().getY(), p.getPosition().getZ());
+//                //o}
+//
+//            }
+//            
+//            e.setCanceled(true);
+//            w.updateEntity(p);
+//            System.out.format("Item: %s\n", i.getUnlocalizedName());
+//        }
+    }
+
+    @SubscribeEvent
+    public void ePlayer(PlayerInteractEvent.LeftClickBlock e) {
+        EntityPlayer p = e.getEntityPlayer();
+        BlockPos bp = e.getPos();
+        World w = e.getWorld();
+        Block blk = w.getBlockState(bp).getBlock();
+
+        if (p == null) {
+            return;
+        }
+
+        if (blk.getUnlocalizedName().toLowerCase().contains("chest")) {
+            System.out.format("Block: %s\n", blk.getLocalizedName());            
+        }
+    }
+
 }
