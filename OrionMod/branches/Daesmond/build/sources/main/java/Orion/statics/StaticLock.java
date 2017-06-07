@@ -6,7 +6,6 @@
 package Orion.statics;
 
 import Orion.struct.OrionLockBlock;
-import Orion.struct.OrionProtectBlock;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.common.Loader;
 public class StaticLock extends StaticAbstract {
 
     private static StaticLock ConfigLock;
-    private final Map<String, OrionLockBlock> cMap;
+    private final Map<String, String> cMap;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
@@ -72,28 +71,9 @@ public class StaticLock extends StaticAbstract {
 
                 if (tokenType == JsonToken.NAME) {
                     String text = reader.nextName();
-                    OrionLockBlock olb = new OrionLockBlock();
+                    String val = reader.nextString();
 
-                    JsonToken tokenType2 = reader.peek();
-                    
-                    
-                    if (tokenType2 == JsonToken.BEGIN_OBJECT) {
-                        reader.beginObject();
-                        
-                        while (reader.hasNext()) {
-                            String text2 = reader.nextName();
-                            String value = reader.nextString();
-                        }
-                        
-                        reader.endObject();
-                    }
-                    
-                    
-                    //olb.ByName = value;
-                    //opb.axis = text;
-                    //opb.pos = new BlockPos(Integer.parseInt(axis[0]), Integer.parseInt(axis[1]), Integer.parseInt(axis[2]));
-
-                    cMap.put(text, olb);
+                    cMap.put(text, val);
                 } else {
                     reader.skipValue();
                 }
@@ -125,10 +105,10 @@ public class StaticLock extends StaticAbstract {
             while (iMap.hasNext()) {
                 Map.Entry mentry = (Map.Entry) iMap.next();
                 String text = (String) mentry.getKey();
-                OrionProtectBlock val = (OrionProtectBlock) mentry.getValue();
+                OrionLockBlock val = (OrionLockBlock) mentry.getValue();
 
                 writer.name(text);
-                writer.value(val.ByName);
+                writer.value(val.getJsonLine());
             }
 
             writer.endObject();

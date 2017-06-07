@@ -38,6 +38,7 @@ public class OrionMain {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //test1.main(null);
         proxy.preInit(event);
     }
 

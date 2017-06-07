@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessage> {
 
     private boolean isFirst = false;
+    private GameType myGameType;
 
     @Override
     public IMessage onMessage(OrionMessage msg, MessageContext ctx) {
@@ -29,6 +31,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
         String preENTER = "ENTERPASS";
         String preNOTAUTH = "NOTAUTH";
         String preSHUT = "Madugas ka";
+        String preAUTH = "you are now authenticated!";
 
         if (ctx.side == Side.SERVER) { // Server side
             StaticUsers su = StaticUsers.getConfig();
@@ -48,7 +51,8 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                     ServerProxy.network.sendTo(new OrionMessage(String.format("%s %s", preSHUT, pname)), p);
                 } else { // Successful authentication
                     System.out.format("> %s is now authenticated!\r\n", pname);
-                    p.sendMessage(new TextComponentTranslation(String.format("%s you are now authenticated!", pname)));
+                    p.capabilities.disableDamage = false;
+                    p.sendMessage(new TextComponentTranslation(String.format("%s %s", pname, preAUTH)));
                 }
             }
         } else { // Client Side            
@@ -58,13 +62,13 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
 
             if (msg.Message.equals(preENTER)) {
                 if (!isFirst) {
-                    EntityPlayer p = Minecraft.getMinecraft().world.getPlayerEntityByName(pname);
+                    EntityPlayer p = ClientProxy.getMC().world.getPlayerEntityByName(pname);
                     int sleeptime = 50;
 
                     while (!Minecraft.getMinecraft().inGameHasFocus) { // Make sure inGameHashFocus before opening GUI
                         try {
                             Thread.sleep(sleeptime);
-                            sleeptime+=50;
+                            sleeptime += 50;
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -77,7 +81,7 @@ public class OrionMessageHandler implements IMessageHandler<OrionMessage, IMessa
                 }
             } else if (msg.Message.startsWith(preSHUT)) {
                 Minecraft.getMinecraft().shutdown();
-                System.exit(-1);
+                //System.exit(-1);
             }
         }
 

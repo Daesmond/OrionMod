@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Orion.statics;
+package test;
 
 import Orion.struct.OrionLockBlock;
+import Orion.struct.OrionProtectBlock;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -17,26 +13,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraft.client.Minecraft;
 
 /**
  *
  * @author Daesmond
  */
-public class StaticLock extends StaticAbstract {
+public class test1 {
 
-    private static StaticLock ConfigLock;
     private final Map<String, String> cMap;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
 
+    public test1() {
 
-    public StaticLock() {
-        super();
         cMap = Collections.synchronizedMap(new HashMap<>(10000));
-        //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
-        ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
+        ConfigDir = new File("f:/games/mcsf/config/Orion");
+        //ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
         ConfigFile = new File(String.format("%s/Locked.json", ConfigDir));
         ConfigTemp = new File(String.format("%s/Locked.json.tmp", ConfigDir));
 
@@ -49,13 +43,6 @@ public class StaticLock extends StaticAbstract {
         }
 
         LoadConfig();
-    }
-
-    public static StaticLock getConfig() {
-        if (ConfigLock == null) {
-            ConfigLock = new StaticLock();
-        }
-        return ConfigLock;
     }
 
     private void LoadConfig() {
@@ -88,12 +75,6 @@ public class StaticLock extends StaticAbstract {
 
     public void SaveConfig() {
         try {
-            if (isupdating) {
-                return;
-            }
-
-            isupdating = true;
-
             System.out.println("Saving Orion Lock chest/doors Configurations!");
 
             JsonWriter writer = new JsonWriter(new FileWriter(ConfigTemp));
@@ -105,10 +86,10 @@ public class StaticLock extends StaticAbstract {
             while (iMap.hasNext()) {
                 Map.Entry mentry = (Map.Entry) iMap.next();
                 String text = (String) mentry.getKey();
-                OrionLockBlock val = (OrionLockBlock) mentry.getValue();
+                String val = (String) mentry.getValue();
 
                 writer.name(text);
-                writer.value(val.getJsonLine());
+                writer.value(val);
             }
 
             writer.endObject();
@@ -122,10 +103,28 @@ public class StaticLock extends StaticAbstract {
                 ConfigTemp.renameTo(ConfigFile);
             }
 
-            isupdating = false;
             System.out.println("Done Saving Orion Lock chest/doors Configurations!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        test1 t = new test1();
+        OrionLockBlock olb1 = new OrionLockBlock();
+        
+        System.out.println((String)t.cMap.get("0|0|0"));
+
+        olb1.ByName = "Daesmond";
+        olb1.ItemName = "item.orionkey";
+        olb1.isLocked = "1";
+        olb1.axis = "0|0|1";
+
+        t.cMap.put(olb1.axis, olb1.getJsonLine());
+
+        t.SaveConfig();
+
+        Minecraft.getMinecraft().shutdown();
+    }
+
 }
