@@ -117,10 +117,7 @@ public class test1 {
 
         olb1.ByName = "Daesmond";
         olb1.ItemName = "item.orionkey";
-        olb1.isLocked = "1";
-        olb1.axis = "0|0|1";
-
-        t.cMap.put(olb1.axis, olb1.getJsonLine());
+        t.cMap.put("0|0|0", olb1.getJsonLine());
 
         t.SaveConfig();
 

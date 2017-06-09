@@ -81,7 +81,7 @@ public class ItemStoneWand extends ItemAbstract {
 
         StaticProtected sp = StaticProtected.getConfig();
         
-        opb = sp.isProtected(bpos);
+        opb = sp.getProtectedBlockInfo(bpos);
 
         if (opb != null) {
             if (opb.ByName.equals(pname) || OrionItems.isOp(player)) {

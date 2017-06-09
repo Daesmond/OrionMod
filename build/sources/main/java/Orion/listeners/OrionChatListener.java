@@ -95,17 +95,7 @@ public class OrionChatListener extends ListenerAbstract {
             b = new BlockPos(Integer.parseInt(s4[0]), Integer.parseInt(s4[1]), Integer.parseInt(s4[2]));
             sp.UnProtection3D(player.getServerWorld(), pname, a, b);
             player.sendMessage(new TextComponentTranslation(String.format("%s protection is now unset on block coordinates!\n", pname)));
-        } else if (msg.contains("test me")) {
-//            System.out.format("Size=%d  minx=%1.2f  maxx=%1.2f  minz=%1.2f  maxz=%1.2f centerx"
-//                    + "=%1.2f centerz=%1.2f height=%d\n", world.getWorldBorder().getSize(),
-//                    world.getWorldBorder().minX(),
-//                    world.getWorldBorder().maxX(),
-//                    world.getWorldBorder().minZ(),
-//                    world.getWorldBorder().maxZ(),
-//                    world.getWorldBorder().getCenterX(),
-//                    world.getWorldBorder().getCenterZ(),
-//                    world.getHeight());
-        }
+        } 
     }
 
     @SubscribeEvent

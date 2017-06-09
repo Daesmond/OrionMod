@@ -24,13 +24,13 @@ import net.minecraftforge.fml.common.Loader;
  * @author Daesmond
  */
 public class StaticLock extends StaticAbstract {
-
+// For deprecation until I successfully used nbtags
+    
     private static StaticLock ConfigLock;
     private final Map<String, String> cMap;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
-
 
     public StaticLock() {
         super();
@@ -56,6 +56,24 @@ public class StaticLock extends StaticAbstract {
             ConfigLock = new StaticLock();
         }
         return ConfigLock;
+    }
+    
+    public OrionLockBlock getBlockInfo(String pos) {
+        String s = cMap.get(pos);
+        
+        if (s == null) {
+            return null;
+        }
+        
+        return new OrionLockBlock(s) ;
+    }
+        
+    public void Lock(String pos, String jsonline) {
+        cMap.put(pos, jsonline);
+    }
+    
+    public void UnLock(String pos) {
+        cMap.remove(pos);
     }
 
     private void LoadConfig() {

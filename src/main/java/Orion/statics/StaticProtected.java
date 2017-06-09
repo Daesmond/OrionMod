@@ -7,7 +7,6 @@ package Orion.statics;
 
 import Orion.OrionMain;
 import Orion.struct.OrionProtectBlock;
-import Orion.OrionReflection;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -33,7 +32,6 @@ public class StaticProtected extends StaticAbstract {
 
     private static StaticProtected ConfigProtected;
     private final Map<String, OrionProtectBlock> cMap;
-    private final Map<String, Boolean> cPlayer;
     private final File ConfigDir;
     private final File ConfigFile;
     private final File ConfigTemp;
@@ -41,7 +39,6 @@ public class StaticProtected extends StaticAbstract {
     private StaticProtected() {
         super();
         cMap = Collections.synchronizedMap(new HashMap<>(1000000));
-        cPlayer = Collections.synchronizedMap(new HashMap<>(1000));
         //ConfigDir = new File("d:/prg/orionmod/run/config/Orion");
         ConfigDir = new File(Loader.instance().getConfigDir() + "/Orion");
         ConfigFile = new File(String.format("%s/Protected.json", ConfigDir));
@@ -65,34 +62,23 @@ public class StaticProtected extends StaticAbstract {
         return ConfigProtected;
     }
 
-    public void setBlockResistance(Block blk, float v) {
-        OrionReflection.setFloatField(blk.getClass(), "field_149781_w", v);
+    public OrionProtectBlock getProtectedBlockInfo(String pos) {
+        return (OrionProtectBlock)  cMap.get(pos);
     }
-
-    public void setBlockHardness(Block blk, float v) {
-        OrionReflection.setFloatField(blk.getClass(), "field_149782_v", v);
+    
+    public boolean isPosProtected(String pos) {
+        return (cMap.get(pos) == null);
     }
+    
+    public boolean isPosProtectedBy(String pos, String pname) {
+        OrionProtectBlock o = (OrionProtectBlock) cMap.get(pos);
 
-    public float getBlockResistance(Block blk) {
-        return OrionReflection.getFloatField(blk, "field_149781_w");
-    }
-
-    public float getBlockHardness(Block blk) {
-        return OrionReflection.getFloatField(blk, "field_149782_v");
-    }
-
-    public OrionProtectBlock isProtected(String pos) {
-        Object o = cMap.get(pos);
-        OrionProtectBlock res = null;
-
-        try {
-            res = (o == null) ? null : (OrionProtectBlock) o;
-        } catch (Exception ex) {
-            res = null;
+        if (o == null) {
+            return false;
         }
 
-        return res;
-    }
+        return o.ByName.equals(pname);
+    }    
 
     public void Protect(World world, BlockPos bp, String pname) {
         String axis = OrionMain.PosToStr(bp);
@@ -107,8 +93,6 @@ public class StaticProtected extends StaticAbstract {
             opb.pos = bp;
             opb.block = blk;
             opb.BlockName = blk.getUnlocalizedName().trim();
-            opb.Hardness = getBlockHardness(blk);
-            opb.Resistance = getBlockResistance(blk);
 
             cMap.put(axis, opb);
         }
@@ -128,27 +112,8 @@ public class StaticProtected extends StaticAbstract {
         }
     }
 
-    public void SetProtection(String pname) {
-        cPlayer.put(pname, true);
-    }
-
-    public void UnsetProtection(String pname) {
-        cPlayer.put(pname, false);
-    }
-
-    public Boolean isProtection(String pname) {
-        Object o = cPlayer.get(pname);
-
-        if (o == null) {
-            UnsetProtection(pname);
-        }
-
-        return (Boolean) cPlayer.get(pname);
-    }
-
     private void LoadConfig() {
         try {
-
             System.out.println("Loading Orion Protected Configurations!");
 
             JsonReader reader = new JsonReader(new FileReader(ConfigFile));
@@ -222,8 +187,6 @@ public class StaticProtected extends StaticAbstract {
         }
     }
 
-
-
     public void InitProtection(World world) {
         try {
             Set sMap = cMap.entrySet();
@@ -238,41 +201,18 @@ public class StaticProtected extends StaticAbstract {
 
                 opb.block = blk;
                 opb.BlockName = blk.getUnlocalizedName().trim();
-                opb.Hardness = getBlockHardness(blk);
-                opb.Resistance = getBlockResistance(blk);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public boolean isPointCollide(BlockPos a, BlockPos b) {
-        int minX = 0, maxX = 0, minY = 0, maxY = 0, minZ = 0, maxZ = 0;
-
-        minX = b.getX() - 16;
-        maxX = b.getX() + 16;
-        minY = b.getY() - 16;
-        maxY = b.getY() + 16;
-        minZ = b.getZ();
-        maxZ = (b.getZ() >= 0) ? b.getZ() + 16 : b.getZ() - 16;
-
-        return (a.getX() >= minX && a.getX() <= maxX)
-                && (a.getY() >= minY && a.getY() <= maxY)
-                && (a.getZ() >= minY && a.getZ() <= maxZ);
-    }
-
     private boolean chkDir(int a, int b) {
-        boolean ret = false;
-        int tmp, c, d;
-
-        tmp = a - b;
-        ret = (tmp < 0);
-
-        return ret;
+        return ((a - b) < 0);
     }
 
     public void Protection3D(World world, String pname, BlockPos a, BlockPos b) {
-        boolean dirx = false, diry = false, dirz = false;
+        boolean dirx, diry, dirz;
         int resx = 0, resy = 0, resz = 0;
 
         dirx = chkDir(a.getX(), b.getX());
@@ -332,7 +272,7 @@ public class StaticProtected extends StaticAbstract {
     }
 
     public void UnProtection3D(World world, String pname, BlockPos a, BlockPos b) {
-        boolean dirx = false, diry = false, dirz = false;
+        boolean dirx, diry, dirz;
         int resx = 0, resy = 0, resz = 0;
 
         dirx = chkDir(a.getX(), b.getX());

@@ -5,14 +5,12 @@
  */
 package Orion.struct;
 
-import Orion.OrionMain;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
-import net.minecraft.util.math.BlockPos;
 
 /**
  *
@@ -22,7 +20,8 @@ public class OrionLockBlock {
 
     private static String sByName = "ByName";
     private static String sItemName = "ItemName";
-    private static String sisLocked = "isLocked";
+    public String ByName;
+    public String ItemName;
 
     public OrionLockBlock() {
         this.Clear();
@@ -33,20 +32,20 @@ public class OrionLockBlock {
         this.jsonParse(text);
     }
 
+    public OrionLockBlock(String byname, String itemname) {
+        this.Clear();
+        this.setLockInfo(byname, itemname);
+    }
+
     public void Clear() {
         ByName = null;
         ItemName = null;
-        isLocked = null;
-        pos = null;
-        axis = null;
     }
 
     public void jsonParse(String text) {
-        try {
+        try {    
             StringReader reader = new StringReader(text.trim());
             JsonReader jsonReader = new JsonReader(reader);
-
-            jsonReader.beginObject();
 
             JsonParser parser = new JsonParser();
             JsonObject jsonObj = (JsonObject) parser.parse(jsonReader);
@@ -59,28 +58,11 @@ public class OrionLockBlock {
                 ItemName = jsonObj.get(sItemName).getAsString();
             }
 
-            if (!jsonObj.get(sisLocked).isJsonNull()) {
-                isLocked = jsonObj.get(sisLocked).getAsString();
-            }
-
-            jsonReader.endObject();
             jsonReader.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void setAxis(String text) {
-        String[] split = text.split("\\|");
-
-        axis = text;
-        pos = new BlockPos(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-    }
-
-    public void setAxis(BlockPos bp) {
-        axis = OrionMain.PosToStr(bp);
-        pos = bp;
     }
 
     public String getJsonLine() {
@@ -90,17 +72,15 @@ public class OrionLockBlock {
             JsonWriter writer = new JsonWriter(stringwriter);
 
             writer.beginObject();
-            
+
             writer.name(sByName);
             writer.value(ByName);
             writer.name(sItemName);
             writer.value(ItemName);
-            writer.name(sisLocked);
-            writer.value(isLocked);
 
             writer.endObject();
             writer.close();
-            
+
             ret = stringwriter.toString();
         } catch (Exception ex) {
             ret = null;
@@ -109,9 +89,13 @@ public class OrionLockBlock {
         return ret;
     }
 
-    public BlockPos pos;
-    public String axis;
-    public String ByName;
-    public String ItemName;
-    public String isLocked;
+    public void setLockInfo(String byname, String itemname) {
+        ByName = byname;
+        ItemName = itemname;
+    }
+
+    public boolean isLockedBy(String byname) {
+        return byname.equals(ByName);
+    }
+
 }

@@ -81,11 +81,11 @@ public class ItemIronWand extends ItemAbstract {
         }
 
         StaticProtected sp = StaticProtected.getConfig();
-        opb = sp.isProtected(bpos);
+        opb = sp.getProtectedBlockInfo(bpos);
 
         if (opb == null) {
             sp.Protect(worldIn, p, pname);
-            opb = sp.isProtected(bpos);
+            opb = sp.getProtectedBlockInfo(bpos);
             sp.setForUpdate();
 
             player.sendMessage(new TextComponentTranslation(String.format("%s %s Block x=%d  y=%d  z=%d is now protected\n", pname, opb.BlockName, p.getX(), p.getY(), p.getZ())));
