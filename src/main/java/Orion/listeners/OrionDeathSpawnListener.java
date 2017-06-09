@@ -44,7 +44,7 @@ public class OrionDeathSpawnListener {
 
         if (p.getScore() == 0) {
             String spawn = so.getMySpawnPrintable(pname);
-            
+
             if (spawn == null || spawn.trim().isEmpty()) {
                 return;
             }
@@ -67,6 +67,7 @@ public class OrionDeathSpawnListener {
         }
 
         if (StaticUsers.getConfig().withPassword(pname)) {
+            p.capabilities.disableDamage = true;
             System.out.format("ENTER PASSWORD FOR %s\r\n", pname);
             ServerProxy.network.sendTo(new OrionMessage("ENTERPASS"), (EntityPlayerMP) e.player);
         }
@@ -114,7 +115,7 @@ public class OrionDeathSpawnListener {
 
         if (DeadPlayers.contains(pname)) {
             String spawn = so.getMySpawnPrintable(pname);
-            
+
             if (spawn == null || spawn.trim().isEmpty()) {
                 return;
             }

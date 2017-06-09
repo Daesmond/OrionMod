@@ -11,8 +11,6 @@ import static Orion.OrionItems.IronWand;
 import static Orion.OrionItems.OrionKey;
 import static Orion.OrionItems.PearlOrb;
 import static Orion.OrionItems.StoneWand;
-import Orion.OrionMain;
-import Orion.gui.GuiHandler;
 import Orion.gui.GuiPassword;
 import Orion.listeners.OrionClientListener;
 import net.minecraft.client.Minecraft;
@@ -27,7 +25,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -47,12 +44,12 @@ public class ClientProxy extends CommonProxy {
     }
 
     public static void LoadGuiPassword() {
-        getMC().displayGuiScreen(new GuiPassword());
+        getMC().displayGuiScreen(GuiPassword.getConfig());
     }
 
-    public static void LoadGuiPassword(EntityPlayer p) {
-        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
-    }
+//    public static void LoadGuiPassword(EntityPlayer p) {
+//        p.openGui(OrionMain.instance, GuiPassword.getGuiID(), p.getEntityWorld(), (int) p.posX, (int) p.posY, (int) p.posZ);
+//    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -64,7 +61,7 @@ public class ClientProxy extends CommonProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
         MinecraftForge.EVENT_BUS.register(new OrionClientListener());        
-        NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
+        //NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, new GuiHandler());
     }
 
     @Override

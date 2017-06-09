@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.World;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

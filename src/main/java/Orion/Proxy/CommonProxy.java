@@ -5,8 +5,6 @@
  */
 package Orion.Proxy;
 
-import Orion.gui.GuiHandler;
-import Orion.gui.GuiHandlerRegistry;
 import Orion.OrionItems;
 import Orion.OrionMain;
 import Orion.OrionRecipes;
@@ -44,8 +42,8 @@ public abstract class CommonProxy {
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
-        GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
+        //NetworkRegistry.INSTANCE.registerGuiHandler(OrionMain.instance, GuiHandlerRegistry.getInstance());
+        //GuiHandlerRegistry.getInstance().registerGuiHandler(new GuiHandler(), GuiHandler.getGuiID());
         CommonProxy.network = NetworkRegistry.INSTANCE.newSimpleChannel(OrionMain.MODID);
 
         if (event.getSide().isServer()) {
@@ -77,7 +75,7 @@ public abstract class CommonProxy {
             String pass = String.format("ORION%s2017", md5);
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(pass.getBytes());
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
